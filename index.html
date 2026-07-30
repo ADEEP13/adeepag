@@ -3,120 +3,163 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Adeep AG</title>
 
-<!-- Abhaya Libre Font -->
+<!-- Arvo is a real Google Font, loaded directly -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Poppins:wght@600;700;800&family=Archivo+Black&display=swap" rel="stylesheet">
 
 <style>
+  /*
+    "Hey Gotcha" and "Horiza" are paid/licensed fonts that aren't
+    available on a free CDN, so they can't be loaded automatically.
+    These @font-face rules point at local files that DON'T exist yet.
+    If you buy/download the real font files, drop them into a
+    /fonts folder next to this HTML file using these exact names
+    and they'll be picked up automatically, with no other changes.
+    Until then, the site falls back to a close-match Google Font
+    (Poppins for nav, Archivo Black for "ABOUT ME").
+  */
+  @font-face {
+    font-family: 'Hey Gotcha';
+    src: url('fonts/HeyGotcha-Regular.woff2') format('woff2'),
+         url('fonts/HeyGotcha-Regular.otf') format('opentype');
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Horiza';
+    src: url('fonts/Horiza-Bold.woff2') format('woff2'),
+         url('fonts/Horiza-Bold.otf') format('opentype');
+    font-display: swap;
+  }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+  :root{
+    --nav-blue: #2f6fa8;
+    --ink: #111111;
+    --caption-gray: #4d4d4d;
+  }
 
-body{
-    background:#000;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
-    color:white;
-}
+  * { box-sizing: border-box; }
 
-.box{
+  body{
+    margin: 0;
+    background: #ffffff;
+    color: var(--ink);
+    padding: 40px 60px 120px;
+  }
 
-    width:min(850px,90%);
-    padding:70px 50px;
+  header{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 18px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 18px;
+  }
 
-    border:1px solid rgba(255,255,255,.35);
-    border-radius:28px;
+  .logo{
+    font-family: 'Arvo', serif;
+    font-weight: 700;
+    font-size: 51px;
+    line-height: 1;
+    letter-spacing: 1px;
+    margin: 0;
+  }
 
-    text-align:center;
+  nav{
+    display: flex;
+    gap: 42px;
+    flex-wrap: wrap;
+  }
 
-    background:#000;
+  nav a{
+    font-family: 'Hey Gotcha', 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 21px;
+    color: var(--nav-blue);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    letter-spacing: 0.5px;
+  }
 
-    box-shadow:
-    0 0 20px rgba(255,255,255,.04),
-    inset 0 0 25px rgba(255,255,255,.02);
+  nav a:hover{ opacity: 0.75; }
+  nav a:focus-visible{ outline: 2px solid var(--nav-blue); outline-offset: 3px; }
 
-}
+  main{
+    max-width: 900px;
+    margin: 0 auto;
+  }
 
-h1{
+  .feature-image{
+    text-align: center;
+    margin-top: 60px;
+  }
 
-    font-family:"Abhaya Libre", serif;
-    font-size:72px;
-    font-weight:800;
-    letter-spacing:8px;
+  .feature-image img{
+    max-width: 100%;
+    height: auto;
+    width: 520px;
+  }
 
-}
+  .feature-image figcaption{
+    margin-top: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: var(--caption-gray);
+  }
 
-h2{
+  .about-heading{
+    font-family: 'Horiza', 'Archivo Black', sans-serif;
+    font-weight: 700;
+    font-size: 37px;
+    letter-spacing: 1px;
+    margin: 70px 0 24px;
+  }
 
-    margin-top:12px;
+  .about-body{
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #333;
+    max-width: 640px;
+  }
 
-    font-family:"Abhaya Libre", serif;
-    font-size:34px;
-    font-weight:700;
-    letter-spacing:5px;
-
-}
-
-p{
-
-    margin-top:40px;
-
-    font-family:"Abhaya Libre", serif;
-    font-size:26px;
-
-    letter-spacing:3px;
-
-    opacity:.85;
-
-}
-
-@media(max-width:768px){
-
-h1{
-font-size:46px;
-letter-spacing:4px;
-}
-
-h2{
-font-size:24px;
-}
-
-p{
-font-size:18px;
-letter-spacing:1px;
-}
-
-.box{
-padding:50px 25px;
-}
-
-}
-
+  @media (max-width: 640px){
+    body{ padding: 24px 20px 80px; }
+    header{ flex-direction: column; align-items: flex-start; }
+    .logo{ font-size: 38px; }
+    nav{ gap: 24px; }
+    nav a{ font-size: 18px; }
+    .about-heading{ font-size: 28px; margin-top: 48px; }
+  }
 </style>
-
 </head>
-
 <body>
 
-<div class="box">
+  <header>
+    <p class="logo">ADEEP AG</p>
+    <nav>
+      <a href="#projects">PROJECTS</a>
+      <a href="#blog">BLOG</a>
+      <a href="#contact">CONTACT</a>
+      <a href="#more">MORE</a>
+    </nav>
+  </header>
 
-<h1>WEBSITE</h1>
+  <main>
+    <figure class="feature-image">
+      <img src="images/arjun-mbt.png" alt="Side profile illustration of the DRDO Arjun Main Battle Tank">
+      <figcaption>DRDO Arjun MBT</figcaption>
+    </figure>
 
-<h2>COMING</h2>
-
-<p>VERRY VERYY SOOOOOOOON :)</p>
-
-</div>
+    <h2 class="about-heading">ABOUT ME :</h2>
+    <p class="about-body">
+      Add your intro here — who you are, what you're building, and what
+      you're into. Replace this paragraph with your own text.
+    </p>
+  </main>
 
 </body>
 </html>
