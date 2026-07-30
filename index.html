@@ -11,26 +11,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Poppins:wght@600;700;800&family=Archivo+Black&display=swap" rel="stylesheet">
 
 <style>
-  /*
-    "Hey Gotcha" and "Horiza" are paid/licensed fonts that aren't
-    available on a free CDN, so they can't be loaded automatically.
-    These @font-face rules point at local files that DON'T exist yet.
-    If you buy/download the real font files, drop them into a
-    /fonts folder next to this HTML file using these exact names
-    and they'll be picked up automatically, with no other changes.
-    Until then, the site falls back to a close-match Google Font
-    (Poppins for nav, Archivo Black for "ABOUT ME").
-  */
   @font-face {
     font-family: 'Hey Gotcha';
-    src: url('fonts/HeyGotcha-Regular.woff2') format('woff2'),
-         url('fonts/HeyGotcha-Regular.otf') format('opentype');
+    src: url('fonts/HeyGotcha-Regular.ttf') format('truetype');
     font-display: swap;
   }
   @font-face {
     font-family: 'Horiza';
-    src: url('fonts/Horiza-Bold.woff2') format('woff2'),
-         url('fonts/Horiza-Bold.otf') format('opentype');
+    src: url('fonts/Horizon.woff2') format('woff2'),
+         url('fonts/Horizon.otf') format('opentype');
     font-display: swap;
   }
 
@@ -38,6 +27,7 @@
     --nav-blue: #2f6fa8;
     --ink: #111111;
     --caption-gray: #4d4d4d;
+    --col-gap: 48px;
   }
 
   * { box-sizing: border-box; }
@@ -49,29 +39,42 @@
     padding: 40px 60px 120px;
   }
 
-  header{
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    row-gap: 18px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 18px;
+  /*
+    Two-column grid for the whole page: a narrow left column that
+    holds ONLY the logo, and a right column that holds the nav,
+    the image, and the About Me block. Because nav/image/heading
+    all live in the same right column, their left edges line up
+    with each other automatically -- matching the reference layout --
+    while the logo stays isolated flush against the page's left edge.
+  */
+  .page{
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    column-gap: var(--col-gap);
+    row-gap: 40px;
+    align-items: start;
   }
 
   .logo{
+    grid-column: 1;
+    grid-row: 1;
     font-family: 'Arvo', serif;
     font-weight: 700;
     font-size: 51px;
     line-height: 1;
     letter-spacing: 1px;
     margin: 0;
+    white-space: nowrap;
   }
 
   nav{
+    grid-column: 2;
+    grid-row: 1;
     display: flex;
+    align-items: baseline;
     gap: 42px;
     flex-wrap: wrap;
+    align-self: baseline;
   }
 
   nav a{
@@ -88,13 +91,14 @@
   nav a:focus-visible{ outline: 2px solid var(--nav-blue); outline-offset: 3px; }
 
   main{
-    max-width: 900px;
-    margin: 0 auto;
+    grid-column: 2;
+    grid-row: 2;
+    max-width: 640px;
   }
 
   .feature-image{
     text-align: center;
-    margin-top: 60px;
+    margin: 0 0 0 0;
   }
 
   .feature-image img{
@@ -123,22 +127,22 @@
     font-size: 16px;
     line-height: 1.7;
     color: #333;
-    max-width: 640px;
   }
 
   @media (max-width: 640px){
     body{ padding: 24px 20px 80px; }
-    header{ flex-direction: column; align-items: flex-start; }
-    .logo{ font-size: 38px; }
-    nav{ gap: 24px; }
+    .page{ grid-template-columns: 1fr; row-gap: 18px; }
+    .logo{ grid-column: 1; grid-row: 1; font-size: 38px; }
+    nav{ grid-column: 1; grid-row: 2; gap: 24px; }
     nav a{ font-size: 18px; }
+    main{ grid-column: 1; grid-row: 3; max-width: 100%; }
     .about-heading{ font-size: 28px; margin-top: 48px; }
   }
 </style>
 </head>
 <body>
 
-  <header>
+  <div class="page">
     <p class="logo">ADEEP AG</p>
     <nav>
       <a href="#projects">PROJECTS</a>
@@ -146,20 +150,20 @@
       <a href="#contact">CONTACT</a>
       <a href="#more">MORE</a>
     </nav>
-  </header>
 
-  <main>
-    <figure class="feature-image">
-      <img src="images/arjun-mbt.png" alt="Side profile illustration of the DRDO Arjun Main Battle Tank">
-      <figcaption>DRDO Arjun MBT</figcaption>
-    </figure>
+    <main>
+      <figure class="feature-image">
+        <img src="images/arjun-mbt.png" alt="Side profile illustration of the DRDO Arjun Main Battle Tank">
+        <figcaption>DRDO Arjun MBT</figcaption>
+      </figure>
 
-    <h2 class="about-heading">ABOUT ME :</h2>
-    <p class="about-body">
-      Add your intro here — who you are, what you're building, and what
-      you're into. Replace this paragraph with your own text.
-    </p>
-  </main>
+      <h2 class="about-heading">ABOUT ME :</h2>
+      <p class="about-body">
+        Add your intro here — who you are, what you're building, and what
+        you're into. Replace this paragraph with your own text.
+      </p>
+    </main>
+  </div>
 
 </body>
 </html>
