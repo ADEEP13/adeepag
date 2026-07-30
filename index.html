@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Adeep AG</title>
 
-<!-- Arvo is a real Google Font, loaded directly -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Poppins:wght@600;700;800&family=Archivo+Black&display=swap" rel="stylesheet">
@@ -23,146 +22,131 @@
     font-display: swap;
   }
 
-  :root{
-    --nav-blue: #2f6fa8;
-    --ink: #111111;
-    --caption-gray: #4d4d4d;
-    --col-gap: 48px;
-  }
-
   * { box-sizing: border-box; }
 
   body{
     margin: 0;
     background: #ffffff;
-    color: var(--ink);
-    padding: 40px 60px 120px;
+    color: #000;
+    padding: 0 0 80px;
   }
 
   /*
-    Two-column grid for the whole page: a narrow left column that
-    holds ONLY the logo, and a right column that holds the nav,
-    the image, and the About Me block. Because nav/image/heading
-    all live in the same right column, their left edges line up
-    with each other automatically -- matching the reference layout --
-    while the logo stays isolated flush against the page's left edge.
+    This block reproduces the original Canva canvas (1366 x 768) at
+    exact scale. Every element below uses the real top/left/width/
+    font-size values pulled from the Canva page data, expressed as
+    cqw (percent of the canvas's own width). Because the canvas keeps
+    a fixed 1366:768 aspect ratio, using cqw for BOTH horizontal and
+    vertical values keeps everything perfectly proportional at any
+    screen size -- it scales exactly like the original, just smaller
+    or larger as a whole.
   */
-  .page{
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    column-gap: var(--col-gap);
-    row-gap: 40px;
-    align-items: start;
+  .canvas{
+    container-type: inline-size;
+    position: relative;
+    width: 100%;
+    max-width: 1366px;
+    margin: 0 auto;
+    aspect-ratio: 1366 / 768;
+    background: #ffffff;
+  }
+
+  .el{
+    position: absolute;
   }
 
   .logo{
-    grid-column: 1;
-    grid-row: 1;
+    top: 0.814cqw;
+    left: 1.937cqw;
+    width: 26.77cqw;
     font-family: 'Arvo', serif;
     font-weight: 700;
-    font-size: 51px;
-    line-height: 1;
-    letter-spacing: 1px;
+    font-size: clamp(20px, 4.978cqw, 68px);
+    line-height: 1.1;
+    text-align: center;
     margin: 0;
-    white-space: nowrap;
-  }
-
-  nav{
-    grid-column: 2;
-    grid-row: 1;
-    display: flex;
-    align-items: baseline;
-    gap: 42px;
-    flex-wrap: wrap;
-    align-self: baseline;
   }
 
   nav a{
+    position: absolute;
+    top: 4.163cqw;
     font-family: 'Hey Gotcha', 'Poppins', sans-serif;
     font-weight: 700;
-    font-size: 21px;
-    color: var(--nav-blue);
+    font-size: clamp(11px, 2.05cqw, 28px);
+    color: #2788c7;
     text-decoration: underline;
-    text-underline-offset: 4px;
-    letter-spacing: 0.5px;
+    text-underline-offset: 3px;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
-
   nav a:hover{ opacity: 0.75; }
-  nav a:focus-visible{ outline: 2px solid var(--nav-blue); outline-offset: 3px; }
+  nav a:focus-visible{ outline: 2px solid #2788c7; outline-offset: 3px; }
 
-  main{
-    grid-column: 2;
-    grid-row: 2;
-    max-width: 640px;
-  }
+  .nav-projects{ left: 32.29cqw; }
+  .nav-blog{     left: 42.97cqw; }
+  .nav-contact{  left: 49.92cqw; }
+  .nav-more{     left: 60.42cqw; }
 
   .feature-image{
-    text-align: center;
-    margin: 0 0 0 0;
+    top: 10.65cqw;
+    left: 28.71cqw;
+    width: 37.48cqw;
+    margin: 0;
   }
-
   .feature-image img{
-    max-width: 100%;
+    display: block;
+    width: 100%;
     height: auto;
-    width: 520px;
   }
-
-  .feature-image figcaption{
-    margin-top: 8px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    color: var(--caption-gray);
-  }
-
   .about-heading{
+    top: 25.95cqw;
+    left: 34.99cqw;
+    width: 31.20cqw;
     font-family: 'Horiza', 'Archivo Black', sans-serif;
     font-weight: 700;
-    font-size: 37px;
-    letter-spacing: 1px;
-    margin: 70px 0 24px;
+    font-size: clamp(18px, 3.612cqw, 49.334px);
+    text-align: center;
+    margin: 0;
   }
 
+  .about-body-wrap{
+    max-width: 640px;
+    margin: 24px auto 0;
+    padding: 0 24px;
+  }
   .about-body{
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     line-height: 1.7;
     color: #333;
   }
-
-  @media (max-width: 640px){
-    body{ padding: 24px 20px 80px; }
-    .page{ grid-template-columns: 1fr; row-gap: 18px; }
-    .logo{ grid-column: 1; grid-row: 1; font-size: 38px; }
-    nav{ grid-column: 1; grid-row: 2; gap: 24px; }
-    nav a{ font-size: 18px; }
-    main{ grid-column: 1; grid-row: 3; max-width: 100%; }
-    .about-heading{ font-size: 28px; margin-top: 48px; }
-  }
 </style>
 </head>
 <body>
 
-  <div class="page">
-    <p class="logo">ADEEP AG</p>
+  <div class="canvas">
+    <p class="logo el">ADEEP AG</p>
+
     <nav>
-      <a href="#projects">PROJECTS</a>
-      <a href="#blog">BLOG</a>
-      <a href="#contact">CONTACT</a>
-      <a href="#more">MORE</a>
+      <a href="#projects" class="nav-projects">Projects</a>
+      <a href="#blog" class="nav-blog">Blog</a>
+      <a href="#contact" class="nav-contact">Contact</a>
+      <a href="#more" class="nav-more">More</a>
     </nav>
 
-    <main>
-      <figure class="feature-image">
-        <img src="images/arjun-mbt.png" alt="Side profile illustration of the DRDO Arjun Main Battle Tank">
-        <figcaption>DRDO Arjun MBT</figcaption>
-      </figure>
+    <figure class="feature-image el">
+      <img src="images/arjun-mbt.png" alt="Side profile illustration of the DRDO Arjun Main Battle Tank">
+    </figure>
+    <figcaption class="el" style="top:22.86cqw; left:36.27cqw; width:27.72cqw; font-family:'Poppins', sans-serif; font-size: clamp(9px, 0.878cqw, 12px); text-align:center; color:#000;">DRDO Arjun MBT</figcaption>
 
-      <h2 class="about-heading">ABOUT ME :</h2>
-      <p class="about-body">
-        Add your intro here — who you are, what you're building, and what
-        you're into. Replace this paragraph with your own text.
-      </p>
-    </main>
+    <h2 class="about-heading el">ABOUT ME :</h2>
+  </div>
+
+  <div class="about-body-wrap">
+    <p class="about-body">
+      Add your intro here — who you are, what you're building, and what
+      you're into. Replace this paragraph with your own text.
+    </p>
   </div>
 
 </body>
