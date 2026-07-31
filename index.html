@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,7 +47,7 @@
     position: relative;
     width: 100%;
     max-width: 1366px;
-    margin: 0;
+    margin: 0 auto;
     aspect-ratio: 1366 / 768;
     background: #ffffff;
   }
@@ -123,6 +124,65 @@
     line-height: 1.7;
     color: #333;
   }
+
+  /*
+    Mobile: the desktop layout above is a proportional "canvas" clone
+    (absolute-positioned, scales as one block). Below a certain width
+    that stops looking good -- text gets cramped and the wide layout
+    doesn't suit a phone. So on small screens we switch the canvas
+    from absolute positioning to a normal centered, stacked column:
+    logo, then nav, then image, then heading -- each full-width and
+    centered, in reading order.
+  */
+  @media (max-width: 700px){
+    .canvas{
+      aspect-ratio: auto;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 20px 36px;
+      text-align: center;
+    }
+
+    .el{
+      position: static;
+      width: 100% !important;
+      margin: 0 0 18px !important;
+    }
+
+    .logo{
+      font-size: clamp(32px, 9vw, 48px);
+    }
+
+    nav{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 18px 28px;
+      width: 100%;
+      margin-bottom: 22px;
+    }
+    nav a{
+      position: static;
+      font-size: clamp(15px, 4.2vw, 20px);
+    }
+
+    .feature-image{
+      max-width: 320px;
+      height: auto;
+      aspect-ratio: 383.85 / 256.07;
+    }
+
+    .about-heading{
+      font-size: clamp(26px, 8vw, 34px);
+      margin-bottom: 0 !important;
+    }
+
+    .about-body-wrap{
+      padding: 0 20px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -138,7 +198,7 @@
     </nav>
 
     <figure class="feature-image el">
-      <img src="images/navis.png" alt="Arduino-based robot car project">
+      <img src="image/naivs.png" alt="Arduino-based robot car project">
     </figure>
 
     <h2 class="about-heading el">ABOUT ME :</h2>
