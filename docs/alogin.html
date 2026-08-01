@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALogin Docs — Adeep AG</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Comic+Neue:wght@400;700&family=Archivo+Black&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg: #ffffff;
+    --bg-sidebar: #fafafa;
+    --bg-code: #1e1e1e;
+    --text: #222222;
+    --text-muted: #666666;
+    --border: #000000;
+    --accent: #2788c7;
+    --accent-soft: #eaf4fb;
+    --shadow-color: #000000;
+  }
+  html.dark{
+    --bg: #14171a;
+    --bg-sidebar: #1b1f23;
+    --bg-code: #0d0f11;
+    --text: #eaeaea;
+    --text-muted: #9aa0a6;
+    --border: #eaeaea;
+    --accent: #5fb3ec;
+    --accent-soft: #1d2c36;
+    --shadow-color: #5fb3ec;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body{
+    margin: 0;
+    height: 100%;
+  }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  a{ color: var(--accent); }
+
+  code, pre, .mono{
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+  }
+
+  /* ---------- Top bar ---------- */
+  .top-bar{
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 20px;
+    background: var(--bg);
+    border-bottom: 3px solid var(--border);
+  }
+  .top-bar .menu-toggle{
+    display: none;
+    background: none;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text);
+    flex-shrink: 0;
+  }
+  .brand{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--text);
+    font-family: 'Arvo', serif;
+    font-weight: 700;
+    font-size: 18px;
+    white-space: nowrap;
+  }
+  .brand .badge-tag{
+    font-family: 'Comic Neue', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+    border-radius: 999px;
+    padding: 1px 8px;
+  }
+
+  .search-box{
+    flex: 1;
+    max-width: 420px;
+    position: relative;
+  }
+  .search-box input{
+    width: 100%;
+    font-family: 'Comic Neue', sans-serif;
+    font-size: 14.5px;
+    padding: 8px 12px 8px 36px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg-sidebar);
+    color: var(--text);
+    outline: none;
+  }
+  .search-box input:focus{
+    border-color: var(--accent);
+  }
+  .search-box svg{
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    stroke: var(--text-muted);
+    pointer-events: none;
+  }
+  .search-hint{
+    display: none;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 11px;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+  @media (min-width: 640px){
+    .search-hint{ display: block; }
+  }
+
+  .top-actions{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+  }
+  .icon-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .icon-btn:hover{ background: var(--accent-soft); }
+  .icon-btn svg{ width: 17px; height: 17px; fill: currentColor; }
+
+  .back-pill{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 13.5px;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .back-pill svg{ width: 15px; height: 15px; }
+
+  /* ---------- Layout ---------- */
+  .doc-layout{
+    display: flex;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    width: 260px;
+    flex-shrink: 0;
+    background: var(--bg-sidebar);
+    border-right: 3px solid var(--border);
+    height: calc(100vh - 61px);
+    position: sticky;
+    top: 61px;
+    overflow-y: auto;
+    padding: 20px 14px 40px;
+  }
+  .nav-section{
+    margin-bottom: 22px;
+  }
+  .nav-section-title{
+    font-weight: 700;
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin: 0 0 8px 8px;
+  }
+  .nav-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-list a{
+    display: block;
+    padding: 7px 10px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-list a:hover{
+    background: var(--accent-soft);
+  }
+  .nav-list a.active{
+    background: var(--accent);
+    color: #fff;
+  }
+  .nav-sub{
+    list-style: none;
+    margin: 2px 0 4px;
+    padding-left: 16px;
+    border-left: 2px solid var(--border);
+  }
+  .nav-sub a{
+    font-size: 13.5px;
+    font-weight: 400;
+    padding: 5px 10px;
+    color: var(--text-muted);
+  }
+  .nav-sub a:hover{ color: var(--accent); }
+
+  /* Mobile sidebar drawer */
+  @media (max-width: 900px){
+    .top-bar .menu-toggle{ display: inline-flex; }
+    .sidebar{
+      position: fixed;
+      left: 0;
+      top: 61px;
+      height: calc(100vh - 61px);
+      width: 260px;
+      transform: translateX(-100%);
+      transition: transform 0.2s ease;
+      z-index: 15;
+      box-shadow: 6px 0 0 rgba(0,0,0,0.15);
+    }
+    .sidebar.open{ transform: translateX(0); }
+    .overlay{
+      display: none;
+      position: fixed;
+      inset: 61px 0 0 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 14;
+    }
+    .overlay.open{ display: block; }
+    .brand span.full-name{ display: none; }
+  }
+
+  /* ---------- Main content ---------- */
+  .doc-main{
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    gap: 32px;
+    padding: 36px 32px 80px;
+  }
+  .doc-content{
+    flex: 1;
+    min-width: 0;
+    max-width: 760px;
+  }
+
+  .doc-title{
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(26px, 4vw, 36px);
+    margin: 0 0 6px;
+  }
+  .doc-subtitle{
+    color: var(--text-muted);
+    font-size: 16px;
+    margin: 0 0 28px;
+  }
+
+  .doc-content h2{
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 22px;
+    margin: 40px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid var(--border);
+  }
+  .doc-content h2:first-of-type{ margin-top: 0; }
+  .doc-content h3{
+    font-weight: 700;
+    font-size: 18px;
+    margin: 26px 0 10px;
+  }
+  .doc-content p{
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--text);
+    margin: 0 0 14px;
+  }
+  .doc-content ul, .doc-content ol{
+    font-size: 16px;
+    line-height: 1.75;
+    padding-left: 22px;
+    margin: 0 0 14px;
+  }
+  .doc-content li{ margin-bottom: 6px; }
+
+  .doc-content code:not(pre code){
+    font-size: 14px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 2px 6px;
+    border-radius: 5px;
+  }
+
+  pre{
+    background: var(--bg-code);
+    color: #eaeaea;
+    border: 3px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 0 18px;
+    position: relative;
+  }
+  .copy-btn{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #eaeaea;
+    font-size: 11px;
+    font-family: 'Comic Neue', sans-serif;
+    font-weight: 700;
+    padding: 4px 9px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .copy-btn:hover{ background: rgba(255,255,255,0.16); }
+
+  .callout{
+    border: 2px solid var(--border);
+    border-left: 6px solid var(--accent);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 0 0 18px;
+    font-size: 15px;
+    line-height: 1.6;
+    background: var(--accent-soft);
+  }
+  .callout strong{ display: block; margin-bottom: 3px; }
+  .callout.warn{ border-left-color: #d9822b; }
+  .callout.warn strong{ color: #d9822b; }
+
+  table{
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 18px;
+    font-size: 14.5px;
+  }
+  th, td{
+    border: 2px solid var(--border);
+    padding: 8px 10px;
+    text-align: left;
+  }
+  th{ background: var(--bg-sidebar); }
+
+  .doc-footer-nav{
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 3px solid var(--border);
+  }
+  .doc-footer-nav a{
+    flex: 1;
+    display: block;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-decoration: none;
+    color: var(--text);
+    box-shadow: 4px 4px 0 var(--shadow-color);
+  }
+  .doc-footer-nav .next{ text-align: right; }
+  .doc-footer-nav .label{
+    display: block;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .doc-footer-nav .title{
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--accent);
+  }
+
+  /* ---------- On-this-page (right rail) ---------- */
+  .toc{
+    width: 190px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 90px;
+    height: fit-content;
+    font-size: 13.5px;
+  }
+  .toc-title{
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .toc a{
+    display: block;
+    padding: 4px 0;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    padding-left: 10px;
+  }
+  .toc a:hover, .toc a.active{
+    color: var(--accent);
+    border-left-color: var(--accent);
+  }
+  @media (max-width: 1150px){
+    .toc{ display: none; }
+  }
+
+  @media (max-width: 900px){
+    .doc-main{ padding: 24px 18px 60px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+
+    <a href="../projects/alogin.html" class="back-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+      Back
+    </a>
+
+    <a href="#" class="brand">
+      <span class="full-name">ALogin Docs</span>
+      <span class="badge-tag">v0.1.2</span>
+    </a>
+
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="text" id="docSearch" placeholder="Search docs...">
+      <span class="search-hint">/</span>
+    </div>
+
+    <div class="top-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">
+        <svg id="themeIcon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+      </button>
+      <a href="https://github.com/ADEEP13/alogin" class="icon-btn" aria-label="GitHub repository">
+        <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.545-1.385-1.33-1.754-1.33-1.754-1.087-.744.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="doc-layout">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+      <div class="nav-section">
+        <p class="nav-section-title">Getting Started</p>
+        <ul class="nav-list">
+          <li><a href="#overview" class="active">Overview</a></li>
+          <li><a href="#installation">Installation</a></li>
+          <li><a href="#quickstart">Quick Start</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-section">
+        <p class="nav-section-title">Reference</p>
+        <ul class="nav-list">
+          <li><a href="#api-reference">API Reference</a>
+            <ul class="nav-sub">
+              <li><a href="#api-create-account">create_account()</a></li>
+              <li><a href="#api-login-account">login_account()</a></li>
+            </ul>
+          </li>
+          <li><a href="#security">Security</a></li>
+          <li><a href="#changelog">Changelog</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-section">
+        <p class="nav-section-title">Project</p>
+        <ul class="nav-list">
+          <li><a href="https://github.com/ADEEP13/alogin">GitHub</a></li>
+          <li><a href="https://pypi.org/project/alogin/">PyPI</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="doc-main">
+      <div class="doc-content">
+
+        <h1 class="doc-title">ALogin Documentation</h1>
+        <p class="doc-subtitle">Lightweight Python authentication library with SHA-256 hashing and a zero-dependency JSON user store.</p>
+
+        <h2 id="overview">Overview</h2>
+        <p>ALogin provides simple, secure account creation and login for Python CLI tools and scripts — no external dependencies required. It's built for developers who want to add basic authentication to small to medium-sized projects without pulling in a full auth framework.</p>
+
+        <div class="callout">
+          <strong>Requirements</strong>
+          Python 3.6+ · MIT License · <code>pip install alogin</code>
+        </div>
+
+        <h3>Features</h3>
+        <ul>
+          <li><strong>Account creation</strong> — register users with email validation and duplicate protection.</li>
+          <li><strong>Login authentication</strong> — authenticate accounts with hashed password comparison.</li>
+          <li><strong>SHA-256 hashing</strong> — passwords are never stored or transmitted in plain text.</li>
+          <li><strong>JSON user database</strong> — flat-file storage with zero external dependencies.</li>
+        </ul>
+
+        <h3>Quickest way to start</h3>
+        <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button>pip install alogin</pre>
+        <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button>from alogin import create_account, login_account
+create_account()
+login_account()</pre>
+
+        <h2 id="installation">Installation</h2>
+        <p>Install ALogin from PyPI — no external dependencies needed.</p>
+
+        <h3>Requirements</h3>
+        <p>Python <strong>3.6</strong> or higher. ALogin only uses modules from the standard library (<code>hashlib</code>, <code>json</code>, <code>getpass</code>).</p>
+
+        <h3>Install via pip</h3>
+        <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button>pip install alogin</pre>
+
+        <h3>Install from source</h3>
+        <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button>git clone https://github.com/ADEEP13/alogin.git
+cd alogin
+pip install -e .</pre>
+
+        <h3>Verify installation</h3>
+        <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button>python -c "import alogin; print('ALogin installed successfully')"</pre>
+
+        <div class="callout">
+          <strong>Using a virtual environment?</strong>
+          Run <code>python -m venv venv && source venv/bin/activate</code> before installing.
+        </div>
+
+        <h2 id="quickstart">Quick Start</h2>
+        <p>Create an account and authenticate a user in under ten lines of Python.</p>
+
+        <h3>Step 1 — create an account</h3>
+        <p>Call <code>create_account()</code>. It prompts for an email and password, hashes the password, and writes the record to <code>users.json</code>.</p>
+        <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button>from alogin import create_account
+
+create_account()
+# → Enter email: user@example.com
+# → Enter password: ********
+# → Account created!</pre>
+
+        <h3>Step 2 — log in</h3>
+        <p>Call <code>login_account()</code>. Returns <code>True</code> on success, <code>False</code> otherwise.</p>
+        <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button>from alogin import login_account
+
+result = login_account()
+if result:
+    print("Welcome back!")</pre>
+
+        <h3>Full example</h3>
+        <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button>from alogin import create_account, login_account
+
+create_account()
+authenticated = login_account()
+if authenticated:
+    print("Access granted.")
+else:
+    print("Access denied.")</pre>
+
+        <h2 id="api-reference">API Reference</h2>
+        <p>Full reference for all public functions exported by ALogin.</p>
+
+        <h3 id="api-create-account"><code>create_account()</code> → None</h3>
+        <p>Interactively prompts for a new user's email and password. Hashes the password with SHA-256 and writes the record to <code>users.json</code>. Raises a <code>ValueError</code> if the email is already registered.</p>
+        <table>
+          <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
+          <tbody><tr><td>—</td><td>No parameters — prompts via stdin.</td></tr></tbody>
+        </table>
+        <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button>from alogin import create_account
+create_account()  # returns None</pre>
+
+        <h3 id="api-login-account"><code>login_account()</code> → bool</h3>
+        <p>Prompts for email and password. Hashes the input and compares it against the stored SHA-256 hash.</p>
+        <table>
+          <thead><tr><th>Returns</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody><tr><td>result</td><td>bool</td><td><code>True</code> on successful authentication, <code>False</code> on failure.</td></tr></tbody>
+        </table>
+        <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button>result = login_account()  # returns True or False</pre>
+
+        <h2 id="security">Security</h2>
+        <p>How ALogin protects user credentials and what to be aware of in production.</p>
+
+        <div class="callout warn">
+          <strong>Educational use</strong>
+          ALogin is designed for educational use and prototyping. For production systems, use a dedicated auth service (e.g. Auth0, Supabase Auth, or Django's auth framework).
+        </div>
+
+        <h3>Password hashing</h3>
+        <p>All passwords are hashed using <strong>SHA-256</strong> via Python's <code>hashlib</code> module before being written to disk. Plain-text passwords are never stored or logged.</p>
+
+        <h3>Duplicate email protection</h3>
+        <p>Each email address can only be registered once. Attempting to create a second account raises a <code>ValueError</code> before any write occurs.</p>
+
+        <h3>JSON storage</h3>
+        <p>User records are stored in a local <code>users.json</code> file. Ensure this file is excluded from version control.</p>
+        <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button>users.json</pre>
+
+        <h3>Known limitations</h3>
+        <p>SHA-256 without salting is vulnerable to rainbow table attacks. For stronger security, use <code>bcrypt</code> or <code>argon2</code> in your own implementation.</p>
+
+        <h2 id="changelog">Changelog</h2>
+        <p>Full version history for ALogin.</p>
+
+        <h3>v0.1.2 <span style="font-weight:400; color:var(--text-muted); font-size:13px;">— Latest</span></h3>
+        <ul>
+          <li>Fixed bugs in <code>__init__.py</code></li>
+        </ul>
+
+        <h3>v0.1.1 <span style="font-weight:400; color:var(--text-muted); font-size:13px;">— Improvements</span></h3>
+        <ul>
+          <li>Exported both <code>create_account()</code> and <code>login_account()</code> from the package</li>
+          <li>Cleaner import style — use <code>from alogin import create_account, login_account</code></li>
+        </ul>
+
+        <h3>v0.1.0 <span style="font-weight:400; color:var(--text-muted); font-size:13px;">— Initial release</span></h3>
+        <ul>
+          <li>JSON-based user database</li>
+          <li>Login authentication system</li>
+          <li>Password hashing</li>
+          <li>Duplicate email protection</li>
+        </ul>
+
+        <div class="doc-footer-nav">
+          <a href="../projects/alogin.html" class="prev">
+            <span class="label">← Back to</span>
+            <span class="title">Project Page</span>
+          </a>
+          <a href="https://pypi.org/project/alogin/" class="next">
+            <span class="label">View on →</span>
+            <span class="title">PyPI</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- ============ ON THIS PAGE ============ -->
+      <nav class="toc">
+        <p class="toc-title">On this page</p>
+        <a href="#overview">Overview</a>
+        <a href="#installation">Installation</a>
+        <a href="#quickstart">Quick Start</a>
+        <a href="#api-reference">API Reference</a>
+        <a href="#security">Security</a>
+        <a href="#changelog">Changelog</a>
+      </nav>
+    </main>
+
+  </div>
+
+<script>
+  // Dark mode toggle with persistence
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+
+  function setTheme(mode){
+    if(mode === 'dark'){
+      root.classList.add('dark');
+      themeIcon.innerHTML = '<path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5a5 5 0 100 10 5 5 0 000-10zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>';
+    } else {
+      root.classList.remove('dark');
+      themeIcon.innerHTML = '<path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>';
+    }
+    localStorage.setItem('docs-theme', mode);
+  }
+  const savedTheme = localStorage.getItem('docs-theme') ||
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  setTheme(savedTheme);
+  themeToggle.addEventListener('click', () => {
+    setTheme(root.classList.contains('dark') ? 'light' : 'dark');
+  });
+
+  // Mobile sidebar toggle
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuToggle = document.getElementById('menuToggle');
+  function closeSidebar(){
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
+  }
+  menuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('open');
+  });
+  overlay.addEventListener('click', closeSidebar);
+  sidebar.querySelectorAll('a').forEach(a => a.addEventListener('click', closeSidebar));
+
+  // Active link highlighting on scroll
+  const sections = document.querySelectorAll('.doc-content h2[id], .doc-content h3[id]');
+  const navLinks = document.querySelectorAll('.sidebar .nav-list a, .toc a');
+  function updateActiveLink(){
+    let currentId = '';
+    sections.forEach(sec => {
+      if(window.scrollY >= sec.offsetTop - 100) currentId = sec.id;
+    });
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === '#' + currentId);
+    });
+  }
+  window.addEventListener('scroll', updateActiveLink);
+  updateActiveLink();
+
+  // Simple in-page search: filters sidebar links by text match
+  const searchInput = document.getElementById('docSearch');
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    document.querySelectorAll('.sidebar .nav-list > li').forEach(li => {
+      const text = li.textContent.toLowerCase();
+      li.style.display = q === '' || text.includes(q) ? '' : 'none';
+    });
+  });
+  document.addEventListener('keydown', (e) => {
+    if(e.key === '/' && document.activeElement !== searchInput){
+      e.preventDefault();
+      searchInput.focus();
+    }
+  });
+
+  // Copy button for code blocks
+  function copyCode(btn){
+    const pre = btn.parentElement;
+    const text = pre.textContent.replace('Copy', '').trim();
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 1500);
+    });
+  }
+</script>
+
+</body>
+</html>
