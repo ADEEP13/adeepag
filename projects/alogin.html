@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALogin — Adeep AG</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Poppins:wght@600;700;800&family=Archivo+Black&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  @font-face {
+    font-family: 'Hey Gotcha';
+    src: url('../fonts/HeyGotcha-Regular.ttf') format('truetype');
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Horiza';
+    src: url('../fonts/Horizon.woff2') format('woff2'),
+         url('../fonts/Horizon.otf') format('opentype');
+    font-display: swap;
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin: 0;
+    background: #ffffff;
+    color: #000;
+    font-family: 'Comic Sans MS', 'Comic Sans', 'Comic Neue', sans-serif;
+    padding: 0 0 80px;
+  }
+
+  a{ color: #2788c7; }
+
+  /* ---------- Top bar / back link ---------- */
+  .top-bar{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 24px 0;
+  }
+  .back-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 16px;
+    color: #2788c7;
+    text-decoration: none;
+  }
+  .back-link:hover{ opacity: 0.75; }
+  .back-link:focus-visible{ outline: 2px solid #2788c7; outline-offset: 3px; }
+  .back-link svg{ width: 18px; height: 18px; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 24px 0;
+    text-align: center;
+  }
+  .hero-title{
+    font-family: 'Horiza', 'Archivo Black', sans-serif;
+    font-weight: 700;
+    font-size: clamp(32px, 6vw, 56px);
+    margin: 0 0 8px;
+  }
+  .hero-tagline{
+    font-size: 19px;
+    color: #444;
+    margin: 0 0 20px;
+  }
+  .hero-badges{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .badge{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 2px solid #000;
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #000;
+    background: #fff;
+    box-shadow: 3px 3px 0 #000;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .badge:hover{
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 #000;
+  }
+  .badge.primary{ background: #2788c7; color: #fff; }
+
+  /* ---------- Section shell ---------- */
+  .section{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .section + .section{
+    margin-top: 48px;
+  }
+  .section-heading{
+    font-family: 'Horiza', 'Archivo Black', sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 3.5vw, 30px);
+    margin: 0 0 16px;
+    border-bottom: 3px solid #000;
+    padding-bottom: 8px;
+  }
+  .section-body{
+    font-size: 17px;
+    line-height: 1.7;
+    color: #333;
+    text-align: justify;
+  }
+  .section-body p{ margin: 0 0 14px; }
+  .section-body p:last-child{ margin-bottom: 0; }
+
+  /* ---------- Key features ---------- */
+  .feature-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .feature-list li{
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 15.5px;
+    line-height: 1.5;
+    box-shadow: 4px 4px 0 #000;
+  }
+  .feature-list li::before{
+    content: "\2713  ";
+    font-weight: 700;
+    color: #2788c7;
+  }
+
+  /* ---------- Media gallery ---------- */
+  .media-gallery{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .media-item{
+    border: 3px solid #000;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f2f2f2;
+    aspect-ratio: 16 / 10;
+  }
+  .media-item img,
+  .media-item video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .media-caption{
+    font-size: 13.5px;
+    color: #666;
+    text-align: center;
+    margin-top: 6px;
+  }
+
+  /* ---------- Tech stack ---------- */
+  .tech-stack{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tech-pill{
+    border: 2px solid #000;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 700;
+    background: #fff8e6;
+  }
+
+  /* ---------- Code / install block ---------- */
+  .code-block{
+    background: #1e1e1e;
+    color: #eaeaea;
+    border: 3px solid #000;
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-family: 'Courier New', monospace;
+    font-size: 14.5px;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .code-block + .code-block{ margin-top: 12px; }
+
+  /* ---------- Timeline ---------- */
+  .timeline{
+    position: relative;
+    padding-left: 26px;
+  }
+  .timeline::before{
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 4px;
+    bottom: 4px;
+    width: 3px;
+    background: #000;
+  }
+  .timeline-item{
+    position: relative;
+    margin-bottom: 22px;
+  }
+  .timeline-item:last-child{ margin-bottom: 0; }
+  .timeline-item::before{
+    content: "";
+    position: absolute;
+    left: -26px;
+    top: 4px;
+    width: 14px;
+    height: 14px;
+    background: #2788c7;
+    border: 2px solid #000;
+    border-radius: 50%;
+  }
+  .timeline-date{
+    font-weight: 700;
+    font-size: 14px;
+    color: #2788c7;
+    margin-bottom: 2px;
+  }
+  .timeline-text{
+    font-size: 15.5px;
+    color: #333;
+    line-height: 1.5;
+  }
+
+  /* ---------- Links grid (demo/repo/docs/downloads) ---------- */
+  .links-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .link-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    text-decoration: none;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 16px 10px;
+    font-weight: 700;
+    font-size: 14.5px;
+    box-shadow: 4px 4px 0 #000;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .link-card:hover{
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 #000;
+  }
+  .link-card svg{ width: 26px; height: 26px; }
+
+  /* ---------- Related projects ---------- */
+  .related-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .related-card{
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border: 3px solid #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 5px 5px 0 #000;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .related-card:hover{
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 #000;
+  }
+  .related-thumb{
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: #f2f2f2;
+  }
+  .related-thumb img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .related-name{
+    font-weight: 700;
+    font-size: 15px;
+    padding: 10px 12px 12px;
+  }
+
+  /* ---------- Footer / contact ---------- */
+  .footer-note{
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 700px){
+    .feature-list{ grid-template-columns: 1fr; }
+    .media-gallery{ grid-template-columns: 1fr; }
+    .links-grid{ grid-template-columns: repeat(2, 1fr); }
+    .related-grid{ grid-template-columns: 1fr; }
+    .hero-title{ font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="../projects.html" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"></path>
+        <path d="M12 19l-7-7 7-7"></path>
+      </svg>
+      Back to Projects
+    </a>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <h1 class="hero-title">ALogin</h1>
+    <p class="hero-tagline">A lightweight, open-source Python authentication library — v0.1.2</p>
+    <div class="hero-badges">
+      <a href="https://pypi.org/project/alogin/" class="badge primary">🚀 PyPI Package</a>
+      <a href="https://github.com/ADEEP13/alogin" class="badge">💻 GitHub</a>
+      <a href="#" class="badge">📄 Docs</a>
+      <a href="https://pypi.org/project/alogin/#files" class="badge">⬇️ Download</a>
+    </div>
+  </header>
+
+  <!-- ============ OVERVIEW ============ -->
+  <section class="section">
+    <h2 class="section-heading">Overview</h2>
+    <div class="section-body">
+      <p>
+        ALogin is a lightweight, open-source Python authentication library developed to simplify user authentication for developers building CLI applications, desktop software, and backend services without relying on complex authentication frameworks. It provides a clean, beginner-friendly interface for implementing secure user registration and login using a local JSON database.
+      </p>
+      <p>
+        The project was created to solve the repetitive task of building authentication systems from scratch for every project, while remaining lightweight, dependency-free, and easy to understand. It's built entirely in Python, focuses on ease of integration, requires minimal setup, and offers a reliable authentication foundation for small to medium-sized projects.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ KEY FEATURES ============ -->
+  <section class="section">
+    <h2 class="section-heading">Key Features</h2>
+    <ul class="feature-list">
+      <li>Simple user registration and login workflows</li>
+      <li>Local JSON database — no external database setup required</li>
+      <li>SHA-256 password hashing for stored credentials</li>
+      <li>Duplicate email protection during registration</li>
+      <li>Basic account management</li>
+      <li>Minimal setup — designed for fast integration into existing projects</li>
+    </ul>
+  </section>
+
+  <!-- ============ SCREENSHOTS / DEMO MEDIA ============ -->
+  <section class="section">
+    <h2 class="section-heading">Screenshots & Demo</h2>
+    <div class="media-gallery">
+      <div>
+        <div class="media-item">
+          <img src="../images/alogin-cli-demo.png" alt="ALogin CLI registration and login demo">
+        </div>
+        <p class="media-caption">Terminal demo — user registration and login flow</p>
+      </div>
+      <div>
+        <div class="media-item">
+          <img src="../images/alogin-docs.png" alt="ALogin documentation site">
+        </div>
+        <p class="media-caption">MkDocs Material-style documentation site</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TECH STACK ============ -->
+  <section class="section">
+    <h2 class="section-heading">Technologies & Tools</h2>
+    <div class="tech-stack">
+      <span class="tech-pill">Python</span>
+      <span class="tech-pill">JSON (local storage)</span>
+      <span class="tech-pill">SHA-256 hashing</span>
+      <span class="tech-pill">PyPI packaging</span>
+      <span class="tech-pill">MkDocs Material</span>
+      <span class="tech-pill">Git / GitHub</span>
+    </div>
+  </section>
+
+  <!-- ============ ARCHITECTURE / WORKFLOW ============ -->
+  <section class="section">
+    <h2 class="section-heading">Architecture & Workflow</h2>
+    <div class="section-body">
+      <p>
+        ALogin follows a simple, file-based architecture with no external services required. On registration, the library validates the input, checks the local JSON store for duplicate emails, hashes the password with SHA-256, and writes the new user record to disk. On login, credentials are checked against the stored hash to authenticate the user. This keeps the entire authentication flow self-contained within the application using the library.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ INSTALLATION & USAGE ============ -->
+  <section class="section">
+    <h2 class="section-heading">Installation & Usage</h2>
+    <div class="section-body">
+      <p>Install:</p>
+    </div>
+    <div class="code-block">pip install alogin</div>
+    <div class="section-body" style="margin-top: 14px;">
+      <p>Basic usage:</p>
+    </div>
+    <div class="code-block">from alogin import AuthManager
+
+auth = AuthManager()
+
+# Register a new user
+auth.register(email="user@example.com", password="secure_password")
+
+# Log in
+auth.login(email="user@example.com", password="secure_password")</div>
+  </section>
+
+  <!-- ============ CHALLENGES & SOLUTIONS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Challenges Faced</h2>
+    <div class="section-body">
+      <p>
+        <strong>Challenge:</strong> Storing passwords securely without adding heavy dependencies.<br>
+        <strong>Solution:</strong> Implemented SHA-256 password hashing so credentials are never stored in plain text, while keeping the library dependency-free.
+      </p>
+      <p>
+        <strong>Challenge:</strong> Preventing duplicate accounts in a simple JSON-based store.<br>
+        <strong>Solution:</strong> Added duplicate email protection that checks existing records before allowing a new registration.
+      </p>
+      <p>
+        <strong>Challenge:</strong> Designing a clean, beginner-friendly API without sacrificing usability.<br>
+        <strong>Solution:</strong> Iterated on the public API across versions, culminating in v0.1.2's validation improvements, bug fixes, and cleaner code structure.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS / IMPACT ============ -->
+  <section class="section">
+    <h2 class="section-heading">Results & Impact</h2>
+    <div class="section-body">
+      <p>
+        ALogin is published on PyPI and installable with a single command, making it accessible to any Python developer. Beyond its practical use, it has served as a hands-on learning project demonstrating modular software design, package publishing, version management, and open-source documentation practices.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ FUTURE PLANS / ROADMAP ============ -->
+  <section class="section">
+    <h2 class="section-heading">Future Plans</h2>
+    <ul class="feature-list">
+      <li>SQLite as the default database</li>
+      <li>PBKDF2 password hashing with salting</li>
+      <li>JWT-based authentication</li>
+      <li>OAuth login support (Google, GitHub, Discord)</li>
+      <li>Session management</li>
+      <li>REST API support and expanded developer tools</li>
+    </ul>
+  </section>
+
+  <!-- ============ DEVELOPMENT TIMELINE ============ -->
+  <section class="section">
+    <h2 class="section-heading">Development Timeline</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">Initial Release</div>
+        <div class="timeline-text">Core authentication library built — JSON-based storage, SHA-256 hashing, and basic registration/login workflows.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">v0.1.2</div>
+        <div class="timeline-text">Stability improvements, better input validation, bug fixes, cleaner code structure, and improved documentation.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">In Progress</div>
+        <div class="timeline-text">OAuth integration exploration (Google, Meta, Microsoft, Discord, Reddit) and planning for SQLite, JWT, and REST API support.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LINKS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Links</h2>
+    <div class="links-grid">
+      <a href="https://pypi.org/project/alogin/" class="link-card">📦<br>PyPI Package</a>
+      <a href="https://github.com/ADEEP13/alogin" class="link-card">💻<br>GitHub Repo</a>
+      <a href="#" class="link-card">📄<br>Documentation</a>
+      <a href="https://pypi.org/project/alogin/#files" class="link-card">⬇️<br>Downloads</a>
+    </div>
+  </section>
+
+  <!-- ============ LICENSE ============ -->
+  <section class="section">
+    <h2 class="section-heading">License</h2>
+    <div class="section-body">
+      <p>ALogin is released as an open-source project. See the LICENSE file in the GitHub repository for full license details.</p>
+    </div>
+  </section>
+
+  <!-- ============ CONTRIBUTORS / ACKNOWLEDGEMENTS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Contributors & Acknowledgements</h2>
+    <div class="section-body">
+      <p>Built and maintained by Adeep AG. Community contributions, bug reports, and feature requests are welcome through the GitHub repository.</p>
+    </div>
+  </section>
+
+  <!-- ============ RELATED PROJECTS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Related Projects</h2>
+    <div class="related-grid">
+      <a href="rcsvitcloud.html" class="related-card">
+        <div class="related-thumb"><img src="../images/rcsvitcloud.png" alt="RCSVITCloud"></div>
+        <div class="related-name">RCSVITCloud</div>
+      </a>
+      <a href="trackstop.html" class="related-card">
+        <div class="related-thumb"><img src="../images/trackstop.png" alt="Trackstop"></div>
+        <div class="related-name">Trackstop</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT / SUPPORT ============ -->
+  <section class="section">
+    <h2 class="section-heading">Contact & Support</h2>
+    <div class="section-body">
+      <p>
+        Found a bug or have a question? Open an
+        <a href="https://github.com/ADEEP13/alogin/issues">issue on GitHub</a>,
+        or reach out through the <a href="../index.html">contact info on the About page</a>.
+      </p>
+    </div>
+  </section>
+
+  <footer class="section" style="margin-top: 60px;">
+    <p class="footer-note">© <span id="year"></span> Adeep AG — Built with care.</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
