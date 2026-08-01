@@ -47,7 +47,10 @@
     width: 100%;
     max-width: 1366px;
     margin: 0 auto;
-    aspect-ratio: 1366 / 768;
+    /* Shortened from the original 1366:768 canvas so the box ends
+       right after the ABOUT ME heading, instead of reserving empty
+       space all the way down to the original page's full height. */
+    aspect-ratio: 1366 / 442;
     background: #ffffff;
   }
 
@@ -57,7 +60,7 @@
 
   .logo{
     top: 0.814cqw;
-    left: 0.7cqw;
+    left: 1.6cqw;
     width: 26.77cqw;
     font-family: 'Arvo', serif;
     font-weight: 700;
@@ -114,14 +117,34 @@
 
   .about-body-wrap{
     max-width: 640px;
-    margin: 24px auto 0;
+    margin: 8px auto 0;
     padding: 0 24px;
   }
   .about-body{
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
+    font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+    font-size: 19px;
     line-height: 1.7;
     color: #333;
+    text-align: justify;
+  }
+  .about-body + .about-body{
+    margin-top: 18px;
+  }
+  .about-body strong{
+    font-weight: 700;
+    color: #000;
+  }
+  .about-body a{
+    color: #2788c7;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .about-body a:hover{
+    opacity: 0.75;
+  }
+  .about-body a:focus-visible{
+    outline: 2px solid #2788c7;
+    outline-offset: 2px;
   }
 
   /*
@@ -205,8 +228,16 @@
 
   <div class="about-body-wrap">
     <p class="about-body">
-      Add your intro here — who you are, what you're building, and what
-      you're into. Replace this paragraph with your own text.
+      I am <strong>ADEEP AG</strong>, and I'm 18 years old. I study engineering, and I am also an open-source developer and a creator from Bengaluru, India. I got started with basic website development, and over the past four years, I have learned backend development, electronics, and cybersecurity as well. I really love making technology that is beneficial for people.
+    </p>
+    <p class="about-body">
+      My focus area includes backend systems, hardware projects, cybersecurity systems, and open-source software. I love building my own ideas and projects, and the best thing for me is to create something from the ground up.
+    </p>
+    <p class="about-body">
+      Outside college, I have created projects like <strong>ALogin</strong> and <strong>Novichok</strong>, developed tools for organisation, and worked on various electronics projects. I am also the <strong>IT Head of the Rotaract Club of Sai Vidya Institute of Technology (RCSVIT)</strong>. I won 2 hackathons in the first year of my engineering study and applied for patents for my inventions. Check out my <a href="assets/resume.pdf" download>resume</a>.
+    </p>
+    <p class="about-body">
+      My goal is to develop technology startups and not pursue the traditional path of a career. I think that defense technology is very interesting because it incorporates interesting engineering solutions and new ideas.
     </p>
   </div>
 
