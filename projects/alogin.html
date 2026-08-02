@@ -22,17 +22,66 @@
     font-display: swap;
   }
 
+  :root{
+    --bg: #ffffff;
+    --text: #000000;
+    --text-body: #333333;
+    --text-muted: #666666;
+    --tagline: #444444;
+    --border: #000000;
+    --accent: #2788c7;
+    --card-bg: #ffffff;
+    --thumb-bg: #f2f2f2;
+    --pill-bg: #fff8e6;
+    --code-bg: #1e1e1e;
+    --code-text: #eaeaea;
+  }
+  html.dark{
+    --bg: #14171a;
+    --text: #f2f2f2;
+    --text-body: #cfcfcf;
+    --text-muted: #9aa0a6;
+    --tagline: #aaaaaa;
+    --border: #f2f2f2;
+    --accent: #5fb3ec;
+    --card-bg: #1b1f23;
+    --thumb-bg: #23272b;
+    --pill-bg: #2a2415;
+    --code-bg: #0d0f11;
+    --code-text: #eaeaea;
+  }
+
   * { box-sizing: border-box; }
 
   body{
     margin: 0;
-    background: #ffffff;
-    color: #000;
+    background: var(--bg);
+    color: var(--text);
     font-family: 'Comic Sans MS', 'Comic Sans', 'Comic Neue', sans-serif;
     padding: 0 0 80px;
+    transition: background 0.2s ease, color 0.2s ease;
   }
 
-  a{ color: #2788c7; }
+  a{ color: var(--accent); }
+
+  .theme-toggle{
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 30;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .theme-toggle:hover{ opacity: 0.8; }
+  .theme-toggle svg{ width: 19px; height: 19px; fill: currentColor; }
 
   /* ---------- Top bar / back link ---------- */
   .top-bar{
@@ -46,11 +95,11 @@
     gap: 6px;
     font-weight: 700;
     font-size: 16px;
-    color: #2788c7;
+    color: var(--accent);
     text-decoration: none;
   }
   .back-link:hover{ opacity: 0.75; }
-  .back-link:focus-visible{ outline: 2px solid #2788c7; outline-offset: 3px; }
+  .back-link:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; }
   .back-link svg{ width: 18px; height: 18px; }
 
   /* ---------- Hero ---------- */
@@ -68,7 +117,7 @@
   }
   .hero-tagline{
     font-size: 19px;
-    color: #444;
+    color: var(--tagline);
     margin: 0 0 20px;
   }
   .hero-badges{
@@ -82,25 +131,25 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     border-radius: 999px;
     padding: 6px 14px;
     font-size: 14px;
     font-weight: 700;
     text-decoration: none;
-    color: #000;
-    background: #fff;
-    box-shadow: 3px 3px 0 #000;
+    color: var(--text);
+    background: var(--card-bg);
+    box-shadow: 3px 3px 0 var(--border);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
   .badge:hover{
     transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0 #000;
+    box-shadow: 5px 5px 0 var(--border);
   }
-  .badge.primary{ background: #2788c7; color: #fff; }
+  .badge.primary{ background: var(--accent); color: #fff; }
   .badge svg{ width: 16px; height: 16px; flex-shrink: 0; }
   .badge.primary svg{ fill: #fff; }
-  .badge:not(.primary) svg{ fill: #000; }
+  .badge:not(.primary) svg{ fill: var(--text); }
 
   /* ---------- Section shell ---------- */
   .section{
@@ -116,13 +165,13 @@
     font-weight: 700;
     font-size: clamp(22px, 3.5vw, 30px);
     margin: 0 0 16px;
-    border-bottom: 3px solid #000;
+    border-bottom: 3px solid var(--border);
     padding-bottom: 8px;
   }
   .section-body{
     font-size: 17px;
     line-height: 1.7;
-    color: #333;
+    color: var(--text-body);
     text-align: justify;
   }
   .section-body p{ margin: 0 0 14px; }
@@ -138,17 +187,17 @@
     gap: 14px;
   }
   .feature-list li{
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     border-radius: 10px;
     padding: 12px 14px;
     font-size: 15.5px;
     line-height: 1.5;
-    box-shadow: 4px 4px 0 #000;
+    box-shadow: 4px 4px 0 var(--border);
   }
   .feature-list li::before{
     content: "\2713  ";
     font-weight: 700;
-    color: #2788c7;
+    color: var(--accent);
   }
 
   /* ---------- Media gallery ---------- */
@@ -158,10 +207,10 @@
     gap: 16px;
   }
   .media-item{
-    border: 3px solid #000;
+    border: 3px solid var(--border);
     border-radius: 12px;
     overflow: hidden;
-    background: #f2f2f2;
+    background: var(--thumb-bg);
     aspect-ratio: 16 / 10;
   }
   .media-item img,
@@ -173,7 +222,7 @@
   }
   .media-caption{
     font-size: 13.5px;
-    color: #666;
+    color: var(--text-muted);
     text-align: center;
     margin-top: 6px;
   }
@@ -185,19 +234,19 @@
     gap: 10px;
   }
   .tech-pill{
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     border-radius: 8px;
     padding: 6px 12px;
     font-size: 14px;
     font-weight: 700;
-    background: #fff8e6;
+    background: var(--pill-bg);
   }
 
   /* ---------- Code / install block ---------- */
   .code-block{
-    background: #1e1e1e;
-    color: #eaeaea;
-    border: 3px solid #000;
+    background: var(--code-bg);
+    color: var(--code-text);
+    border: 3px solid var(--border);
     border-radius: 10px;
     padding: 16px 18px;
     font-family: 'Courier New', monospace;
@@ -220,7 +269,7 @@
     top: 4px;
     bottom: 4px;
     width: 3px;
-    background: #000;
+    background: var(--border);
   }
   .timeline-item{
     position: relative;
@@ -234,19 +283,19 @@
     top: 4px;
     width: 14px;
     height: 14px;
-    background: #2788c7;
-    border: 2px solid #000;
+    background: var(--accent);
+    border: 2px solid var(--border);
     border-radius: 50%;
   }
   .timeline-date{
     font-weight: 700;
     font-size: 14px;
-    color: #2788c7;
+    color: var(--accent);
     margin-bottom: 2px;
   }
   .timeline-text{
     font-size: 15.5px;
-    color: #333;
+    color: var(--text-body);
     line-height: 1.5;
   }
 
@@ -263,20 +312,20 @@
     gap: 8px;
     text-align: center;
     text-decoration: none;
-    color: #000;
-    border: 2px solid #000;
+    color: var(--text);
+    border: 2px solid var(--border);
     border-radius: 10px;
     padding: 16px 10px;
     font-weight: 700;
     font-size: 14.5px;
-    box-shadow: 4px 4px 0 #000;
+    box-shadow: 4px 4px 0 var(--border);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
   .link-card:hover{
     transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0 #000;
+    box-shadow: 6px 6px 0 var(--border);
   }
-  .link-card svg{ width: 26px; height: 26px; fill: #000; }
+  .link-card svg{ width: 26px; height: 26px; fill: var(--text); }
 
   /* ---------- Related projects ---------- */
   .related-grid{
@@ -288,20 +337,20 @@
     display: block;
     text-decoration: none;
     color: inherit;
-    border: 3px solid #000;
+    border: 3px solid var(--border);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 5px 5px 0 #000;
+    box-shadow: 5px 5px 0 var(--border);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
   .related-card:hover{
     transform: translate(-2px, -2px);
-    box-shadow: 7px 7px 0 #000;
+    box-shadow: 7px 7px 0 var(--border);
   }
   .related-thumb{
     width: 100%;
     aspect-ratio: 4 / 3;
-    background: #f2f2f2;
+    background: var(--thumb-bg);
   }
   .related-thumb img{
     width: 100%;
@@ -318,7 +367,7 @@
   /* ---------- Footer / contact ---------- */
   .footer-note{
     font-size: 14px;
-    color: #666;
+    color: var(--text-muted);
     text-align: center;
   }
 
@@ -333,6 +382,10 @@
 </style>
 </head>
 <body>
+
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <svg id="themeIcon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+  </button>
 
   <div class="top-bar">
     <a href="../projects.html" class="back-link">
@@ -590,6 +643,29 @@ auth.login(email="user@example.com", password="secure_password")</div>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    const root = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function setTheme(mode){
+      if(mode === 'dark'){
+        root.classList.add('dark');
+        themeIcon.innerHTML = '<path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5a5 5 0 100 10 5 5 0 000-10zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>';
+      } else {
+        root.classList.remove('dark');
+        themeIcon.innerHTML = '<path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>';
+      }
+      localStorage.setItem('site-theme', mode);
+    }
+
+    const savedTheme = localStorage.getItem('site-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setTheme(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      setTheme(root.classList.contains('dark') ? 'light' : 'dark');
+    });
   </script>
 
 </body>
