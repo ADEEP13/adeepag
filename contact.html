@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Adeep AG</title>
+<meta name="description" content="Get in touch with Adeep AG — open to collaboration, projects, and opportunities." />
+<meta property="og:title"        content="Contact — Adeep AG" />
+<meta property="og:description"  content="Get in touch with Adeep AG — open to collaboration, projects, and opportunities." />
+<meta property="og:type"         content="website" />
+<meta property="og:url"          content="https://adeepag.com/contact.html" />
+<meta name="twitter:card"        content="summary" />
+<meta name="twitter:title"       content="Contact — Adeep AG" />
+<meta name="twitter:description" content="Get in touch with Adeep AG — open to collaboration, projects, and opportunities." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Archivo+Black&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  @font-face { font-family:'Hey Gotcha'; src:url('fonts/HeyGotcha-Regular.ttf') format('truetype'); font-display:swap; }
+  @font-face { font-family:'Horiza'; src:url('fonts/Horizon.woff2') format('woff2'),url('fonts/Horizon.otf') format('opentype'); font-display:swap; }
+
+  :root {
+    --bg:#ffffff; --text:#000000; --text-body:#333333; --text-muted:#666666;
+    --border:#000000; --accent:#2788c7; --card-bg:#ffffff;
+    --input-bg:#fafafa; --tag-bg:#f2f2f2;
+  }
+  html.dark {
+    --bg:#14171a; --text:#f2f2f2; --text-body:#cfcfcf; --text-muted:#9aa0a6;
+    --border:#f2f2f2; --accent:#5fb3ec; --card-bg:#1b1f23;
+    --input-bg:#23272b; --tag-bg:#23272b;
+  }
+
+  *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body {
+    background:var(--bg); color:var(--text);
+    font-family:'Comic Sans MS','Comic Sans','Comic Neue',sans-serif;
+    min-height:100vh; padding-bottom:80px;
+    transition:background .2s,color .2s;
+  }
+  a { color:var(--accent); text-decoration:underline; text-underline-offset:2px; }
+  a:hover { opacity:.75; }
+
+  /* Theme toggle */
+  .theme-toggle {
+    position:fixed; top:18px; right:18px; z-index:30;
+    display:inline-flex; align-items:center; justify-content:center;
+    width:40px; height:40px; border:2px solid var(--border); border-radius:50%;
+    background:var(--bg); color:var(--text); cursor:pointer; transition:opacity .2s;
+  }
+  .theme-toggle:hover { opacity:.8; }
+  .theme-toggle svg { width:19px; height:19px; fill:currentColor; }
+
+  /* Top bar */
+  .top-bar { max-width:900px; margin:0 auto; padding:20px 24px 0; }
+  .back-link {
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'Comic Sans MS','Comic Sans','Comic Neue',sans-serif;
+    font-weight:700; font-size:16px; color:var(--accent); text-decoration:none;
+  }
+  .back-link:hover { opacity:.75; }
+  .back-link svg { width:18px; height:18px; }
+
+  /* Heading */
+  .page-heading {
+    text-align:center;
+    font-family:'Horiza','Archivo Black',sans-serif;
+    font-weight:700; font-size:clamp(32px,5vw,52px);
+    letter-spacing:1px; margin:36px 0 8px;
+  }
+  .page-sub { text-align:center; font-size:16px; color:var(--text-muted); margin-bottom:36px; padding:0 24px; }
+
+  /* ── Tier strip at top ── */
+  .tier-strip {
+    max-width:900px; margin:0 auto 32px; padding:0 24px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .tier { display:flex; gap:10px; }
+  .tier-label {
+    font-family:'Hey Gotcha','Comic Sans MS',sans-serif;
+    font-size:11px; font-weight:700; text-transform:uppercase;
+    letter-spacing:.08em; color:var(--text-muted);
+    width:56px; flex-shrink:0; display:flex; align-items:center;
+    padding-top:2px;
+  }
+  .tier-links { display:flex; gap:10px; flex-wrap:wrap; }
+
+  .tier-btn {
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 16px; border:2px solid var(--border); border-radius:10px;
+    background:var(--card-bg); color:var(--text);
+    font-family:'Comic Sans MS','Comic Sans','Comic Neue',sans-serif;
+    font-size:14px; font-weight:700; cursor:pointer;
+    text-decoration:none;
+    box-shadow:3px 3px 0 var(--border);
+    transition:transform .12s, box-shadow .12s, color .12s;
+  }
+  .tier-btn:hover { transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--border); opacity:1; color:var(--accent); text-decoration:none; }
+  .tier-btn svg { flex-shrink:0; }
+  .tier-btn.muted { color:var(--text-muted); }
+  .tier-btn.muted:hover { color:var(--text-muted); cursor:pointer; }
+
+  /* Divider between tiers */
+  .tier-divider { border:none; border-top:1.5px dashed var(--border); opacity:.35; margin:2px 0; }
+
+  /* ── Pop-up modal ── */
+  .modal-backdrop {
+    display:none; position:fixed; inset:0; z-index:100;
+    background:rgba(0,0,0,.55); align-items:center; justify-content:center;
+    padding:24px;
+  }
+  .modal-backdrop.open { display:flex; }
+  .modal {
+    background:var(--card-bg); border:3px solid var(--border);
+    border-radius:16px; box-shadow:8px 8px 0 var(--border);
+    padding:32px 28px 28px; max-width:400px; width:100%;
+    text-align:center; position:relative;
+  }
+  .modal-close {
+    position:absolute; top:14px; right:14px;
+    background:none; border:2px solid var(--border); border-radius:8px;
+    width:32px; height:32px; cursor:pointer; color:var(--text-muted);
+    font-size:16px; display:flex; align-items:center; justify-content:center;
+    transition:color .15s;
+  }
+  .modal-close:hover { color:var(--text); }
+  .modal-icon { margin-bottom:16px; display:flex; align-items:center; justify-content:center; }
+  .modal-icon svg { width:52px; height:52px; }
+  .modal h3 {
+    font-family:'Horiza','Archivo Black',sans-serif;
+    font-weight:700; font-size:18px; margin-bottom:10px; letter-spacing:.5px;
+  }
+  .modal p { font-size:14px; color:var(--text-muted); line-height:1.65; }
+
+  /* ── Main layout ── */
+  .contact-wrap {
+    max-width:900px; margin:0 auto; padding:0 24px;
+    display:grid; grid-template-columns:1fr 320px; gap:28px; align-items:start;
+  }
+
+  /* Form card */
+  .form-card {
+    border:3px solid var(--border); border-radius:14px;
+    background:var(--card-bg); box-shadow:7px 7px 0 var(--border);
+    padding:30px 28px 26px;
+  }
+  .form-card h2 {
+    font-family:'Horiza','Archivo Black',sans-serif;
+    font-weight:700; font-size:20px; margin-bottom:22px; letter-spacing:.5px;
+  }
+  .field { margin-bottom:16px; }
+  .field label {
+    display:block; font-weight:700; font-size:12px;
+    text-transform:uppercase; letter-spacing:.07em;
+    margin-bottom:6px; color:var(--text-muted);
+    font-family:'Hey Gotcha','Comic Sans MS',sans-serif;
+  }
+  .field input,
+  .field textarea,
+  .field select {
+    width:100%; padding:10px 13px;
+    border:2px solid var(--border); border-radius:8px;
+    background:var(--input-bg); color:var(--text);
+    font-family:'Comic Sans MS','Comic Sans','Comic Neue',sans-serif;
+    font-size:15px; outline:none;
+    transition:border-color .2s, box-shadow .2s;
+    appearance:none;
+  }
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus { border-color:var(--accent); box-shadow:3px 3px 0 var(--accent); }
+  .field input::placeholder,
+  .field textarea::placeholder { color:var(--text-muted); }
+  .field textarea { resize:vertical; min-height:130px; }
+  .select-wrap { position:relative; }
+  .select-wrap::after {
+    content:'▾'; position:absolute; right:13px; top:50%;
+    transform:translateY(-50%); pointer-events:none;
+    color:var(--text-muted); font-size:14px;
+  }
+  .select-wrap select { padding-right:36px; cursor:pointer; }
+  .field-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+  .btn-send {
+    width:100%; padding:13px 20px;
+    border:2px solid var(--border); border-radius:8px;
+    background:var(--text); color:var(--bg);
+    font-family:'Horiza','Archivo Black',sans-serif;
+    font-weight:700; font-size:16px; letter-spacing:.5px; cursor:pointer;
+    box-shadow:4px 4px 0 var(--border);
+    transition:transform .12s, box-shadow .12s;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .btn-send:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--border); }
+  .btn-send:active { transform:translate(1px,1px); box-shadow:2px 2px 0 var(--border); }
+  .btn-send svg { width:18px; height:18px; }
+
+  .form-success { display:none; text-align:center; padding:32px 20px; }
+  .form-success .success-icon { font-size:52px; margin-bottom:12px; }
+  .form-success h3 { font-family:'Horiza','Archivo Black',sans-serif; font-size:22px; margin-bottom:8px; }
+  .form-success p { color:var(--text-muted); font-size:15px; }
+
+  /* Sidebar */
+  .contact-sidebar { display:flex; flex-direction:column; gap:18px; }
+
+  .status-card {
+    border:3px solid var(--border); border-radius:14px;
+    background:var(--card-bg); box-shadow:7px 7px 0 var(--border); padding:22px;
+  }
+  .status-card h2 {
+    font-family:'Horiza','Archivo Black',sans-serif;
+    font-weight:700; font-size:17px; margin-bottom:16px; letter-spacing:.5px;
+  }
+  .status-row { display:flex; align-items:center; gap:10px; margin-bottom:11px; font-size:14px; }
+  .status-row:last-child { margin-bottom:0; }
+  .status-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; border:2px solid var(--border); }
+  .dot-green  { background:#22c55e; box-shadow:0 0 6px #22c55e88; }
+  .dot-yellow { background:#eab308; box-shadow:0 0 6px #eab30888; }
+  .dot-blue   { background:var(--accent); box-shadow:0 0 6px #2788c788; }
+  .status-label { color:var(--text-muted); flex:1; }
+  .status-val { font-weight:700; font-size:13px; }
+
+  /* Resume strip */
+  .resume-strip { max-width:900px; margin:28px auto 0; padding:0 24px; }
+  .resume-card {
+    border:3px solid var(--border); border-radius:14px;
+    background:var(--card-bg); box-shadow:7px 7px 0 var(--border);
+    padding:22px 26px; display:flex; align-items:center; gap:20px;
+  }
+  .resume-icon { font-size:38px; flex-shrink:0; }
+  .resume-text { flex:1; }
+  .resume-text h3 { font-family:'Horiza','Archivo Black',sans-serif; font-weight:700; font-size:18px; margin-bottom:4px; }
+  .resume-text p { font-size:14px; color:var(--text-muted); }
+  .btn-resume {
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 18px; border:2px solid var(--border); border-radius:8px;
+    background:var(--accent); color:#fff;
+    font-family:'Horiza','Archivo Black',sans-serif;
+    font-weight:700; font-size:14px; text-decoration:none;
+    box-shadow:4px 4px 0 var(--border);
+    transition:transform .12s, box-shadow .12s; flex-shrink:0;
+  }
+  .btn-resume:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--border); opacity:1; color:#fff; }
+  .btn-resume svg { width:15px; height:15px; }
+
+  /* Responsive */
+  @media (max-width:760px) {
+    .contact-wrap { grid-template-columns:1fr; }
+    .tier { flex-direction:column; }
+    .tier-label { width:auto; }
+    .resume-card { flex-direction:column; text-align:center; }
+    .btn-resume { width:100%; justify-content:center; }
+    .field-row { grid-template-columns:1fr; }
+  }
+  @media (max-width:480px) {
+    .form-card { padding:22px 16px 20px; }
+    .tier-links { gap:8px; }
+    .tier-btn { padding:9px 13px; font-size:13px; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+  <svg id="themeIcon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+</button>
+
+<!-- Back -->
+<div class="top-bar">
+  <a href="index.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>
+    </svg>
+    Back
+  </a>
+</div>
+
+<h1 class="page-heading">CONTACT :</h1>
+<p class="page-sub">Open to collaboration, freelance, hardware projects, and interesting ideas.</p>
+
+<!-- ── Tiered links strip ── -->
+<div class="tier-strip">
+
+  <!-- Tier 1: X + Email -->
+  <div class="tier">
+    <span class="tier-label">Best reach</span>
+    <div class="tier-links">
+
+      <a class="tier-btn" href="https://x.com/adeep_ag" target="_blank" rel="noopener">
+        <!-- X logo SVG -->
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+        @adeep_ag
+      </a>
+
+      <a class="tier-btn" href="mailto:hello@adeepag.com">
+        <!-- Email envelope SVG -->
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="M2 7l10 7 10-7"/>
+        </svg>
+        hello@adeepag.com
+      </a>
+
+    </div>
+  </div>
+
+  <hr class="tier-divider">
+
+  <!-- Tier 2: LinkedIn + GitHub -->
+  <div class="tier">
+    <span class="tier-label">Professional</span>
+    <div class="tier-links">
+
+      <a class="tier-btn" href="https://linkedin.com/in/adeep-ag-adi132007" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#0a66c2">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+        LinkedIn
+      </a>
+
+      <a class="tier-btn" href="https://github.com/adeep13" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/>
+        </svg>
+        GitHub
+      </a>
+
+    </div>
+  </div>
+
+  <hr class="tier-divider">
+
+  <!-- Tier 3: Instagram + WhatsApp + Phone (locked) -->
+  <div class="tier">
+    <span class="tier-label">Private</span>
+    <div class="tier-links">
+
+      <button class="tier-btn muted" onclick="openModal('insta')">
+        <!-- Instagram SVG -->
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+        Instagram
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:2px;opacity:.5">
+          <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </button>
+
+      <button class="tier-btn muted" onclick="openModal('whatsapp')">
+        <!-- WhatsApp SVG -->
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        WhatsApp
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:2px;opacity:.5">
+          <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </button>
+
+      <button class="tier-btn muted" onclick="openModal('phone')">
+        <!-- Phone SVG -->
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.01 2.22 2 2 0 012 .04h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+        Phone
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:2px;opacity:.5">
+          <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </button>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Main grid ── -->
+<div class="contact-wrap">
+
+  <!-- Form -->
+  <div class="form-card">
+    <h2>SEND A MESSAGE :</h2>
+    <div id="contactForm">
+      <div class="field-row">
+        <div class="field">
+          <label>Name</label>
+          <input type="text" id="fname" placeholder="Your name" autocomplete="name" />
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="femail" placeholder="you@email.com" autocomplete="email" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Subject</label>
+        <div class="select-wrap">
+          <select id="fsubject">
+            <option value="">— Pick one —</option>
+            <option>General inquiry</option>
+            <option>Collaboration</option>
+            <option>Freelance / Contract</option>
+            <option>Open-source</option>
+            <option>Just saying hi</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Message</label>
+        <textarea id="fmessage" placeholder="What's on your mind?"></textarea>
+      </div>
+      <button class="btn-send" id="sendBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+        Send Message
+      </button>
+    </div>
+    <div class="form-success" id="formSuccess">
+      <div class="success-icon">⚡</div>
+      <h3>Message sent!</h3>
+      <p>Thanks for reaching out — I'll get back to you soon.</p>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="contact-sidebar">
+    <div class="status-card">
+      <h2>CURRENT STATUS :</h2>
+      <div class="status-row">
+        <div class="status-dot dot-green"></div>
+        <span class="status-label">Open to collaborate</span>
+        <span class="status-val">✓</span>
+      </div>
+      <div class="status-row">
+        <div class="status-dot dot-green"></div>
+        <span class="status-label">Freelance / contract</span>
+        <span class="status-val">✓ Available</span>
+      </div>
+      <div class="status-row">
+        <div class="status-dot dot-green"></div>
+        <span class="status-label">Open-source</span>
+        <span class="status-val">✓</span>
+      </div>
+      <div class="status-row">
+        <div class="status-dot dot-blue"></div>
+        <span class="status-label">Response time</span>
+        <span class="status-val">~24 hrs</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Resume strip -->
+<div class="resume-strip">
+  <div class="resume-card">
+    <div class="resume-icon">📄</div>
+    <div class="resume-text">
+      <h3>WANT MY RESUME?</h3>
+      <p>Projects, skills, awards, and education — download the PDF.</p>
+    </div>
+    <a class="btn-resume" href="assets/resume.pdf" download>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Download CV
+    </a>
+  </div>
+</div>
+
+<!-- ── Modals ── -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="closeModal(event)">
+  <div class="modal" id="modalBox">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <div class="modal-icon" id="modalIcon"><!-- SVG injected by JS --></div>
+    <h3 id="modalTitle"></h3>
+    <p id="modalBody"></p>
+  </div>
+</div>
+
+<script>
+  /* ── Theme ── */
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon   = document.getElementById('themeIcon');
+  function setTheme(mode) {
+    if (mode === 'dark') {
+      root.classList.add('dark');
+      themeIcon.innerHTML = '<path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5a5 5 0 100 10 5 5 0 000-10zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>';
+    } else {
+      root.classList.remove('dark');
+      themeIcon.innerHTML = '<path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>';
+    }
+    localStorage.setItem('site-theme', mode);
+  }
+  const savedTheme = localStorage.getItem('site-theme') || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+  setTheme(savedTheme);
+  themeToggle.addEventListener('click', () => setTheme(root.classList.contains('dark') ? 'light' : 'dark'));
+
+  /* ── Modals — real SVG logos ── */
+  const MODAL_SVG = {
+    insta: `<svg viewBox="0 0 24 24" fill="none" stroke="url(#ig-grad)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#f09433"/>
+          <stop offset="25%" stop-color="#e6683c"/>
+          <stop offset="50%" stop-color="#dc2743"/>
+          <stop offset="75%" stop-color="#cc2366"/>
+          <stop offset="100%" stop-color="#bc1888"/>
+        </linearGradient>
+      </defs>
+      <rect x="2" y="2" width="20" height="20" rx="5"/>
+      <circle cx="12" cy="12" r="4"/>
+      <circle cx="17.5" cy="6.5" r="1.2" fill="url(#ig-grad)" stroke="none"/>
+    </svg>`,
+
+    whatsapp: `<svg viewBox="0 0 24 24" fill="#25D366" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>`,
+
+    phone: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.01 2.22 2 2 0 012 .04h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+      <line x1="1" y1="1" x2="23" y2="23" stroke="#e63946" stroke-width="2"/>
+    </svg>`
+  };
+
+  const MODAL_CONTENT = {
+    insta: {
+      title: 'Not on Instagram',
+      body: 'Instagram lost its purpose for me — too easy to manipulate people and too far from what made it great: photo sharing. I\'m no longer on the platform.'
+    },
+    whatsapp: {
+      title: 'WhatsApp is private',
+      body: 'I keep WhatsApp for people I already know. Drop me an email or DM on X first — if we vibe, we\'ll take it from there.'
+    },
+    phone: {
+      title: 'Too personal right now',
+      body: 'My number is only shared after a contract or agreement is in place. Reach me via email or X and we\'ll go from there.'
+    }
+  };
+
+  function openModal(type) {
+    const c = MODAL_CONTENT[type];
+    document.getElementById('modalIcon').innerHTML  = MODAL_SVG[type];
+    document.getElementById('modalTitle').textContent = c.title;
+    document.getElementById('modalBody').textContent  = c.body;
+    document.getElementById('modalBackdrop').classList.add('open');
+  }
+  function closeModalDirect() {
+    document.getElementById('modalBackdrop').classList.remove('open');
+  }
+  function closeModal(e) {
+    if (e.target === document.getElementById('modalBackdrop')) closeModalDirect();
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+
+  /* ── Form — Formspree ──────────────────────────────────────────────────
+     1. Go to https://formspree.io  →  Sign up free
+     2. New form  →  name it "Contact"  →  copy the endpoint URL
+     3. Paste it below replacing YOUR_FORMSPREE_ID
+     Submissions arrive at hello@adeepag.com in your inbox instantly.
+  ──────────────────────────────────────────────────────────────────────── */
+  const FORMSPREE_URL = 'https://formspree.io/f/mppazlgn';
+
+  const sendBtn  = document.getElementById('sendBtn');
+  const sendText = sendBtn.querySelector('span') || sendBtn;
+
+  document.getElementById('sendBtn').addEventListener('click', async () => {
+    const name    = document.getElementById('fname').value.trim();
+    const email   = document.getElementById('femail').value.trim();
+    const subject = document.getElementById('fsubject').value;
+    const message = document.getElementById('fmessage').value.trim();
+
+    // Validate
+    if (!name)                          { document.getElementById('fname').focus(); return; }
+    if (!email || !email.includes('@')) { document.getElementById('femail').focus(); return; }
+    if (!message)                       { document.getElementById('fmessage').focus(); return; }
+
+    // Loading state
+    sendBtn.disabled = true;
+    sendBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10" stroke-opacity=".3"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur=".8s" repeatCount="indefinite"/></path></svg> Sending…`;
+
+    try {
+      const res = await fetch(FORMSPREE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ name, email, subject: subject || 'General inquiry', message })
+      });
+
+      if (res.ok) {
+        document.getElementById('contactForm').style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      } else {
+        throw new Error('Server error');
+      }
+    } catch (_) {
+      // Fallback: open mailto if Formspree not yet configured
+      const sub  = encodeURIComponent((subject || 'Message from adeepag.com') + ' — ' + name);
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+      window.open(`mailto:hello@adeepag.com?subject=${sub}&body=${body}`);
+      sendBtn.disabled = false;
+      sendBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message`;
+    }
+  });
+</script>
+
+</body>
+</html>
