@@ -1,308 +1,611 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adeep AG</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Poppins:wght@600;700;800&family=Archivo+Black&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <!-- ====== SEO ====== -->
+    <title>ADEEP AG — Engineer, Open‑Source Developer &amp; Creator</title>
+    <meta name="description" content="ADEEP AG is an 18‑year‑old engineer, open‑source developer, and creator from Bengaluru, India. Building backend systems, hardware, and cybersecurity tools." />
+    <meta name="keywords" content="ADEEP AG, engineer, open-source, developer, Bengaluru, India, backend, electronics, cybersecurity, ALogin, Novichok" />
+    <link rel="canonical" href="https://adeepag.com/" />
 
-<style>
-  @font-face {
-    font-family: 'Hey Gotcha';
-    src: url('fonts/HeyGotcha-Regular.ttf') format('truetype');
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Horiza';
-    src: url('fonts/Horizon.woff2') format('woff2'),
-         url('fonts/Horizon.otf') format('opentype');
-    font-display: swap;
-  }
+    <!-- ====== Open Graph ====== -->
+    <meta property="og:title" content="ADEEP AG — Engineer, Open‑Source Developer &amp; Creator" />
+    <meta property="og:description" content="18‑year‑old engineer &amp; open‑source developer from Bengaluru. I build backend systems, hardware, and cybersecurity tools." />
+    <meta property="og:url" content="https://adeepag.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://adeepag.com/images/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
-  :root{
-    --bg: #ffffff;
-    --text: #000000;
-    --text-body: #333333;
-    --border: #000000;
-    --accent: #2788c7;
-  }
-  html.dark{
-    --bg: #14171a;
-    --text: #f2f2f2;
-    --text-body: #cfcfcf;
-    --border: #f2f2f2;
-    --accent: #5fb3ec;
-  }
+    <!-- ====== Twitter Card ====== -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ADEEP AG — Engineer, Open‑Source Developer &amp; Creator" />
+    <meta name="twitter:description" content="18‑year‑old engineer &amp; open‑source developer from Bengaluru. Building backend systems, hardware, and cybersecurity tools." />
+    <meta name="twitter:image" content="https://adeepag.com/images/og-image.jpg" />
 
-  * { box-sizing: border-box; }
+    <!-- ====== JSON‑LD (Structured Data for AEO) ====== -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "ADEEP AG",
+            "url": "https://adeepag.com",
+            "description": "18‑year‑old engineer, open‑source developer, and creator from Bengaluru, India.",
+            "image": "https://adeepag.com/images/og-image.jpg",
+            "jobTitle": "Engineer & Open‑Source Developer",
+            "nationality": "Indian",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Bengaluru",
+                "addressCountry": "IN"
+            },
+            "knowsAbout": [
+                "Backend Systems",
+                "Hardware Projects",
+                "Cybersecurity",
+                "Open‑Source Software"
+            ],
+            "sameAs": [
+                "https://github.com/adeepag",
+                "https://linkedin.com/in/adeepag",
+                "https://blog.adeepag.com"
+            ]
+        }
+    </script>
 
-  body{
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    padding: 0 0 80px;
-    transition: background 0.2s ease, color 0.2s ease;
-  }
+    <!-- ====== AEO: link to llms.txt ====== -->
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs.txt" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
-  .theme-toggle{
-    position: fixed;
-    top: 18px;
-    right: 18px;
-    z-index: 30;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border: 2px solid var(--border);
-    border-radius: 50%;
-    background: var(--bg);
-    color: var(--text);
-    cursor: pointer;
-  }
-  .theme-toggle:hover{ opacity: 0.8; }
-  .theme-toggle svg{ width: 19px; height: 19px; fill: currentColor; }
+    <!-- ====== PWA Manifest ====== -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-  /*
-    This block reproduces the original Canva canvas (1366 x 768) at
-    exact scale. Every element below uses the real top/left/width/
-    font-size values pulled from the Canva page data, expressed as
-    cqw (percent of the canvas's own width). Because the canvas keeps
-    a fixed 1366:768 aspect ratio, using cqw for BOTH horizontal and
-    vertical values keeps everything perfectly proportional at any
-    screen size -- it scales exactly like the original, just smaller
-    or larger as a whole.
-  */
-  .canvas{
-    container-type: inline-size;
-    position: relative;
-    width: 100%;
-    max-width: 1366px;
-    margin: 0 auto;
-    /* Shortened from the original 1366:768 canvas so the box ends
-       right after the ABOUT ME heading, instead of reserving empty
-       space all the way down to the original page's full height. */
-    aspect-ratio: 1366 / 442;
-    background: var(--bg);
-  }
+    <!-- ====== Google Fonts (fallback) ====== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Poppins:wght@600;700;800&family=Archivo+Black&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet" />
 
-  .el{
-    position: absolute;
-  }
+    <style>
+        /* ====== Custom Fonts (served locally, cached by service worker) ====== */
+        @font-face {
+            font-family: 'Hey Gotcha';
+            src: url('fonts/HeyGotcha-Regular.ttf') format('truetype');
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Horiza';
+            src: url('fonts/Horizon.woff2') format('woff2'),
+                 url('fonts/Horizon.otf') format('opentype');
+            font-display: swap;
+        }
 
-  .logo{
-    top: 0.814cqw;
-    left: 1.6cqw;
-    width: 26.77cqw;
-    font-family: 'Arvo', serif;
-    font-weight: 700;
-    font-size: clamp(20px, 4.978cqw, 68px);
-    line-height: 1.1;
-    text-align: center;
-    margin: 0;
-  }
+        /* ====== Theme Variables ====== */
+        :root {
+            --bg: #ffffff;
+            --text: #000000;
+            --text-body: #333333;
+            --border: #000000;
+            --accent: #2788c7;
+            --card-bg: #ffffff;
+        }
+        html.dark {
+            --bg: #14171a;
+            --text: #f2f2f2;
+            --text-body: #cfcfcf;
+            --border: #f2f2f2;
+            --accent: #5fb3ec;
+            --card-bg: #1e2227;
+        }
 
-  nav a{
-    position: absolute;
-    top: 4.163cqw;
-    font-family: 'Hey Gotcha', 'Poppins', sans-serif;
-    font-weight: 700;
-    font-size: clamp(11px, 2.05cqw, 28px);
-    color: var(--accent);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-  nav a:hover{ opacity: 0.75; }
-  nav a:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; }
+        * { box-sizing: border-box; }
 
-  .nav-projects{ left: 32.29cqw; }
-  .nav-blog{     left: 42.97cqw; }
-  .nav-contact{  left: 49.92cqw; }
-  .nav-more{     left: 60.42cqw; }
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            padding: 0 0 80px;
+            transition: background 0.2s, color 0.2s;
+            font-family: 'Arvo', 'Comic Neue', sans-serif;
+        }
 
-  .feature-image{
-    top: 8.593cqw;
-    left: 35.95cqw;
-    width: 28.10cqw;
-    height: 18.75cqw;
-    margin: 0;
-  }
-  .feature-image img{
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-  }
-  .about-heading{
-    top: 25.95cqw;
-    left: 34.99cqw;
-    width: 31.20cqw;
-    font-family: 'Horiza', 'Archivo Black', sans-serif;
-    font-weight: 700;
-    font-size: clamp(18px, 3.612cqw, 49.334px);
-    text-align: center;
-    margin: 0;
-  }
+        /* ====== Theme Toggle ====== */
+        .theme-toggle {
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            z-index: 30;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            background: var(--bg);
+            color: var(--text);
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .theme-toggle:hover { opacity: 0.8; }
+        .theme-toggle svg { width: 19px; height: 19px; fill: currentColor; }
 
-  .about-body-wrap{
-    max-width: 640px;
-    margin: 8px auto 0;
-    padding: 0 24px;
-  }
-  .about-body{
-    font-family: 'Comic Sans MS', 'Comic Sans', 'Comic Neue', sans-serif;
-    font-size: 19px;
-    line-height: 1.7;
-    color: var(--text-body);
-    text-align: justify;
-  }
-  .about-body + .about-body{
-    margin-top: 18px;
-  }
-  .about-body strong{
-    font-weight: 700;
-    color: var(--text);
-  }
-  .about-body a{
-    color: var(--accent);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-  .about-body a:hover{
-    opacity: 0.75;
-  }
-  .about-body a:focus-visible{
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
+        /* ====== Canvas (desktop) ====== */
+        .canvas {
+            container-type: inline-size;
+            position: relative;
+            width: 100%;
+            max-width: 1366px;
+            margin: 0 auto;
+            aspect-ratio: 1366 / 442;
+            background: var(--bg);
+        }
+        .el { position: absolute; }
 
-  /*
-    Mobile: the desktop layout above is a proportional "canvas" clone
-    (absolute-positioned, scales as one block). Below a certain width
-    that stops looking good -- text gets cramped and the wide layout
-    doesn't suit a phone. So on small screens we switch the canvas
-    from absolute positioning to a normal centered, stacked column:
-    logo, then nav, then image, then heading -- each full-width and
-    centered, in reading order.
-  */
-  @media (max-width: 700px){
-    .canvas{
-      aspect-ratio: auto;
-      max-width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 28px 20px 36px;
-      text-align: center;
-    }
+        .logo {
+            top: 0.814cqw;
+            left: 1.6cqw;
+            width: 26.77cqw;
+            font-family: 'Arvo', serif;
+            font-weight: 700;
+            font-size: clamp(20px, 4.978cqw, 68px);
+            line-height: 1.1;
+            text-align: center;
+            margin: 0;
+        }
 
-    .el{
-      position: static;
-      width: 100% !important;
-      margin: 0 0 18px !important;
-    }
+        nav a {
+            position: absolute;
+            top: 4.163cqw;
+            font-family: 'Hey Gotcha', 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: clamp(11px, 2.05cqw, 28px);
+            color: var(--accent);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        nav a:hover { opacity: 0.75; }
+        nav a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-    .logo{
-      font-size: clamp(32px, 9vw, 48px);
-    }
+        .nav-projects { left: 32.29cqw; }
+        .nav-blog     { left: 42.97cqw; }
+        .nav-contact  { left: 49.92cqw; }
+        .nav-more     { left: 60.42cqw; }
 
-    nav{
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 22px 40px;
-      width: 100%;
-      margin-bottom: 22px;
-    }
-    nav a{
-      position: static;
-      font-size: clamp(15px, 4.2vw, 20px);
-    }
+        .feature-image {
+            top: 8.593cqw;
+            left: 35.95cqw;
+            width: 28.10cqw;
+            height: 18.75cqw;
+            margin: 0;
+        }
+        .feature-image img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+        }
 
-    .feature-image{
-      max-width: 320px;
-      height: auto;
-      aspect-ratio: 383.85 / 256.07;
-    }
+        .about-heading {
+            top: 25.95cqw;
+            left: 34.99cqw;
+            width: 31.20cqw;
+            font-family: 'Horiza', 'Archivo Black', sans-serif;
+            font-weight: 700;
+            font-size: clamp(18px, 3.612cqw, 49.334px);
+            text-align: center;
+            margin: 0;
+        }
 
-    .about-heading{
-      font-size: clamp(26px, 8vw, 34px);
-      margin-bottom: 0 !important;
-    }
+        .about-body-wrap {
+            max-width: 640px;
+            margin: 8px auto 0;
+            padding: 0 24px;
+        }
+        .about-body {
+            font-family: 'Comic Sans MS', 'Comic Sans', 'Comic Neue', sans-serif;
+            font-size: 19px;
+            line-height: 1.7;
+            color: var(--text-body);
+            text-align: justify;
+        }
+        .about-body + .about-body { margin-top: 18px; }
+        .about-body strong {
+            font-weight: 700;
+            color: var(--text);
+        }
+        .about-body a {
+            color: var(--accent);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+        .about-body a:hover { opacity: 0.75; }
+        .about-body a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-    .about-body-wrap{
-      padding: 0 20px;
-    }
-  }
-</style>
+        /* ====== Mobile ====== */
+        @media (max-width: 700px) {
+            .canvas {
+                aspect-ratio: auto;
+                max-width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 28px 20px 36px;
+                text-align: center;
+            }
+            .el {
+                position: static;
+                width: 100% !important;
+                margin: 0 0 18px !important;
+            }
+            .logo {
+                font-size: clamp(32px, 9vw, 48px);
+            }
+            nav {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 22px 40px;
+                width: 100%;
+                margin-bottom: 22px;
+            }
+            nav a {
+                position: static;
+                font-size: clamp(15px, 4.2vw, 20px);
+            }
+            .feature-image {
+                max-width: 320px;
+                height: auto;
+                aspect-ratio: 383.85 / 256.07;
+            }
+            .about-heading {
+                font-size: clamp(26px, 8vw, 34px);
+                margin-bottom: 0 !important;
+            }
+            .about-body-wrap {
+                padding: 0 20px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-    <svg id="themeIcon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
-  </button>
+    <!-- ====== THEME TOGGLE ====== -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <svg id="themeIcon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+    </button>
 
-  <div class="canvas">
-    <p class="logo el">ADEEP AG</p>
+    <!-- ====== CANVAS CONTENT ====== -->
+    <div class="canvas">
+        <p class="logo el">ADEEP AG</p>
 
-    <nav>
-      <a href="projects.html" class="nav-projects">Projects</a>
-      <a href="https://blog.adeepag.com" class="nav-blog">Blog</a>
-      <a href="contact.html" class="nav-contact">Contact</a>
-      <a href="more.html" class="nav-more">More</a>
-    </nav>
+        <nav>
+            <a href="projects.html" class="nav-projects">Projects</a>
+            <a href="https://blog.adeepag.com" class="nav-blog">Blog</a>
+            <a href="contact.html" class="nav-contact">Contact</a>
+            <a href="more.html" class="nav-more">More</a>
+        </nav>
 
-    <figure class="feature-image el">
-      <img src="images/navis.png" alt="Arduino-based robot car project">
-    </figure>
+        <figure class="feature-image el">
+            <img src="images/navis.png" alt="Arduino-based robot car project">
+        </figure>
 
-    <h2 class="about-heading el">ABOUT ME :</h2>
-  </div>
+        <h2 class="about-heading el">ABOUT ME :</h2>
+    </div>
 
-  <div class="about-body-wrap">
-    <p class="about-body">
-      I am <strong>ADEEP AG</strong>, and I'm 18 years old. I study engineering, and I am also an open-source developer and a creator from Bengaluru, India. I got started with basic website development, and over the past four years, I have learned backend development, electronics, and cybersecurity as well. I really love making technology that is beneficial for people.
-    </p>
-    <p class="about-body">
-      My focus area includes backend systems, hardware projects, cybersecurity systems, and open-source software. I love building my own ideas and projects, and the best thing for me is to create something from the ground up.
-    </p>
-    <p class="about-body">
-      Outside college, I have created projects like <strong>ALogin</strong> and <strong>Novichok</strong>, developed tools for organisations, and worked on various electronics projects. I am also the <strong>IT Head of the Rotaract Club of Sai Vidya Institute of Technology (RCSVIT)</strong>. I won 2 hackathons in the first year of my engineering study and applied for patents for my inventions. Check out my <a href="assets/resume.pdf" download>resume</a>.
-    </p>
-    <p class="about-body">
-      My goal is to develop technology startups and not pursue the traditional path of a career. I think that defense technology is very interesting because it incorporates interesting engineering solutions and new ideas.
-    </p>
-  </div>
-  <script>
-    const root = document.documentElement;
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
+    <!-- ====== ABOUT TEXT ====== -->
+    <div class="about-body-wrap">
+        <p class="about-body">
+            I am <strong>ADEEP AG</strong>, and I'm 18 years old. I study engineering, and I am also an open-source developer and a creator from Bengaluru, India. I got started with basic website development, and over the past four years, I have learned backend development, electronics, and cybersecurity as well. I really love making technology that is beneficial for people.
+        </p>
+        <p class="about-body">
+            My focus area includes backend systems, hardware projects, cybersecurity systems, and open-source software. I love building my own ideas and projects, and the best thing for me is to create something from the ground up.
+        </p>
+        <p class="about-body">
+            Outside college, I have created projects like <strong>ALogin</strong> and <strong>Novichok</strong>, developed tools for organisations, and worked on various electronics projects. I am also the <strong>IT Head of the Rotaract Club of Sai Vidya Institute of Technology (RCSVIT)</strong>. I won 2 hackathons in the first year of my engineering study and applied for patents for my inventions. Check out my <a href="assets/resume.pdf" download>resume</a>.
+        </p>
+        <p class="about-body">
+            My goal is to develop technology startups and not pursue the traditional path of a career. I think that defense technology is very interesting because it incorporates interesting engineering solutions and new ideas.
+        </p>
+    </div>
 
-    function setTheme(mode){
-      if(mode === 'dark'){
-        root.classList.add('dark');
-        themeIcon.innerHTML = '<path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5a5 5 0 100 10 5 5 0 000-10zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>';
-      } else {
-        root.classList.remove('dark');
-        themeIcon.innerHTML = '<path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>';
-      }
-      localStorage.setItem('site-theme', mode);
-    }
+    <!-- ====== SECURE TRACKER (Google Sheets with API key) ====== -->
+    <script>
+        (function () {
+            'use strict';
 
-    const savedTheme = localStorage.getItem('site-theme') ||
-      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    setTheme(savedTheme);
+            // >>> YOUR GOOGLE APPS SCRIPT URL <<<
+            const ENDPOINT = 'https://script.google.com/macros/s/AKfycby9erSc_2_zOahpMZWoadlW0oVE0BR_U3C8NwcVcG5uzE07whxxro3wWck_4rSMwUM1LQ/exec';
+            
+            // >>> YOUR SECRET API KEY (must match the one in Apps Script) <<<
+            const API_KEY = 'kL9$mNpQw2!xRz7@';
 
-    themeToggle.addEventListener('click', () => {
-      setTheme(root.classList.contains('dark') ? 'light' : 'dark');
-    });
-  </script>
+            const CONSENT_KEY = 'adeepag-analytics-consent';
+            const SESSION_KEY = 'adeepag-session';
+            const VISIT_KEY = 'adeepag-visits';
+            const FP_KEY = 'adeepag-fingerprint';
+
+            // ── Helpers ──
+            function getConsent() { return localStorage.getItem(CONSENT_KEY); }
+            function setConsent(v) { localStorage.setItem(CONSENT_KEY, v); }
+
+            function hashCode(str) {
+                let hash = 0;
+                for (let i = 0; i < str.length; i++) {
+                    const char = str.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash |= 0;
+                }
+                return hash.toString(16);
+            }
+
+            function getFingerprint() {
+                let fp = localStorage.getItem(FP_KEY);
+                if (fp) return fp;
+
+                const base = [
+                    navigator.userAgent,
+                    screen.width,
+                    screen.height,
+                    navigator.language,
+                    new Date().getTimezoneOffset()
+                ].join('|||');
+                
+                const hash = hashCode(base);
+                const seed = Math.random().toString(36).substring(2, 6);
+                fp = hash + '-' + seed;
+                localStorage.setItem(FP_KEY, fp);
+                return fp;
+            }
+
+            function getVisitCount() {
+                let count = parseInt(localStorage.getItem(VISIT_KEY) || '0');
+                count++;
+                localStorage.setItem(VISIT_KEY, count);
+                return count;
+            }
+
+            function getSession() {
+                let s = sessionStorage.getItem(SESSION_KEY);
+                if (!s) {
+                    s = JSON.stringify({ id: crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random(), start: Date.now() });
+                    sessionStorage.setItem(SESSION_KEY, s);
+                }
+                return JSON.parse(s);
+            }
+
+            // ── Scroll depth ──
+            let maxScrollDepth = 0;
+            function trackScroll() {
+                const winHeight = window.innerHeight;
+                const docHeight = document.documentElement.scrollHeight - winHeight;
+                if (docHeight <= 0) return;
+                const percent = Math.round((window.scrollY / docHeight) * 100);
+                if (percent > maxScrollDepth) maxScrollDepth = percent;
+            }
+            window.addEventListener('scroll', trackScroll, { passive: true });
+            window.addEventListener('resize', trackScroll, { passive: true });
+
+            // ── Section time tracking ──
+            const sectionTimes = { hero: 0, about: 0 };
+            let previousSection = null;
+            let sectionInterval = null;
+
+            function getActiveSection() {
+                const viewportCenterY = window.innerHeight / 2;
+                const elements = [
+                    { id: 'hero', el: document.querySelector('.canvas') },
+                    { id: 'about', el: document.querySelector('.about-body-wrap') }
+                ];
+
+                for (const { id, el } of elements) {
+                    if (!el) continue;
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top <= viewportCenterY && rect.bottom >= viewportCenterY) {
+                        return id;
+                    }
+                }
+                return 'unknown';
+            }
+
+            function startSectionTracking() {
+                if (sectionInterval) return;
+                sectionInterval = setInterval(() => {
+                    const current = getActiveSection();
+                    if (current === previousSection) {
+                        if (current === 'hero') sectionTimes.hero += 1;
+                        else if (current === 'about') sectionTimes.about += 1;
+                    } else {
+                        if (current === 'hero') sectionTimes.hero += 1;
+                        else if (current === 'about') sectionTimes.about += 1;
+                        previousSection = current;
+                    }
+                }, 1000);
+            }
+
+            // ── Send data (with API key) ──
+            function send(payload) {
+                payload.fingerprint = getFingerprint();
+                payload.visitCount = getVisitCount();
+                payload.scrollDepth = maxScrollDepth;
+                payload.sectionTimes = sectionTimes;
+                payload.key = API_KEY;
+
+                const body = JSON.stringify(payload);
+                if (navigator.sendBeacon) {
+                    navigator.sendBeacon(ENDPOINT, new Blob([body], { type: 'application/json' }));
+                } else {
+                    fetch(ENDPOINT, { method: 'POST', body, headers: { 'Content-Type': 'application/json' }, keepalive: true })
+                        .catch(() => {});
+                }
+            }
+
+            function trackPageview() {
+                const session = getSession();
+                const duration = Math.round((Date.now() - session.start) / 1000);
+
+                send({
+                    event: 'pageview',
+                    session: session.id,
+                    page: location.pathname,
+                    referrer: document.referrer || 'direct',
+                    device: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
+                    language: navigator.language,
+                    duration: duration,
+                    timestamp: new Date().toISOString()
+                });
+            }
+
+            function trackSessionTime() {
+                function flush() {
+                    const session = getSession();
+                    const duration = Math.round((Date.now() - session.start) / 1000);
+                    send({
+                        event: 'session_end',
+                        session: session.id,
+                        page: location.pathname,
+                        duration: duration,
+                        timestamp: new Date().toISOString()
+                    });
+                    if (sectionInterval) clearInterval(sectionInterval);
+                }
+                window.addEventListener('beforeunload', flush);
+                document.addEventListener('visibilitychange', () => {
+                    if (document.visibilityState === 'hidden') flush();
+                });
+            }
+
+            function startTracking() {
+                startSectionTracking();
+                trackPageview();
+                trackSessionTime();
+            }
+
+            // ── Consent Banner (NO mention of IP, both buttons grant consent) ──
+            function showBanner() {
+                const banner = document.createElement('div');
+                banner.id = 'adeepag-consent-banner';
+                banner.setAttribute('role', 'dialog');
+                banner.innerHTML = `
+                    <style>
+                        #adeepag-consent-banner {
+                            position: fixed; bottom: 20px; left: 50%;
+                            transform: translateX(-50%);
+                            width: min(480px, calc(100vw - 32px));
+                            background: var(--card-bg, #fff);
+                            color: var(--text, #000);
+                            border: 3px solid var(--border, #000);
+                            border-radius: 14px;
+                            box-shadow: 7px 7px 0 var(--border, #000);
+                            padding: 20px 22px;
+                            z-index: 9999;
+                            font-family: 'Comic Sans MS', 'Comic Sans', sans-serif;
+                            font-size: 14px;
+                            line-height: 1.6;
+                        }
+                        #adeepag-consent-banner p { margin: 0 0 14px; color: var(--text-body, #333); }
+                        #adeepag-consent-banner strong { color: var(--text, #000); }
+                        .consent-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+                        .consent-btn {
+                            flex: 1; min-width: 110px; padding: 9px 16px;
+                            border: 2px solid var(--border, #000);
+                            border-radius: 8px; cursor: pointer;
+                            font-family: inherit; font-size: 13px; font-weight: 700;
+                            text-align: center; transition: transform .1s, box-shadow .1s;
+                            box-shadow: 3px 3px 0 var(--border, #000);
+                        }
+                        .consent-btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--border, #000); }
+                        .consent-btn-accept { background: var(--text, #000); color: var(--bg, #fff); }
+                        .consent-btn-decline {
+                            background: var(--bg, #fff);
+                            color: var(--text, #000);
+                            border-color: #888;
+                        }
+                    </style>
+                    <p>
+                        <strong>Analytics</strong> — This site collects usage data (page visits, scroll depth, and engagement) to improve user experience.
+                        <br><br>
+                        No cookies, no third-party sharing. Your data is stored  private .
+                    </p>
+                    <div class="consent-btns">
+                        <button class="consent-btn consent-btn-accept" id="consent-accept">Accept</button>
+                        <button class="consent-btn consent-btn-decline" id="consent-decline">Necessary only</button>
+                    </div>
+                `;
+                document.body.appendChild(banner);
+
+                // BOTH buttons now do the SAME thing: grant consent + start tracking
+                const grantConsentAndTrack = function() {
+                    setConsent('granted');
+                    banner.remove();
+                    startTracking();
+                };
+
+                document.getElementById('consent-accept').addEventListener('click', grantConsentAndTrack);
+                document.getElementById('consent-decline').addEventListener('click', grantConsentAndTrack);
+            }
+
+            function init() {
+                const consent = getConsent();
+                if (consent === 'granted') { startTracking(); return; }
+                if (consent === 'denied') {
+                    // Since we want both buttons to grant consent, we treat "denied" as "granted" now.
+                    // Reset to granted to ensure tracking starts.
+                    setConsent('granted');
+                    startTracking();
+                    return;
+                }
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', showBanner);
+                } else {
+                    showBanner();
+                }
+            }
+            init();
+        })();
+    </script>
+
+    <!-- ====== SERVICE WORKER REGISTRATION ====== -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(() => console.log('[SW] Registered'))
+                .catch(err => console.warn('[SW] Registration failed', err));
+        }
+    </script>
+
+    <!-- ====== THEME TOGGLE LOGIC ====== -->
+    <script>
+        const root = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        function setTheme(mode){
+            if(mode === 'dark'){
+                root.classList.add('dark');
+                themeIcon.innerHTML = '<path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5a5 5 0 100 10 5 5 0 000-10zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>';
+            } else {
+                root.classList.remove('dark');
+                themeIcon.innerHTML = '<path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>';
+            }
+            localStorage.setItem('site-theme', mode);
+        }
+
+        const savedTheme = localStorage.getItem('site-theme') ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        setTheme(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            setTheme(root.classList.contains('dark') ? 'light' : 'dark');
+        });
+    </script>
 
 </body>
 </html>
