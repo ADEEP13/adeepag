@@ -316,7 +316,7 @@
         </p>
     </div>
 
-    <!-- ====== TRACKER – with client‑side IP fetch + merged session row ====== -->
+    <!-- ====== TRACKER – client IP + merged row + duplicate prevention ====== -->
     <script>
         (function () {
             'use strict';
@@ -327,8 +327,8 @@
             const SESSION_KEY = 'adeepag-session';
             const VISIT_KEY = 'adeepag-visits';
             const FP_KEY = 'adeepag-fingerprint';
+            const SENT_KEY = 'adeepag-sent'; // prevent duplicate sends
 
-            // ── IP cache ──
             let clientIP = null;
 
             function getConsent() { return localStorage.getItem(CONSENT_KEY); }
@@ -425,11 +425,14 @@
                 }, 1000);
             }
 
-            // ── Send a single final event ──
+            // ── Send a single final event (with duplicate prevention) ──
             let finalPayload = null;
 
             function sendFinal() {
+                // Check if already sent for this session
+                if (sessionStorage.getItem(SENT_KEY) === 'true') return;
                 if (!finalPayload) return;
+
                 finalPayload.fingerprint = getFingerprint();
                 finalPayload.visitCount = getVisitCount();
                 finalPayload.scrollDepth = maxScrollDepth;
@@ -443,6 +446,8 @@
                     const blob = new Blob([body], { type: 'text/plain' });
                     navigator.sendBeacon(ENDPOINT, blob);
                 }
+                // Mark as sent so duplicate calls are ignored
+                sessionStorage.setItem(SENT_KEY, 'true');
             }
 
             function trackPageview() {
