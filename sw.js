@@ -1,5 +1,5 @@
 /* =====================================================
-   Adeep AG — Service Worker (with resilient caching)
+   Adeep AG — Service Worker (resilient caching)
    ===================================================== */
 
 const CACHE_NAME   = 'adeepag-v1';
@@ -18,7 +18,6 @@ const CACHE_STATIC = [
   '/images/icon-512.png'
 ];
 
-/* ── Install: cache each file individually (ignore failures) ── */
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
@@ -34,7 +33,6 @@ self.addEventListener('install', event => {
   self.skipWaiting();
 });
 
-/* ── Activate: clear old caches ── */
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
@@ -44,7 +42,6 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-/* ── Fetch: cache-first, network-first for HTML ── */
 self.addEventListener('fetch', event => {
   const { request } = event;
   const url = new URL(request.url);
@@ -78,7 +75,6 @@ self.addEventListener('fetch', event => {
   );
 });
 
-/* ── Push Notifications (unchanged) ── */
 self.addEventListener('push', event => {
   let data = { title: 'Adeep AG', body: 'Something new is up!', url: '/' };
   try { data = { ...data, ...event.data.json() }; } catch (_) {}
