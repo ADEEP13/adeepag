@@ -316,7 +316,7 @@
         </p>
     </div>
 
-    <!-- ====== SECURE TRACKER (Google Sheets with API key) ====== -->
+    <!-- ====== SECURE TRACKER (CORS-safe version with API key) ====== -->
     <script>
         (function () {
             'use strict';
@@ -324,7 +324,7 @@
             // >>> YOUR GOOGLE APPS SCRIPT URL <<<
             const ENDPOINT = 'https://script.google.com/macros/s/AKfycby9erSc_2_zOahpMZWoadlW0oVE0BR_U3C8NwcVcG5uzE07whxxro3wWck_4rSMwUM1LQ/exec';
             
-            // >>> YOUR SECRET API KEY (must match the one in Apps Script) <<<
+            // >>> CHANGE THIS IF YOU WANT A NEW KEY (must match Apps Script) <<<
             const API_KEY = 'kL9$mNpQw2!xRz7@';
 
             const CONSENT_KEY = 'adeepag-analytics-consent';
@@ -332,7 +332,6 @@
             const VISIT_KEY = 'adeepag-visits';
             const FP_KEY = 'adeepag-fingerprint';
 
-            // ── Helpers ──
             function getConsent() { return localStorage.getItem(CONSENT_KEY); }
             function setConsent(v) { localStorage.setItem(CONSENT_KEY, v); }
 
@@ -349,7 +348,6 @@
             function getFingerprint() {
                 let fp = localStorage.getItem(FP_KEY);
                 if (fp) return fp;
-
                 const base = [
                     navigator.userAgent,
                     screen.width,
@@ -357,7 +355,6 @@
                     navigator.language,
                     new Date().getTimezoneOffset()
                 ].join('|||');
-                
                 const hash = hashCode(base);
                 const seed = Math.random().toString(36).substring(2, 6);
                 fp = hash + '-' + seed;
@@ -381,7 +378,6 @@
                 return JSON.parse(s);
             }
 
-            // ── Scroll depth ──
             let maxScrollDepth = 0;
             function trackScroll() {
                 const winHeight = window.innerHeight;
@@ -393,7 +389,6 @@
             window.addEventListener('scroll', trackScroll, { passive: true });
             window.addEventListener('resize', trackScroll, { passive: true });
 
-            // ── Section time tracking ──
             const sectionTimes = { hero: 0, about: 0 };
             let previousSection = null;
             let sectionInterval = null;
@@ -404,7 +399,6 @@
                     { id: 'hero', el: document.querySelector('.canvas') },
                     { id: 'about', el: document.querySelector('.about-body-wrap') }
                 ];
-
                 for (const { id, el } of elements) {
                     if (!el) continue;
                     const rect = el.getBoundingClientRect();
@@ -430,7 +424,7 @@
                 }, 1000);
             }
 
-            // ── Send data (with API key) ──
+            // ── Send data (CORS-safe: no custom headers, no-cors mode) ──
             function send(payload) {
                 payload.fingerprint = getFingerprint();
                 payload.visitCount = getVisitCount();
@@ -442,15 +436,19 @@
                 if (navigator.sendBeacon) {
                     navigator.sendBeacon(ENDPOINT, new Blob([body], { type: 'application/json' }));
                 } else {
-                    fetch(ENDPOINT, { method: 'POST', body, headers: { 'Content-Type': 'application/json' }, keepalive: true })
-                        .catch(() => {});
+                    fetch(ENDPOINT, {
+                        method: 'POST',
+                        body: body,
+                        mode: 'no-cors',
+                        keepalive: true
+                        // No 'headers' set — avoids CORS preflight
+                    }).catch(() => {});
                 }
             }
 
             function trackPageview() {
                 const session = getSession();
                 const duration = Math.round((Date.now() - session.start) / 1000);
-
                 send({
                     event: 'pageview',
                     session: session.id,
@@ -488,7 +486,7 @@
                 trackSessionTime();
             }
 
-            // ── Consent Banner (NO mention of IP, both buttons grant consent) ──
+            // ── Consent Banner ──
             function showBanner() {
                 const banner = document.createElement('div');
                 banner.id = 'adeepag-consent-banner';
@@ -532,7 +530,7 @@
                     <p>
                         <strong>Analytics</strong> — This site collects usage data (page visits, scroll depth, and engagement) to improve user experience.
                         <br><br>
-                        No cookies, no third-party sharing. Your data is stored  private .
+                        No cookies, no third-party sharing. Your data is stored only in a private Google Sheet.
                     </p>
                     <div class="consent-btns">
                         <button class="consent-btn consent-btn-accept" id="consent-accept">Accept</button>
@@ -541,7 +539,6 @@
                 `;
                 document.body.appendChild(banner);
 
-                // BOTH buttons now do the SAME thing: grant consent + start tracking
                 const grantConsentAndTrack = function() {
                     setConsent('granted');
                     banner.remove();
@@ -556,8 +553,6 @@
                 const consent = getConsent();
                 if (consent === 'granted') { startTracking(); return; }
                 if (consent === 'denied') {
-                    // Since we want both buttons to grant consent, we treat "denied" as "granted" now.
-                    // Reset to granted to ensure tracking starts.
                     setConsent('granted');
                     startTracking();
                     return;
