@@ -1,0 +1,65 @@
+# Adeep AG
+
+> Open-source developer, hardware builder, and cybersecurity enthusiast from Bengaluru, India. Age 18. Engineering student at Sai Vidya Institute of Technology.
+
+Adeep AG is an 18-year-old engineering student and independent developer based in Bengaluru, India. He builds backend systems, hardware projects, cybersecurity tools, and open-source software. His goal is to build technology startups rather than pursue a traditional engineering career. He has a strong interest in defense technology for its engineering complexity and innovation potential.
+
+## Core Skills
+
+- Backend development (4+ years)
+- Electronics and hardware projects
+- Cybersecurity systems
+- Open-source software development
+- Web development (frontend and backend)
+
+## Notable Projects
+
+- **ALogin** — an authentication system built from scratch
+- **Novichok** — a cybersecurity-related tool
+- **Navis** — an Arduino-based robot car
+- Various tools built for organisations
+
+## Achievements
+
+- Won 2 hackathons in the first year of engineering
+- Filed a patent (Application No. 202641070548 A) — RFID-Based Public Bus Tracking and Passenger Information System, published in The Gazette of India, June 2026
+- IT Head of the Rotaract Club of Sai Vidya Institute of Technology (RCSVIT)
+
+## Patent
+
+- **Title:** RFID-Based Public Bus Tracking and Passenger Information System
+- **Application Number:** 202641070548 A
+- **Status:** Published, Pending Grant
+- **Filed:** 05 June 2026
+- **Published:** 12 June 2026
+- **Applicant:** Sai Vidya Institute of Technology
+- **IPC Codes:** G06Q 50/30, G06K 17/00, G06K 7/10, G07B 15/02, G08G 1/123
+- **Claims:** 5
+- **Inventors:** 9
+
+## Online Presence
+
+- Website: https://adeepag.com
+- Blog: https://blog.adeepag.com
+- GitHub: https://github.com/ADEEP13
+- LinkedIn: https://www.linkedin.com/in/adeep-ag-b140b9342/
+- Twitter/X: https://x.com/adeep_ag
+- Email: hello@adeepag.com
+
+## Site Structure
+
+- / — Home and about
+- /projects.html — All projects
+- /patents.html — Patent filings
+- /more.html — Patents, Games, Now, Stats, Open Source, Lab, Notes
+- /contact.html — Contact information
+- /now.html — What Adeep is currently working on
+- /stats.html — GitHub and project stats
+- /opensource.html — Open-source repositories
+- /lab.html — Experiments in progress
+- /notes.html — Short-form writing and tech notes
+- https://blog.adeepag.com — Blog (long-form writing)
+
+## Optional
+
+- /llms-full.txt — Extended version with full project descriptions (add when ready)
