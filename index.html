@@ -316,7 +316,7 @@
         </p>
     </div>
 
-    <!-- ====== SECURE TRACKER – CORS‑safe (sendBeacon only, text/plain) ====== -->
+    <!-- ====== TRACKER – with client‑side IP fetch + merged session row ====== -->
     <script>
         (function () {
             'use strict';
@@ -327,6 +327,9 @@
             const SESSION_KEY = 'adeepag-session';
             const VISIT_KEY = 'adeepag-visits';
             const FP_KEY = 'adeepag-fingerprint';
+
+            // ── IP cache ──
+            let clientIP = null;
 
             function getConsent() { return localStorage.getItem(CONSENT_KEY); }
             function setConsent(v) { localStorage.setItem(CONSENT_KEY, v); }
@@ -374,6 +377,7 @@
                 return JSON.parse(s);
             }
 
+            // ── Scroll depth ──
             let maxScrollDepth = 0;
             function trackScroll() {
                 const winHeight = window.innerHeight;
@@ -385,6 +389,7 @@
             window.addEventListener('scroll', trackScroll, { passive: true });
             window.addEventListener('resize', trackScroll, { passive: true });
 
+            // ── Section time tracking ──
             const sectionTimes = { hero: 0, about: 0 };
             let previousSection = null;
             let sectionInterval = null;
@@ -420,29 +425,31 @@
                 }, 1000);
             }
 
-            // ── Send data using sendBeacon only (no fetch fallback) ──
-            function send(payload) {
-                payload.fingerprint = getFingerprint();
-                payload.visitCount = getVisitCount();
-                payload.scrollDepth = maxScrollDepth;
-                payload.sectionTimes = sectionTimes;
-                payload.key = API_KEY;
+            // ── Send a single final event ──
+            let finalPayload = null;
 
-                const body = JSON.stringify(payload);
+            function sendFinal() {
+                if (!finalPayload) return;
+                finalPayload.fingerprint = getFingerprint();
+                finalPayload.visitCount = getVisitCount();
+                finalPayload.scrollDepth = maxScrollDepth;
+                finalPayload.sectionTimes = sectionTimes;
+                finalPayload.key = API_KEY;
+                finalPayload.event = 'session_complete';
+                if (clientIP) finalPayload.ip = clientIP;
+
+                const body = JSON.stringify(finalPayload);
                 if (navigator.sendBeacon) {
-                    // Use text/plain to avoid triggering CORS preflight
                     const blob = new Blob([body], { type: 'text/plain' });
                     navigator.sendBeacon(ENDPOINT, blob);
                 }
-                // If sendBeacon is not available, we silently skip tracking.
-                // This is acceptable for a personal site.
             }
 
             function trackPageview() {
                 const session = getSession();
                 const duration = Math.round((Date.now() - session.start) / 1000);
-                send({
-                    event: 'pageview',
+                finalPayload = {
+                    event: 'pageview', // will be overwritten
                     session: session.id,
                     page: location.pathname,
                     referrer: document.referrer || 'direct',
@@ -450,21 +457,19 @@
                     language: navigator.language,
                     duration: duration,
                     timestamp: new Date().toISOString()
-                });
+                };
+                // Do NOT send immediately – wait for session end
             }
 
             function trackSessionTime() {
                 function flush() {
+                    if (sectionInterval) clearInterval(sectionInterval);
                     const session = getSession();
                     const duration = Math.round((Date.now() - session.start) / 1000);
-                    send({
-                        event: 'session_end',
-                        session: session.id,
-                        page: location.pathname,
-                        duration: duration,
-                        timestamp: new Date().toISOString()
-                    });
-                    if (sectionInterval) clearInterval(sectionInterval);
+                    if (finalPayload) {
+                        finalPayload.duration = duration;
+                        sendFinal();
+                    }
                 }
                 window.addEventListener('beforeunload', flush);
                 document.addEventListener('visibilitychange', () => {
@@ -473,9 +478,16 @@
             }
 
             function startTracking() {
-                startSectionTracking();
-                trackPageview();
-                trackSessionTime();
+                // Fetch IP once
+                fetch('https://api.ipify.org?format=json')
+                    .then(res => res.json())
+                    .then(data => { clientIP = data.ip; })
+                    .catch(() => { /* ignore */ })
+                    .finally(() => {
+                        startSectionTracking();
+                        trackPageview();
+                        trackSessionTime();
+                    });
             }
 
             // ── Consent Banner ──
