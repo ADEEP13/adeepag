@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>More — Adeep AG</title>
+<meta name="description" content="More pages by Adeep AG — Patents, Games, Now, Stats, Open Source, Lab, Notes." />
+<meta property="og:title"       content="More — Adeep AG" />
+<meta property="og:description" content="Patents, Games, Now, Stats, Open Source, Lab, Notes." />
+<meta property="og:type"        content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Archivo+Black&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  @font-face { font-family:'Hey Gotcha'; src:url('fonts/HeyGotcha-Regular.ttf') format('truetype'); font-display:swap; }
+  @font-face { font-family:'Horiza'; src:url('fonts/Horizon.woff2') format('woff2'),url('fonts/Horizon.otf') format('opentype'); font-display:swap; }
+
+  :root {
+    --bg:#ffffff; --text:#000000; --text-body:#333333; --text-muted:#666666;
+    --border:#000000; --accent:#2788c7; --card-bg:#ffffff; --tag-bg:#f2f2f2;
+  }
+  html.dark {
+    --bg:#14171a; --text:#f2f2f2; --text-body:#cfcfcf; --text-muted:#9aa0a6;
+    --border:#f2f2f2; --accent:#5fb3ec; --card-bg:#1b1f23; --tag-bg:#23272b;
+  }
+
+  *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+
+  body {
+    background:var(--bg); color:var(--text);
+    font-family:'Comic Sans MS','Comic Sans','Comic Neue',sans-serif;
+    min-height:100vh; padding-bottom:80px;
+    transition:background .2s,color .2s;
+  }
+
+  a { color:var(--accent); text-decoration:underline; text-underline-offset:2px; }
+  a:hover { opacity:.75; }
+
+  /* ── Theme toggle ── */
+  .theme-toggle {
+    position:fixed; top:18px; right:18px; z-index:30;
+    display:inline-flex; align-items:center; justify-content:center;
+    width:40px; height:40px; border:2px solid var(--border); border-radius:50%;
+    background:var(--bg); color:var(--text); cursor:pointer; transition:opacity .2s;
+  }
+  .theme-toggle:hover { opacity:.8; }
+  .theme-toggle svg { width:19px; height:19px; fill:currentColor; }
+
+  /* ── Top bar ── */
+  .top-bar { max-width:900px; margin:0 auto; padding:20px 24px 0; }
+  .back-link {
+    display:inline-flex; align-items:center; gap:6px;
+    font-weight:700; font-size:16px; color:var(--accent); text-decoration:none;
+  }
+  .back-link:hover { opacity:.75; }
+  .back-link svg { width:18px; height:18px; }
+
+  /* ── Page heading ── */
+  .page-heading {
+    text-align:center;
+    font-family:'Horiza','Archivo Black',sans-serif; font-weight:700;
+    font-size:clamp(30px,5vw,52px); letter-spacing:1px; margin:36px 0 6px;
+  }
+  .page-sub {
+    text-align:center; font-size:15px; color:var(--text-muted);
+    margin-bottom:48px; padding:0 24px;
+  }
+
+  /* ── Grid ── */
+  .grid-wrap {
+    max-width:900px; margin:0 auto; padding:0 24px;
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
+    gap:24px;
+  }
+
+  /* ── Card ── */
+  .card {
+    border:3px solid var(--border); border-radius:14px;
+    background:var(--card-bg); box-shadow:7px 7px 0 var(--border);
+    overflow:hidden; display:flex; flex-direction:column;
+    text-decoration:none; color:inherit;
+    transition:transform .12s, box-shadow .12s;
+  }
+  .card:hover {
+    transform:translate(-3px,-3px);
+    box-shadow:10px 10px 0 var(--border);
+    opacity:1;
+  }
+
+  /* ── Card icon strip ── */
+  .card-icon-wrap {
+    padding:28px 24px 20px;
+    border-bottom:2px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .card-icon {
+    width:48px; height:48px;
+    border:2px solid var(--border); border-radius:10px;
+    background:var(--tag-bg);
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px; flex-shrink:0;
+    box-shadow:3px 3px 0 var(--border);
+  }
+  .card-arrow {
+    color:var(--text-muted);
+    flex-shrink:0;
+  }
+  .card-arrow svg { width:20px; height:20px; }
+
+  /* ── Card body ── */
+  .card-body { padding:18px 22px 22px; flex:1; display:flex; flex-direction:column; gap:8px; }
+  .card-title {
+    font-family:'Horiza','Archivo Black',sans-serif; font-weight:700;
+    font-size:clamp(16px,2vw,20px); color:var(--text); letter-spacing:.5px;
+  }
+  .card-desc {
+    font-size:14px; line-height:1.65; color:var(--text-body); flex:1;
+  }
+
+  /* ── Card tag ── */
+  .card-tag {
+    display:inline-flex; align-items:center;
+    padding:4px 10px; border:2px solid var(--border); border-radius:6px;
+    background:var(--tag-bg); color:var(--text-muted);
+    font-family:'Hey Gotcha','Comic Sans MS',sans-serif;
+    font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
+    align-self:flex-start; margin-top:4px;
+  }
+
+  /* ── WIP badge ── */
+  .badge-wip {
+    display:inline-flex; align-items:center; gap:5px;
+    padding:3px 10px; border-radius:999px;
+    border:2px solid #92400e; background:#fef3c7; color:#92400e;
+    font-family:'Hey Gotcha','Comic Sans MS',sans-serif;
+    font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.07em;
+    align-self:flex-start; margin-top:4px;
+  }
+  html.dark .badge-wip { background:#2d1f05; color:#fbbf24; border-color:#fbbf24; }
+
+  /* ── NEW badge ── */
+  .badge-new {
+    display:inline-flex; align-items:center; gap:5px;
+    padding:3px 10px; border-radius:999px;
+    border:2px solid #166534; background:#dcfce7; color:#166534;
+    font-family:'Hey Gotcha','Comic Sans MS',sans-serif;
+    font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.07em;
+    align-self:flex-start; margin-top:4px;
+  }
+  html.dark .badge-new { background:#052e16; color:#4ade80; border-color:#4ade80; }
+
+  @media (max-width:500px) {
+    .grid-wrap { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+  <svg id="themeIcon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+</button>
+
+<div class="top-bar">
+  <a href="index.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>
+    </svg>
+    Back
+  </a>
+</div>
+
+<h1 class="page-heading">MORE :</h1>
+<p class="page-sub">Everything else that doesn't fit neatly on the front page.</p>
+
+<div class="grid-wrap">
+
+  <!-- Patents -->
+  <a class="card" href="patents.html">
+    <div class="card-icon-wrap">
+      <div class="card-icon">
+        <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>
+          <line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="12" y2="17"/>
+        </svg>
+      </div>
+      <div class="card-arrow"><svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Patents</div>
+      <div class="card-desc">Inventions filed under The Patents Act, 1970 — Patent Office, India. Currently 1 published application.</div>
+      <span class="badge-new">1 Published</span>
+    </div>
+  </a>
+
+  <!-- Games -->
+  <a class="card" href="games.html">
+    <div class="card-icon-wrap">
+      <div class="card-icon">
+        <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <rect x="2" y="7" width="20" height="14" rx="2"/>
+          <path d="M16 3h-8l-2 4h12z"/>
+          <line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+          <circle cx="17" cy="13" r=".8" fill="currentColor"/><circle cx="17" cy="15.5" r=".8" fill="currentColor"/>
+        </svg>
+      </div>
+      <div class="card-arrow"><svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Games</div>
+      <div class="card-desc">Small browser games and interactive experiments built for fun.</div>
+      <span class="card-tag">Play</span>
+    </div>
+  </a>
+
+  <!-- Now -->
+  <a class="card" href="now.html">
+    <div class="card-icon-wrap">
+      <div class="card-icon">
+        <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <div class="card-arrow"><svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Now</div>
+      <div class="card-desc">What I'm currently working on, reading, and thinking about — updated regularly.</div>
+      <span class="card-tag">Status</span>
+    </div>
+  </a>
+
+  <!-- Stats -->
+  <a class="card" href="stats.html">
+    <div class="card-icon-wrap">
+      <div class="card-icon">
+        <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6"  y1="20" x2="6"  y2="14"/>
+        </svg>
+      </div>
+      <div class="card-arrow"><svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Stats</div>
+      <div class="card-desc">GitHub commits, project counts, hackathons — numbers that tell a story.</div>
+      <span class="card-tag">Metrics</span>
+    </div>
+  </a>
+
+  <!-- Open Source -->
+  <a class="card" href="opensource.html">
+    <div class="card-icon-wrap">
+      <div class="card-icon">
+        <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+        </svg>
+      </div>
+      <div class="card-arrow"><svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Open Source</div>
+      <div class="card-desc">Repositories, contributions, and tools I've released into the wild under open licenses.</div>
+      <span class="card-tag">GitHub</span>
+    </div>
+  </a>
+
+  <!-- Lab -->
+  <a class="card" href="lab.html">
+    <div class="card-icon-wrap">
+      <div class="card-icon">
+        <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M9 3h6v11l3.5 5.5A1 1 0 0117.6 21H6.4a1 1 0 01-.9-1.5L9 14V3z"/>
+          <line x1="9" y1="3" x2="15" y2="3"/>
+          <line x1="8" y1="15" x2="16" y2="15"/>
+        </svg>
+      </div>
+      <div class="card-arrow"><svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Lab</div>
+      <div class="card-desc">Experiments, half-finished ideas, and things I'm tinkering with that aren't ready to ship yet.</div>
+      <span class="badge-wip">In Progress</span>
+    </div>
+  </a>
+
+  <!-- Notes -->
+  <a class="card" href="notes.html">
+    <div class="card-icon-wrap">
+      <div class="card-icon">
+        <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+      </div>
+      <div class="card-arrow"><svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Notes</div>
+      <div class="card-desc">Short-form writing, tech notes, and things I want to remember — rougher than blog posts.</div>
+      <span class="card-tag">Writing</span>
+    </div>
+  </a>
+
+</div>
+
+<script>
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon   = document.getElementById('themeIcon');
+  function setTheme(mode) {
+    if (mode === 'dark') {
+      root.classList.add('dark');
+      themeIcon.innerHTML = '<path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5a5 5 0 100 10 5 5 0 000-10zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>';
+    } else {
+      root.classList.remove('dark');
+      themeIcon.innerHTML = '<path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>';
+    }
+    localStorage.setItem('site-theme', mode);
+  }
+  const saved = localStorage.getItem('site-theme') || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+  setTheme(saved);
+  themeToggle.addEventListener('click', () => setTheme(root.classList.contains('dark') ? 'light' : 'dark'));
+</script>
+</body>
+</html>
