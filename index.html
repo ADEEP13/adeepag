@@ -316,17 +316,13 @@
         </p>
     </div>
 
-    <!-- ====== SECURE TRACKER (CORS-safe version with API key) ====== -->
+    <!-- ====== SECURE TRACKER – CORS‑safe (sendBeacon only, text/plain) ====== -->
     <script>
         (function () {
             'use strict';
 
-            // >>> YOUR GOOGLE APPS SCRIPT URL <<<
             const ENDPOINT = 'https://script.google.com/macros/s/AKfycby9erSc_2_zOahpMZWoadlW0oVE0BR_U3C8NwcVcG5uzE07whxxro3wWck_4rSMwUM1LQ/exec';
-            
-            // >>> CHANGE THIS IF YOU WANT A NEW KEY (must match Apps Script) <<<
             const API_KEY = 'kL9$mNpQw2!xRz7@';
-
             const CONSENT_KEY = 'adeepag-analytics-consent';
             const SESSION_KEY = 'adeepag-session';
             const VISIT_KEY = 'adeepag-visits';
@@ -424,7 +420,7 @@
                 }, 1000);
             }
 
-            // ── Send data (CORS-safe: no custom headers, no-cors mode) ──
+            // ── Send data using sendBeacon only (no fetch fallback) ──
             function send(payload) {
                 payload.fingerprint = getFingerprint();
                 payload.visitCount = getVisitCount();
@@ -434,16 +430,12 @@
 
                 const body = JSON.stringify(payload);
                 if (navigator.sendBeacon) {
-                    navigator.sendBeacon(ENDPOINT, new Blob([body], { type: 'application/json' }));
-                } else {
-                    fetch(ENDPOINT, {
-                        method: 'POST',
-                        body: body,
-                        mode: 'no-cors',
-                        keepalive: true
-                        // No 'headers' set — avoids CORS preflight
-                    }).catch(() => {});
+                    // Use text/plain to avoid triggering CORS preflight
+                    const blob = new Blob([body], { type: 'text/plain' });
+                    navigator.sendBeacon(ENDPOINT, blob);
                 }
+                // If sendBeacon is not available, we silently skip tracking.
+                // This is acceptable for a personal site.
             }
 
             function trackPageview() {
