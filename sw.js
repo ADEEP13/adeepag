@@ -1,6 +1,5 @@
 /* =====================================================
-   Adeep AG — Service Worker
-   Handles: offline caching, push notifications
+   Adeep AG — Service Worker (with resilient caching)
    ===================================================== */
 
 const CACHE_NAME   = 'adeepag-v1';
@@ -19,10 +18,18 @@ const CACHE_STATIC = [
   '/images/icon-512.png'
 ];
 
-/* ── Install: pre-cache static shell ── */
+/* ── Install: cache each file individually (ignore failures) ── */
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(CACHE_STATIC))
+    caches.open(CACHE_NAME).then(cache => {
+      return Promise.allSettled(
+        CACHE_STATIC.map(url => {
+          return cache.add(url).catch(err => {
+            console.warn('[SW] Failed to cache:', url, err);
+          });
+        })
+      );
+    })
   );
   self.skipWaiting();
 });
@@ -37,16 +44,14 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-/* ── Fetch: cache-first for static, network-first for HTML ── */
+/* ── Fetch: cache-first, network-first for HTML ── */
 self.addEventListener('fetch', event => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Skip non-GET and cross-origin (except Google Fonts)
   if (request.method !== 'GET') return;
   if (url.origin !== location.origin && !url.hostname.includes('fonts.g')) return;
 
-  // Network-first for HTML pages (always fresh content)
   if (request.headers.get('accept')?.includes('text/html')) {
     event.respondWith(
       fetch(request)
@@ -60,7 +65,6 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Cache-first for everything else (fonts, images, css)
   event.respondWith(
     caches.match(request).then(cached => {
       if (cached) return cached;
@@ -74,24 +78,22 @@ self.addEventListener('fetch', event => {
   );
 });
 
-/* ── Push Notifications ── */
+/* ── Push Notifications (unchanged) ── */
 self.addEventListener('push', event => {
   let data = { title: 'Adeep AG', body: 'Something new is up!', url: '/' };
   try { data = { ...data, ...event.data.json() }; } catch (_) {}
-
   event.waitUntil(
     self.registration.showNotification(data.title, {
-      body:    data.body,
-      icon:    '/images/icon-192.png',
-      badge:   '/images/icon-96.png',
-      data:    { url: data.url },
+      body: data.body,
+      icon: '/images/icon-192.png',
+      badge: '/images/icon-96.png',
+      data: { url: data.url },
       vibrate: [100, 50, 100],
       actions: [{ action: 'open', title: 'View' }]
     })
   );
 });
 
-/* ── Notification click → open/focus tab ── */
 self.addEventListener('notificationclick', event => {
   event.notification.close();
   const target = event.notification.data?.url || '/';
