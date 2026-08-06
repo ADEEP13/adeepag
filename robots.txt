@@ -1,0 +1,67 @@
+# =====================================================
+# robots.txt — adeepag.com
+# Allows all search engines AND AI crawlers
+# =====================================================
+
+# ── All crawlers (default) ──
+User-agent: *
+Allow: /
+Disallow: /assets/
+Disallow: /*.pdf$
+
+# ── Google ──
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 2
+
+User-agent: Googlebot-Image
+Allow: /images/
+
+# ── Bing ──
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+# ── AI crawlers — explicitly allow so they index you ──
+
+# OpenAI (ChatGPT, SearchGPT)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic (Claude)
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+# Meta (Llama)
+User-agent: FacebookBot
+Allow: /
+
+# Common Crawl (trains most open LLMs)
+User-agent: CCBot
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# You.com
+User-agent: YouBot
+Allow: /
+
+# Apple
+User-agent: Applebot
+Allow: /
+
+# ── Sitemaps ──
+Sitemap: https://adeepag.com/sitemap.xml
+Sitemap: https://blog.adeepag.com/sitemap.xml
