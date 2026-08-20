@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCSVITCloud — Adeep AG</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Poppins:wght@600;700;800&family=Archivo+Black&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  @font-face {
+    font-family: 'Hey Gotcha';
+    src: url('../fonts/HeyGotcha-Regular.ttf') format('truetype');
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Horiza';
+    src: url('../fonts/Horizon.woff2') format('woff2'),
+         url('../fonts/Horizon.otf') format('opentype');
+    font-display: swap;
+  }
+
+  :root{
+    --bg: #ffffff;
+    --text: #000000;
+    --text-body: #333333;
+    --text-muted: #666666;
+    --tagline: #444444;
+    --border: #000000;
+    --accent: #2788c7;
+    --card-bg: #ffffff;
+    --thumb-bg: #f2f2f2;
+    --pill-bg: #fff8e6;
+    --code-bg: #1e1e1e;
+    --code-text: #eaeaea;
+  }
+  html.dark{
+    --bg: #14171a;
+    --text: #f2f2f2;
+    --text-body: #cfcfcf;
+    --text-muted: #9aa0a6;
+    --tagline: #aaaaaa;
+    --border: #f2f2f2;
+    --accent: #5fb3ec;
+    --card-bg: #1b1f23;
+    --thumb-bg: #23272b;
+    --pill-bg: #2a2415;
+    --code-bg: #0d0f11;
+    --code-text: #eaeaea;
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Comic Sans MS', 'Comic Sans', 'Comic Neue', sans-serif;
+    padding: 0 0 80px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  a{ color: var(--accent); }
+
+  .theme-toggle{
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 30;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .theme-toggle:hover{ opacity: 0.8; }
+  .theme-toggle svg{ width: 19px; height: 19px; fill: currentColor; }
+
+  /* ---------- Top bar / back link ---------- */
+  .top-bar{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 24px 0;
+  }
+  .back-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .back-link:hover{ opacity: 0.75; }
+  .back-link:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; }
+  .back-link svg{ width: 18px; height: 18px; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 24px 0;
+    text-align: center;
+  }
+  .hero-title{
+    font-family: 'Horiza', 'Archivo Black', sans-serif;
+    font-weight: 700;
+    font-size: clamp(32px, 6vw, 56px);
+    margin: 0 0 8px;
+  }
+  .hero-tagline{
+    font-size: 19px;
+    color: var(--tagline);
+    margin: 0 0 20px;
+  }
+  .hero-badges{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .badge{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 2px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--text);
+    background: var(--card-bg);
+    box-shadow: 3px 3px 0 var(--border);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .badge:hover{
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--border);
+  }
+  .badge.primary{ background: var(--accent); color: #fff; }
+  .badge svg{ width: 16px; height: 16px; flex-shrink: 0; }
+  .badge.primary svg{ fill: #fff; }
+  .badge:not(.primary) svg{ fill: var(--text); }
+
+  /* ---------- Section shell ---------- */
+  .section{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .section + .section{
+    margin-top: 48px;
+  }
+  .section-heading{
+    font-family: 'Horiza', 'Archivo Black', sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 3.5vw, 30px);
+    margin: 0 0 16px;
+    border-bottom: 3px solid var(--border);
+    padding-bottom: 8px;
+  }
+  .section-body{
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--text-body);
+    text-align: justify;
+  }
+  .section-body p{ margin: 0 0 14px; }
+  .section-body p:last-child{ margin-bottom: 0; }
+
+  /* ---------- Key features ---------- */
+  .feature-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .feature-list li{
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 15.5px;
+    line-height: 1.5;
+    box-shadow: 4px 4px 0 var(--border);
+  }
+  .feature-list li::before{
+    content: "\2713  ";
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  /* ---------- Tech stack ---------- */
+  .tech-stack{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tech-pill{
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 700;
+    background: var(--pill-bg);
+  }
+
+  /* ---------- Timeline ---------- */
+  .timeline{
+    position: relative;
+    padding-left: 26px;
+  }
+  .timeline::before{
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 4px;
+    bottom: 4px;
+    width: 3px;
+    background: var(--border);
+  }
+  .timeline-item{
+    position: relative;
+    margin-bottom: 22px;
+  }
+  .timeline-item:last-child{ margin-bottom: 0; }
+  .timeline-item::before{
+    content: "";
+    position: absolute;
+    left: -26px;
+    top: 4px;
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+  }
+  .timeline-date{
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--accent);
+    margin-bottom: 2px;
+  }
+  .timeline-text{
+    font-size: 15.5px;
+    color: var(--text-body);
+    line-height: 1.5;
+  }
+
+  /* ---------- Links grid ---------- */
+  .links-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .link-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 10px;
+    font-weight: 700;
+    font-size: 14.5px;
+    box-shadow: 4px 4px 0 var(--border);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .link-card:hover{
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--border);
+  }
+  .link-card svg{ width: 26px; height: 26px; fill: var(--text); }
+
+  /* ---------- Related projects ---------- */
+  .related-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .related-card{
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border: 3px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 5px 5px 0 var(--border);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .related-card:hover{
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 var(--border);
+  }
+  .related-thumb{
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: var(--thumb-bg);
+  }
+  .related-thumb img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .related-name{
+    font-weight: 700;
+    font-size: 15px;
+    padding: 10px 12px 12px;
+  }
+
+  /* ---------- Footer / contact ---------- */
+  .footer-note{
+    font-size: 14px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 700px){
+    .feature-list{ grid-template-columns: 1fr; }
+    .links-grid{ grid-template-columns: repeat(2, 1fr); }
+    .related-grid{ grid-template-columns: 1fr; }
+    .hero-title{ font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <svg id="themeIcon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+  </button>
+
+  <div class="top-bar">
+    <a href="../projects.html" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"></path>
+        <path d="M12 19l-7-7 7-7"></path>
+      </svg>
+      Back to Projects
+    </a>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <h1 class="hero-title">RCSVITCloud</h1>
+    <p class="hero-tagline">A custom image &amp; file storage platform built for the Rotaract Club of SVIT</p>
+    <div class="hero-badges">
+      <a href="https://github.com/RcSVIT/RCSVITCloud" class="badge primary">
+        <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.545-1.385-1.33-1.754-1.33-1.754-1.087-.744.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="https://rcsvit.github.io/RCSVITCloud/" class="badge">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1 15v-4H7l5-8v4h4l-5 8z"/></svg>
+        Live Demo
+      </a>
+      <a href="https://www.instagram.com/rotaract_svit/" class="badge">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        RCSVIT Club
+      </a>
+    </div>
+  </header>
+
+  <!-- ============ OVERVIEW ============ -->
+  <section class="section">
+    <h2 class="section-heading">Overview</h2>
+    <div class="section-body">
+      <p>
+        RCSVITCloud is a custom image and file storage platform built specifically for the Rotaract Club of SVIT (RCSVIT). The project provides the club with a dedicated, self-managed cloud storage solution for organizing and serving media assets — photos, event images, documents, and other club files — without relying on third-party services like Google Drive or Dropbox.
+      </p>
+      <p>
+        The platform is entirely built on free-tier infrastructure, making it cost-effective and sustainable for a college club. It combines Cloudinary for media storage, Cloudflare D1 as a serverless SQLite database, and Render for backend hosting, resulting in a fast and reliable service with zero recurring costs.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ KEY FEATURES ============ -->
+  <section class="section">
+    <h2 class="section-heading">Key Features</h2>
+    <ul class="feature-list">
+      <li>Image and file upload with Cloudinary-powered storage and delivery</li>
+      <li>Serverless SQLite database via Cloudflare D1 for metadata management</li>
+      <li>Admin panel for managing uploaded content and club assets</li>
+      <li>Gallery view for browsing and previewing stored media</li>
+      <li>Detail view for individual file/image inspection</li>
+      <li>Entirely free-tier infrastructure — zero hosting cost</li>
+      <li>Backend REST API built with Python for file operations</li>
+      <li>Lightweight, fast frontend with no heavy frameworks</li>
+    </ul>
+  </section>
+
+  <!-- ============ TECH STACK ============ -->
+  <section class="section">
+    <h2 class="section-heading">Technologies &amp; Tools</h2>
+    <div class="tech-stack">
+      <span class="tech-pill">Python</span>
+      <span class="tech-pill">HTML / CSS / JS</span>
+      <span class="tech-pill">Cloudinary</span>
+      <span class="tech-pill">Cloudflare D1</span>
+      <span class="tech-pill">Render</span>
+      <span class="tech-pill">SQLite (serverless)</span>
+      <span class="tech-pill">REST API</span>
+      <span class="tech-pill">Git / GitHub</span>
+    </div>
+  </section>
+
+  <!-- ============ ARCHITECTURE / WORKFLOW ============ -->
+  <section class="section">
+    <h2 class="section-heading">Architecture &amp; Workflow</h2>
+    <div class="section-body">
+      <p>
+        RCSVITCloud follows a three-layer architecture built entirely on free-tier cloud services. The frontend — consisting of <code>index.html</code>, <code>gallery.html</code>, <code>detail.html</code>, and an <code>admin/</code> panel — communicates with a Python-based backend hosted on Render. The backend handles file upload logic, interacts with Cloudinary's API to store and retrieve media, and persists metadata (file names, URLs, timestamps) to a Cloudflare D1 serverless SQLite database.
+      </p>
+      <p>
+        This architecture keeps all infrastructure serverless and globally distributed, ensuring fast delivery with no database management overhead. The admin panel provides authenticated access for club managers to upload new content, while the gallery and detail pages serve as the public-facing interface for browsing club media.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ CHALLENGES & SOLUTIONS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Challenges Faced</h2>
+    <div class="section-body">
+      <p>
+        <strong>Challenge:</strong> Building a scalable media storage solution on zero budget.<br>
+        <strong>Solution:</strong> Combined Cloudinary's free tier for media delivery with Cloudflare D1's free serverless SQLite for metadata — keeping the entire stack cost-free without sacrificing reliability.
+      </p>
+      <p>
+        <strong>Challenge:</strong> Coordinating between three separate cloud services (Cloudinary, Cloudflare D1, Render) without introducing complex dependencies.<br>
+        <strong>Solution:</strong> Designed a clean Python REST API on Render as the single integration point, abstracting all service communication behind simple endpoints the frontend could call uniformly.
+      </p>
+      <p>
+        <strong>Challenge:</strong> Making the admin panel accessible only to club maintainers while keeping the gallery public.<br>
+        <strong>Solution:</strong> Implemented a separate <code>admin/</code> directory with access control, isolating management functionality from the public-facing gallery experience.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS / IMPACT ============ -->
+  <section class="section">
+    <h2 class="section-heading">Results &amp; Impact</h2>
+    <div class="section-body">
+      <p>
+        RCSVITCloud gives the Rotaract Club of SVIT a fully self-owned media platform — one that no longer depends on shared Google Drive links, WhatsApp forwards, or third-party gallery tools to distribute club event photos. Club administrators can upload content directly and it becomes instantly available to members and the public through a clean, browsable gallery. The project demonstrates practical full-stack development including API design, cloud storage integration, serverless databases, and deployment — all on zero budget.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ FUTURE PLANS / ROADMAP ============ -->
+  <section class="section">
+    <h2 class="section-heading">Future Plans</h2>
+    <ul class="feature-list">
+      <li>User authentication with role-based access control</li>
+      <li>Folder/album organization for events and years</li>
+      <li>Bulk upload support for batch event photo imports</li>
+      <li>Search and filter by tags, dates, or events</li>
+      <li>Public shareable links for individual galleries</li>
+      <li>Migration to a persistent database for long-term metadata storage</li>
+    </ul>
+  </section>
+
+  <!-- ============ DEVELOPMENT TIMELINE ============ -->
+  <section class="section">
+    <h2 class="section-heading">Development Timeline</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">Initial Build</div>
+        <div class="timeline-text">Core platform scaffolded — Python backend, Cloudinary integration, and basic gallery/detail views built and deployed on Render.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">Admin Panel</div>
+        <div class="timeline-text">Admin directory added with upload management, enabling club maintainers to push content directly to Cloudinary through the platform.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">D1 Integration</div>
+        <div class="timeline-text">Cloudflare D1 adopted as the metadata database, replacing earlier storage approaches with a serverless, globally-distributed SQLite layer.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">In Progress</div>
+        <div class="timeline-text">Planning album organisation, search/filter features, and improved authentication for a more robust club media management experience.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LINKS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Links</h2>
+    <div class="links-grid">
+      <a href="https://github.com/RcSVIT/RCSVITCloud" class="link-card">
+        <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.545-1.385-1.33-1.754-1.33-1.754-1.087-.744.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        GitHub Repo
+      </a>
+      <a href="https://rcsvit.github.io/RCSVITCloud/" class="link-card">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1 15v-4H7l5-8v4h4l-5 8z"/></svg>
+        Live Site
+      </a>
+      <a href="https://www.instagram.com/rotaract_svit/" class="link-card">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        RCSVIT Club
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ LICENSE ============ -->
+  <section class="section">
+    <h2 class="section-heading">License</h2>
+    <div class="section-body">
+      <p>RCSVITCloud is an open-source project. See the LICENSE file in the GitHub repository for full license details.</p>
+    </div>
+  </section>
+
+  <!-- ============ CONTRIBUTORS / ACKNOWLEDGEMENTS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Contributors &amp; Acknowledgements</h2>
+    <div class="section-body">
+      <p>
+        Built and maintained by <strong>Adeep AG (ADEEP13)</strong> for the Rotaract Club of SVIT. Thanks to the RCSVIT club for providing the use case and feedback. Bug reports, contributions, and feature requests are welcome through the GitHub repository.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ RELATED PROJECTS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Related Projects</h2>
+    <div class="related-grid">
+      <a href="alogin.html" class="related-card">
+        <div class="related-thumb"><img src="../images/alogin.png" alt="ALogin" onerror="this.style.display='none'"></div>
+        <div class="related-name">ALogin</div>
+      </a>
+      <a href="trackstop.html" class="related-card">
+        <div class="related-thumb"><img src="../images/trackstop.png" alt="Trackstop" onerror="this.style.display='none'"></div>
+        <div class="related-name">Trackstop</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT / SUPPORT ============ -->
+  <section class="section">
+    <h2 class="section-heading">Contact &amp; Support</h2>
+    <div class="section-body">
+      <p>
+        Found a bug or have a question? Open an
+        <a href="https://github.com/RcSVIT/RCSVITCloud/issues">issue on GitHub</a>,
+        or reach out through the <a href="../contact.html">contact page</a>.
+        You can also contact the RCSVIT club via their
+        <a href="https://www.instagram.com/rotaract_svit/">Instagram</a> or
+        <a href="https://www.linkedin.com/search/results/all/?keywords=Rotaract%20Club%20of%20SVIT">LinkedIn</a>.
+      </p>
+    </div>
+  </section>
+
+  <footer class="section" style="margin-top: 60px;">
+    <p class="footer-note">© <span id="year"></span> Adeep AG — Built with care.</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const root = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function setTheme(mode){
+      if(mode === 'dark'){
+        root.classList.add('dark');
+        themeIcon.innerHTML = '<path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5a5 5 0 100 10 5 5 0 000-10zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>';
+      } else {
+        root.classList.remove('dark');
+        themeIcon.innerHTML = '<path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>';
+      }
+      localStorage.setItem('site-theme', mode);
+    }
+
+    const savedTheme = localStorage.getItem('site-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setTheme(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      setTheme(root.classList.contains('dark') ? 'light' : 'dark');
+    });
+  </script>
+
+</body>
+</html>
