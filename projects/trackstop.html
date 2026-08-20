@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trackstop — Adeep AG</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Poppins:wght@600;700;800&family=Archivo+Black&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  @font-face {
+    font-family: 'Hey Gotcha';
+    src: url('../fonts/HeyGotcha-Regular.ttf') format('truetype');
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Horiza';
+    src: url('../fonts/Horizon.woff2') format('woff2'),
+         url('../fonts/Horizon.otf') format('opentype');
+    font-display: swap;
+  }
+
+  :root{
+    --bg: #ffffff;
+    --text: #000000;
+    --text-body: #333333;
+    --text-muted: #666666;
+    --tagline: #444444;
+    --border: #000000;
+    --accent: #2788c7;
+    --card-bg: #ffffff;
+    --thumb-bg: #f2f2f2;
+    --pill-bg: #fff8e6;
+    --code-bg: #1e1e1e;
+    --code-text: #eaeaea;
+  }
+  html.dark{
+    --bg: #14171a;
+    --text: #f2f2f2;
+    --text-body: #cfcfcf;
+    --text-muted: #9aa0a6;
+    --tagline: #aaaaaa;
+    --border: #f2f2f2;
+    --accent: #5fb3ec;
+    --card-bg: #1b1f23;
+    --thumb-bg: #23272b;
+    --pill-bg: #2a2415;
+    --code-bg: #0d0f11;
+    --code-text: #eaeaea;
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Comic Sans MS', 'Comic Sans', 'Comic Neue', sans-serif;
+    padding: 0 0 80px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  a{ color: var(--accent); }
+
+  .theme-toggle{
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 30;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .theme-toggle:hover{ opacity: 0.8; }
+  .theme-toggle svg{ width: 19px; height: 19px; fill: currentColor; }
+
+  /* ---------- Top bar ---------- */
+  .top-bar{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 24px 0;
+  }
+  .back-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .back-link:hover{ opacity: 0.75; }
+  .back-link:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; }
+  .back-link svg{ width: 18px; height: 18px; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 24px 0;
+    text-align: center;
+  }
+  .hero-title{
+    font-family: 'Horiza', 'Archivo Black', sans-serif;
+    font-weight: 700;
+    font-size: clamp(32px, 6vw, 56px);
+    margin: 0 0 8px;
+  }
+  .hero-tagline{
+    font-size: 19px;
+    color: var(--tagline);
+    margin: 0 0 20px;
+  }
+  .hero-badges{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .badge{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 2px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--text);
+    background: var(--card-bg);
+    box-shadow: 3px 3px 0 var(--border);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .badge:hover{
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--border);
+  }
+  .badge.primary{ background: var(--accent); color: #fff; }
+  .badge svg{ width: 16px; height: 16px; flex-shrink: 0; }
+  .badge.primary svg{ fill: #fff; }
+  .badge:not(.primary) svg{ fill: var(--text); }
+
+  /* ---------- Section ---------- */
+  .section{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .section + .section{ margin-top: 48px; }
+  .section-heading{
+    font-family: 'Horiza', 'Archivo Black', sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 3.5vw, 30px);
+    margin: 0 0 16px;
+    border-bottom: 3px solid var(--border);
+    padding-bottom: 8px;
+  }
+  .section-body{
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--text-body);
+    text-align: justify;
+  }
+  .section-body p{ margin: 0 0 14px; }
+  .section-body p:last-child{ margin-bottom: 0; }
+
+  /* ---------- Feature list ---------- */
+  .feature-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .feature-list li{
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 15.5px;
+    line-height: 1.5;
+    box-shadow: 4px 4px 0 var(--border);
+  }
+  .feature-list li::before{
+    content: "\2713  ";
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  /* ---------- Claims list ---------- */
+  .claims-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    counter-reset: claim;
+  }
+  .claims-list li{
+    counter-increment: claim;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px 12px 52px;
+    font-size: 15.5px;
+    line-height: 1.5;
+    box-shadow: 4px 4px 0 var(--border);
+    position: relative;
+  }
+  .claims-list li::before{
+    content: counter(claim);
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 26px;
+    height: 26px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  /* ---------- Patent card ---------- */
+  .patent-card{
+    border: 3px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    box-shadow: 5px 5px 0 var(--border);
+    background: var(--card-bg);
+  }
+  .patent-card-title{
+    font-family: 'Horiza', 'Archivo Black', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
+  .patent-card-num{
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 0 0 16px;
+    letter-spacing: 0.03em;
+  }
+  .patent-meta{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 24px;
+    margin-bottom: 16px;
+  }
+  .patent-meta-item{}
+  .patent-meta-label{
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+  }
+  .patent-meta-value{
+    font-size: 15px;
+    color: var(--text-body);
+  }
+  .patent-ipc{
+    font-size: 13px;
+    color: var(--text-muted);
+    font-family: 'Courier New', monospace;
+    margin-top: 10px;
+    border-top: 2px solid var(--border);
+    padding-top: 10px;
+  }
+  .patent-stats{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .patent-stat{
+    text-align: center;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 18px;
+    box-shadow: 3px 3px 0 var(--border);
+  }
+  .patent-stat-num{
+    font-family: 'Horiza', 'Archivo Black', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .patent-stat-label{
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+  }
+
+  /* ---------- Tech stack ---------- */
+  .tech-stack{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tech-pill{
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 700;
+    background: var(--pill-bg);
+  }
+
+  /* ---------- Timeline ---------- */
+  .timeline{
+    position: relative;
+    padding-left: 26px;
+  }
+  .timeline::before{
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 4px;
+    bottom: 4px;
+    width: 3px;
+    background: var(--border);
+  }
+  .timeline-item{
+    position: relative;
+    margin-bottom: 22px;
+  }
+  .timeline-item:last-child{ margin-bottom: 0; }
+  .timeline-item::before{
+    content: "";
+    position: absolute;
+    left: -26px;
+    top: 4px;
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+  }
+  .timeline-date{
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--accent);
+    margin-bottom: 2px;
+  }
+  .timeline-text{
+    font-size: 15.5px;
+    color: var(--text-body);
+    line-height: 1.5;
+  }
+
+  /* ---------- Links grid ---------- */
+  .links-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .link-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 10px;
+    font-weight: 700;
+    font-size: 14.5px;
+    box-shadow: 4px 4px 0 var(--border);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .link-card:hover{
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--border);
+  }
+  .link-card svg{ width: 26px; height: 26px; fill: var(--text); }
+
+  /* ---------- Related projects ---------- */
+  .related-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .related-card{
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border: 3px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 5px 5px 0 var(--border);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .related-card:hover{
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 var(--border);
+  }
+  .related-thumb{
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: var(--thumb-bg);
+  }
+  .related-thumb img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    padding: 16px;
+  }
+  .related-name{
+    font-weight: 700;
+    font-size: 15px;
+    padding: 10px 12px 12px;
+  }
+
+  /* ---------- Footer ---------- */
+  .footer-note{
+    font-size: 14px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 700px){
+    .feature-list{ grid-template-columns: 1fr; }
+    .links-grid{ grid-template-columns: repeat(2, 1fr); }
+    .related-grid{ grid-template-columns: 1fr; }
+    .patent-meta{ grid-template-columns: 1fr; }
+    .hero-title{ font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <svg id="themeIcon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+  </button>
+
+  <div class="top-bar">
+    <a href="../projects.html" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"></path>
+        <path d="M12 19l-7-7 7-7"></path>
+      </svg>
+      Back to Projects
+    </a>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <h1 class="hero-title">Trackstop</h1>
+    <p class="hero-tagline">RFID/NFC-based public transit tracking &amp; digital ticketing system — Patent Filed</p>
+    <div class="hero-badges">
+      <a href="https://adeepag.com/more/patents.html" class="badge primary">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2.5L18.5 9H14V4.5zM8 12h8v1.5H8V12zm0 3h8v1.5H8V15zm0 3h5v1.5H8V18z"/></svg>
+        Patent Filed
+      </a>
+      <a href="https://adeepag.com/more/patents.html" class="badge">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+        202641070548 A
+      </a>
+      <a href="https://adeepag.com/more/patents.html" class="badge">
+        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        Published · Pending Grant
+      </a>
+    </div>
+  </header>
+
+  <!-- ============ OVERVIEW ============ -->
+  <section class="section">
+    <h2 class="section-heading">Overview</h2>
+    <div class="section-body">
+      <p>
+        Trackstop is an RFID/NFC-based public transport monitoring and passenger information system designed to modernize public bus transportation. The system uses RFID readers installed at fixed checkpoints along bus routes to detect RFID-tagged buses, recording their position in real time and pushing live arrival estimates to a passenger-facing mobile app and digital display boards at bus stops.
+      </p>
+      <p>
+        Beyond tracking, Trackstop layers an NFC-based digital ticketing system on top — passengers tap an NFC-enabled device on a bus-mounted validator, which verifies the pass with a central server and grants entry, eliminating paper tickets and manual conductor verification entirely. The project was developed at Sai Vidya Institute of Technology and is filed as a patent under The Patents Act, 1970 (Ordinary Application — Patent Office, India).
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ KEY FEATURES ============ -->
+  <section class="section">
+    <h2 class="section-heading">Key Features</h2>
+    <ul class="feature-list">
+      <li>RFID checkpoint detection — buses carry RFID tags, readers at fixed stops log every pass</li>
+      <li>Real-time arrival estimation pushed to mobile apps and bus stop display boards</li>
+      <li>NFC-based digital ticket validation — tap-to-verify replaces paper tickets</li>
+      <li>Centralized server for vehicle movement data and passenger flow analytics</li>
+      <li>Reduces manual ticket verification and conductor workload</li>
+      <li>Supports students and commuters via digital passes and NFC-enabled devices</li>
+      <li>Scalable architecture suitable for city-wide transit network deployment</li>
+      <li>Real-time passenger occupancy levels for better travel planning</li>
+    </ul>
+  </section>
+
+  <!-- ============ PATENT ============ -->
+  <section class="section">
+    <h2 class="section-heading">Patent</h2>
+
+    <div style="margin-bottom: 20px;">
+      <div class="patent-stats">
+        <div class="patent-stat">
+          <div class="patent-stat-num">1</div>
+          <div class="patent-stat-label">Filed</div>
+        </div>
+        <div class="patent-stat">
+          <div class="patent-stat-num">1</div>
+          <div class="patent-stat-label">Published</div>
+        </div>
+        <div class="patent-stat">
+          <div class="patent-stat-num">5</div>
+          <div class="patent-stat-label">Claims</div>
+        </div>
+        <div class="patent-stat">
+          <div class="patent-stat-num">9</div>
+          <div class="patent-stat-label">Inventors</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="patent-card">
+      <p class="patent-card-title">RFID-Based Public Bus Tracking and Passenger Information System</p>
+      <p class="patent-card-num">202641070548 A &nbsp;·&nbsp; Published · Pending Grant</p>
+      <div class="patent-meta">
+        <div class="patent-meta-item">
+          <div class="patent-meta-label">Date of Filing</div>
+          <div class="patent-meta-value">05 Jun 2026</div>
+        </div>
+        <div class="patent-meta-item">
+          <div class="patent-meta-label">Publication Date</div>
+          <div class="patent-meta-value">12 Jun 2026</div>
+        </div>
+        <div class="patent-meta-item">
+          <div class="patent-meta-label">Applicant</div>
+          <div class="patent-meta-value">Sai Vidya Institute of Technology</div>
+        </div>
+        <div class="patent-meta-item">
+          <div class="patent-meta-label">Patent Office</div>
+          <div class="patent-meta-value">India (Ordinary)</div>
+        </div>
+      </div>
+      <div class="patent-ipc">IPC: G06Q 50/30 &nbsp; G06K 17/00 &nbsp; G06K 7/10 &nbsp; G07B 15/02 &nbsp; G08G 1/123</div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="section">
+    <h2 class="section-heading">How It Works</h2>
+    <div class="section-body">
+      <p>
+        RFID readers are installed at fixed checkpoints along bus routes. Buses carry RFID tags — when a bus passes a checkpoint, the system records its position and updates a central server. The server calculates estimated arrival times for downstream stops and pushes that data to a passenger-facing mobile app and digital display boards at bus stops.
+      </p>
+      <p>
+        On top of tracking, the system layers NFC-based digital ticketing. Passengers tap their NFC-enabled device on an on-bus validator. The validator contacts the central server, verifies the pass balance or validity, and grants or denies entry — eliminating paper tickets and manual conductor verification entirely.
+      </p>
+      <p>
+        The three key figures in the patent describe (1) the overall system architecture, (2) the RFID checkpoint detection and information update flow, and (3) the NFC-based digital ticket validation process — together forming a unified real-time transit management platform.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ PATENT CLAIMS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Patent Claims</h2>
+    <ol class="claims-list">
+      <li>A public transport monitoring system using RFID-enabled vehicle identification and fixed RFID checkpoint readers for detecting and tracking buses.</li>
+      <li>A real-time passenger information system configured to estimate and display bus arrival timings based on RFID checkpoint detections.</li>
+      <li>An NFC-based ticket validation mechanism for digital verification of passenger travel authorization.</li>
+      <li>A centralized transport data processing system for collecting and managing vehicle movement and passenger information.</li>
+      <li>A transport management platform designed to reduce manual ticket verification and improve operational efficiency in public transportation systems.</li>
+    </ol>
+  </section>
+
+  <!-- ============ TECH STACK ============ -->
+  <section class="section">
+    <h2 class="section-heading">Technologies &amp; Tools</h2>
+    <div class="tech-stack">
+      <span class="tech-pill">RFID</span>
+      <span class="tech-pill">NFC</span>
+      <span class="tech-pill">Embedded Systems</span>
+      <span class="tech-pill">Centralized Server</span>
+      <span class="tech-pill">Mobile Application</span>
+      <span class="tech-pill">Digital Display Systems</span>
+      <span class="tech-pill">Real-Time Data Processing</span>
+      <span class="tech-pill">Digital Ticketing</span>
+    </div>
+  </section>
+
+  <!-- ============ CHALLENGES ============ -->
+  <section class="section">
+    <h2 class="section-heading">Challenges &amp; Solutions</h2>
+    <div class="section-body">
+      <p>
+        <strong>Challenge:</strong> Deployment cost of RFID infrastructure at multiple checkpoints.<br>
+        <strong>Solution:</strong> Designed the system to use minimal, strategically placed RFID readers at key route points rather than continuous tracking, reducing hardware requirements without sacrificing location accuracy.
+      </p>
+      <p>
+        <strong>Challenge:</strong> Not all passengers own NFC-enabled devices.<br>
+        <strong>Solution:</strong> The patent acknowledges this as a known limitation; the system is designed to coexist with conventional ticketing methods during transition, with the digital layer as an opt-in channel.
+      </p>
+      <p>
+        <strong>Challenge:</strong> Real-time synchronization between RFID checkpoints and the central server requires stable network connectivity.<br>
+        <strong>Solution:</strong> The architecture is built around a centralized server model that can buffer and reconcile checkpoint data even during brief connectivity gaps, maintaining arrival estimate accuracy.
+      </p>
+      <p>
+        <strong>Challenge:</strong> RFID detection accuracy can be affected by environmental conditions or tag placement.<br>
+        <strong>Solution:</strong> Standardized tag positioning on buses and shielded reader placement at checkpoints were incorporated into the system design to minimize false positives and missed detections.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS / IMPACT ============ -->
+  <section class="section">
+    <h2 class="section-heading">Results &amp; Impact</h2>
+    <div class="section-body">
+      <p>
+        Trackstop addresses longstanding inefficiencies in public bus transportation — inaccurate arrival information, manual ticket verification, paper-based ticketing, and poor passenger flow visibility. The system provides transport authorities with a real-time, centralized view of fleet movement, while giving passengers reliable arrival estimates and a seamless tap-to-board ticketing experience.
+      </p>
+      <p>
+        The project has been accepted and published as a patent (Application No. 202641070548 A) in The Gazette of India: Extraordinary, Part II — validating the invention's novelty and practical contribution to public transportation technology.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ TIMELINE ============ -->
+  <section class="section">
+    <h2 class="section-heading">Development Timeline</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">Conception</div>
+        <div class="timeline-text">System concept developed at Sai Vidya Institute of Technology — RFID checkpoint tracking combined with NFC ticket validation as a unified transit solution.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">May 2026</div>
+        <div class="timeline-text">Provisional specification completed and submitted — covering system architecture, working flow diagrams, 5 claims, and full abstract.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">05 Jun 2026</div>
+        <div class="timeline-text">Ordinary patent application filed with The Patent Office, India under The Patents Act, 1970 — Application No. TEMP/E-1/87288/2024-CHE.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">12 Jun 2026</div>
+        <div class="timeline-text">Application published in The Gazette of India: Extraordinary, Part II — Application No. 202641070548 A. Status: Published · Pending Grant.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LINKS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Links</h2>
+    <div class="links-grid">
+      <a href="https://adeepag.com/more/patents.html" class="link-card">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2.5L18.5 9H14V4.5zM8 12h8v1.5H8V12zm0 3h8v1.5H8V15zm0 3h5v1.5H8V18z"/></svg>
+        Patent Page
+      </a>
+      <a href="https://adeepag.com/more/patents.html" class="link-card">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+        202641070548 A
+      </a>
+      <a href="../contact.html" class="link-card">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        Contact
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ CONTRIBUTORS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Contributors &amp; Acknowledgements</h2>
+    <div class="section-body">
+      <p>
+        Invented by <strong>Adeep AG</strong> alongside collaborators at Sai Vidya Institute of Technology. The project was guided by Dr. Manjunath T. N. (Principal) and Prof. Sunil Kumar B. (Department of CS&amp;E). Co-inventors include Abhiram Mahabaleshwar Naik, Amulya GT, Akshata, Ajaykumar S, Aishwarya CL.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ RELATED PROJECTS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Related Projects</h2>
+    <div class="related-grid">
+      <a href="alogin.html" class="related-card">
+        <div class="related-thumb"><img src="../images/alogin.png" alt="ALogin" onerror="this.style.display='none'"></div>
+        <div class="related-name">ALogin</div>
+      </a>
+      <a href="rcsvitcloud.html" class="related-card">
+        <div class="related-thumb"><img src="../images/rcsvitcloud.png" alt="RCSVITCloud" onerror="this.style.display='none'"></div>
+        <div class="related-name">RCSVITCloud</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="section">
+    <h2 class="section-heading">Contact &amp; Support</h2>
+    <div class="section-body">
+      <p>
+        Have a question about the project or the patent? Reach out through the <a href="../contact.html">contact page</a> or visit the <a href="https://adeepag.com/more/patents.html">patents page</a> for the full filing details.
+      </p>
+    </div>
+  </section>
+
+  <footer class="section" style="margin-top: 60px;">
+    <p class="footer-note">© <span id="year"></span> Adeep AG — Built with care.</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const root = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function setTheme(mode){
+      if(mode === 'dark'){
+        root.classList.add('dark');
+        themeIcon.innerHTML = '<path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5a5 5 0 100 10 5 5 0 000-10zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>';
+      } else {
+        root.classList.remove('dark');
+        themeIcon.innerHTML = '<path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>';
+      }
+      localStorage.setItem('site-theme', mode);
+    }
+
+    const savedTheme = localStorage.getItem('site-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setTheme(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      setTheme(root.classList.contains('dark') ? 'light' : 'dark');
+    });
+  </script>
+
+</body>
+</html>
