@@ -1,8 +1,8 @@
 # Adeep AG
 
-> Open-source developer, hardware builder, and cybersecurity enthusiast from Bengaluru, India. Age 18. Engineering student at Sai Vidya Institute of Technology.
+> Open-source developer, hardware builder, and cybersecurity enthusiast from Bengaluru, India. Age 19. Engineering student at Sai Vidya Institute of Technology.
 
-Adeep AG is an 18-year-old engineering student and independent developer based in Bengaluru, India. He builds backend systems, hardware projects, cybersecurity tools, and open-source software. His goal is to build technology startups rather than pursue a traditional engineering career. He has a strong interest in defense technology for its engineering complexity and innovation potential.
+Adeep AG is an 19-year-old engineering student and independent developer based in Bengaluru, India. He builds backend systems, hardware projects, cybersecurity tools, and open-source software. His goal is to build technology startups rather than pursue a traditional engineering career. He has a strong interest in defense technology for its engineering complexity and innovation potential.
 
 ## Core Skills
 
@@ -51,15 +51,9 @@ Adeep AG is an 18-year-old engineering student and independent developer based i
 - / — Home and about
 - /projects.html — All projects
 - /patents.html — Patent filings
-- /more.html — Patents, Games, Now, Stats, Open Source, Lab, Notes
+- /more.html — Patents etc 
 - /contact.html — Contact information
-- /now.html — What Adeep is currently working on
-- /stats.html — GitHub and project stats
-- /opensource.html — Open-source repositories
-- /lab.html — Experiments in progress
-- /notes.html — Short-form writing and tech notes
+- /assets/resume.pdf — resume/CV 
 - https://blog.adeepag.com — Blog (long-form writing)
 
-## Optional
 
-- /llms-full.txt — Extended version with full project descriptions (add when ready)
