@@ -44,42 +44,17 @@
 
   <!-- Now -->
   <url>
-    <loc>https://adeepag.com/now.html</loc>
+    <loc>https://adeepag.com/assets/resume.pdf</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
 
-  <!-- Stats -->
-  <url>
-    <loc>https://adeepag.com/stats.html</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
+  
 
-  <!-- Open Source -->
-  <url>
-    <loc>https://adeepag.com/opensource.html</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
 
-  <!-- Lab -->
-  <url>
-    <loc>https://adeepag.com/lab.html</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
+ 
 
-  <!-- Notes -->
-  <url>
-    <loc>https://adeepag.com/notes.html</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
+ 
 
 </urlset>
