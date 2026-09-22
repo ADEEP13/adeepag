@@ -12,47 +12,25 @@
   "_comment11": "  3. Add one object to the 'maps' array below.",
   "_comment12": "  4. That's it — no HTML/JS changes needed.",
   "_comment13": "============================================================",
-
-  "maps": [
-    {
-      "slug": "sample-india-outline",
-      "title": "India — Administrative Outline",
-      "description": "Simplified outline of India showing state boundaries. Suitable for thematic mapping, infographics, and educational use.",
-      "category": "Country",
-      "region": "South Asia",
-      "tags": ["India", "administrative", "boundaries", "states"],
-      "source": {
-        "name": "ADEEP AG"
-      },
-      "license": {
-        "name": "ADEEP AG Map Licence",
-        "acknowledgementText": "This map was created by ADEEP AG and is free to use for educational and commercial purposes with the ADEEP AG watermark intact. Do not remove or alter the watermark. When posting the map on social media, credit ADEEP AG. By downloading, you agree to these licence terms."
-      },
-      "formats": ["svg", "png", "geojson"],
-      "addedDate": "2025-01-01"
-    },
-    {
-      "slug": "sample-world-countries",
-      "title": "World Countries — 1:110m",
-      "description": "World country polygons at 1:110 million scale. Ideal for global overview maps, data visualisations, and choropleth backgrounds.",
-      "category": "World",
-      "region": "Global",
-      "tags": ["world", "countries", "global", "polygons"],
-      "source": {
-        "name": "ADEEP AG"
-      },
-      "license": {
-        "name": "ADEEP AG Map Licence",
-        "acknowledgementText": "This map was created by ADEEP AG and is free to use for educational and commercial purposes with the ADEEP AG watermark intact. Do not remove or alter the watermark. When posting the map on social media, credit ADEEP AG. By downloading, you agree to these licence terms."
-      },
-      "formats": ["svg", "png", "geojson"],
-      "addedDate": "2025-01-01"
-    }
+  "maps": [],
+  "categories": [
+    "Country",
+    "Region",
+    "City",
+    "World",
+    "Thematic",
+    "Historical"
   ],
-
-  "categories": ["Country", "Region", "City", "World", "Thematic", "Historical"],
-  "regions": ["South Asia", "Southeast Asia", "East Asia", "Middle East", "Africa", "Europe", "Americas", "Global"],
-
+  "regions": [
+    "South Asia",
+    "Southeast Asia",
+    "East Asia",
+    "Middle East",
+    "Africa",
+    "Europe",
+    "Americas",
+    "Global"
+  ],
   "licenses": {
     "ADEEP-AG": {
       "name": "ADEEP AG Map Licence"
