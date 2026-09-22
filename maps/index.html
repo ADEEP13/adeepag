@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A curated library of freely downloadable map files — SVG, PNG, GeoJSON, GeoPackage, and more." />
+  <title>Maps Library — adeepag.com</title>
+
+  <!-- Fonts: DM Mono for identity/headings, Inter for body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ─── SITE HEADER ──────────────────────────────────────────────── -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <a href="/" class="wordmark" aria-label="Back to adeepag.com">
+        <span class="wordmark-site">adeepag.com</span>
+        <span class="wordmark-sep">/</span>
+        <span class="wordmark-section">maps</span>
+      </a>
+      <nav class="header-nav" aria-label="Site navigation">
+        <a href="https://github.com/ADEEP13" class="nav-link" target="_blank" rel="noopener">
+          GitHub
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ─── HERO ─────────────────────────────────────────────────────── -->
+  <section class="hero" aria-label="Library introduction">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Open Cartography</p>
+      <h1 class="hero-title">Maps Library</h1>
+      <p class="hero-desc">
+        Freely downloadable map files — SVG, PNG, GeoJSON, GeoPackage and more.
+        Each map comes with clear source and licence information.
+        Download what you need, give credit where it's due.
+      </p>
+    </div>
+    <!-- Decorative graticule grid lines -->
+    <div class="hero-grid" aria-hidden="true"></div>
+  </section>
+
+  <!-- ─── CONTROLS: SEARCH + FILTER ───────────────────────────────── -->
+  <div class="controls-bar" role="search" aria-label="Search and filter maps">
+    <div class="controls-inner">
+      <div class="search-wrap">
+        <svg class="search-icon" aria-hidden="true" viewBox="0 0 20 20" fill="none">
+          <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M13 13l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <input
+          type="search"
+          id="search-input"
+          class="search-input"
+          placeholder="Search maps…"
+          aria-label="Search maps by title, description, or tag"
+          autocomplete="off"
+        />
+        <button class="search-clear" id="search-clear" aria-label="Clear search" hidden>
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="filter-wrap">
+        <select id="filter-category" class="filter-select" aria-label="Filter by category">
+          <option value="">All categories</option>
+        </select>
+        <select id="filter-region" class="filter-select" aria-label="Filter by region">
+          <option value="">All regions</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MAIN: MAP GRID ───────────────────────────────────────────── -->
+  <main id="main-content" class="library-main">
+    <div class="library-inner">
+
+      <!-- Results count -->
+      <p class="results-count" id="results-count" aria-live="polite" aria-atomic="true"></p>
+
+      <!-- Card grid — populated by JS -->
+      <div class="map-grid" id="map-grid" role="list" aria-label="Available maps"></div>
+
+      <!-- Empty state -->
+      <div class="empty-state" id="empty-state" hidden role="status">
+        <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <rect x="8" y="16" width="48" height="36" rx="3" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M8 24h48" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M20 24v28M44 24v28" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3"/>
+          <circle cx="32" cy="40" r="6" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M38 34l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M50 50l-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <p>No maps match your search.</p>
+        <button class="btn-ghost" id="clear-filters-btn">Clear filters</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ─── MAP DETAIL OVERLAY ───────────────────────────────────────── -->
+  <!--
+    Opens when user clicks a map card.
+    Rendered by JS; this is the static shell + close button.
+  -->
+  <div
+    id="detail-overlay"
+    class="detail-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="detail-title"
+    hidden
+  >
+    <div class="detail-backdrop" id="detail-backdrop"></div>
+    <div class="detail-panel" tabindex="-1">
+      <button class="detail-close" id="detail-close" aria-label="Close map detail">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M5 5l10 10M15 5l-10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <!-- Populated by JS -->
+      <div id="detail-content"></div>
+    </div>
+  </div>
+
+  <!-- ─── LICENCE MODAL ────────────────────────────────────────────── -->
+  <div
+    id="license-modal"
+    class="modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+    hidden
+  >
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-panel" tabindex="-1">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-title">Before you download</h2>
+        <button class="modal-close" id="modal-close" aria-label="Cancel download">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5l-10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-license-block" id="modal-license-block">
+          <!-- Populated by JS -->
+        </div>
+
+        <p class="modal-note">
+          Note: this acknowledgement helps you keep track of licence obligations.
+          Files hosted on GitHub may still be publicly accessible by direct URL —
+          this is an informational step, not a technical access control.
+        </p>
+
+        <label class="modal-checkbox-label">
+          <input
+            type="checkbox"
+            id="modal-agree-checkbox"
+            aria-describedby="modal-checkbox-desc"
+          />
+          <span class="modal-checkbox-custom" aria-hidden="true"></span>
+          <span id="modal-checkbox-desc">
+            I have read and acknowledge the applicable licence and attribution requirements for this map.
+          </span>
+        </label>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-ghost" id="modal-cancel-btn">Cancel</button>
+        <a
+          class="btn-primary modal-download-btn"
+          id="modal-download-btn"
+          href="#"
+          download
+          aria-disabled="true"
+        >
+          Download file
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── FOOTER ───────────────────────────────────────────────────── -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <p>
+        Maps Library · <a href="https://adeepag.com">adeepag.com</a>
+        · All map files retain their original source licences.
+      </p>
+      <p class="footer-sub">
+        Want to suggest a map? Open an issue on
+        <a href="https://github.com/ADEEP13" target="_blank" rel="noopener">GitHub</a>.
+      </p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
