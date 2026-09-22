@@ -78,6 +78,23 @@ const $modalCancel    = document.getElementById('modal-cancel-btn');
 const $modalLicense   = document.getElementById('modal-license-block');
 const $modalCheckbox  = document.getElementById('modal-agree-checkbox');
 const $modalDownload  = document.getElementById('modal-download-btn');
+const $themeToggle    = document.getElementById('themeToggle');
+const $themeIcon      = document.getElementById('themeIcon');
+
+function setTheme(mode) {
+  document.documentElement.classList.toggle('dark', mode === 'dark');
+  $themeIcon.innerHTML = mode === 'dark'
+    ? '<path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79-1.42 1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h-2V.55h2v2.95zM20.45 3.05l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zM18.24 18.2l1.79 1.8-1.41 1.41-1.8-1.79 1.42-1.42zM20 10.5h3v2h-3v-2zM12 5.5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm-1 16.95h2V19.5h-2v2.95zM3.55 18.54l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>'
+    : '<path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>';
+  localStorage.setItem('site-theme', mode);
+}
+
+const savedTheme = localStorage.getItem('site-theme') ||
+  (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+setTheme(savedTheme);
+$themeToggle.addEventListener('click', () => {
+  setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark');
+});
 
 /* ── INIT ──────────────────────────────────────────────────────── */
 async function init() {
