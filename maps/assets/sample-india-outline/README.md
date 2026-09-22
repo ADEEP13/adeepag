@@ -2,12 +2,11 @@
 
 Simplified outline of India showing state boundaries.
 
-## Source
-Natural Earth — https://www.naturalearthdata.com/
+## Creator
+ADEEP AG
 
 ## License
-Public Domain (CC0 1.0)
-No attribution required, but crediting Natural Earth is appreciated.
+ADEEP AG Map Licence. Free for educational and commercial use with the ADEEP AG watermark intact. Do not remove or alter the watermark. Credit ADEEP AG when posting the map on social media.
 
 ## Files
 - `preview.png` — Thumbnail shown in the map library

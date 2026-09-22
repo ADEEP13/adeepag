@@ -123,31 +123,12 @@ The map will appear on the site automatically. No rebuilding needed.
 
 Each map has its own `license` object. The `acknowledgementText` field is shown in the modal before download — write this in plain language explaining what credit or attribution the user needs to give.
 
-**Common licence templates:**
+**ADEEP AG map licence template:**
 
 ```jsonc
-// Public Domain (Natural Earth, most government data)
 "license": {
-  "name": "Public Domain (CC0 1.0)",
-  "spdx": "CC0-1.0",
-  "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-  "acknowledgementText": "This map is in the public domain. No attribution is legally required, but crediting the source is appreciated."
-}
-
-// Creative Commons Attribution
-"license": {
-  "name": "Creative Commons Attribution 4.0",
-  "spdx": "CC-BY-4.0",
-  "url": "https://creativecommons.org/licenses/by/4.0/",
-  "acknowledgementText": "This map is licensed under CC BY 4.0. You must give appropriate credit, provide a link to the licence, and indicate if changes were made."
-}
-
-// OpenStreetMap
-"license": {
-  "name": "ODbL 1.0 (OpenStreetMap contributors)",
-  "spdx": "ODbL-1.0",
-  "url": "https://opendatacommons.org/licenses/odbl/1-0/",
-  "acknowledgementText": "© OpenStreetMap contributors. This map contains data from OpenStreetMap, available under the Open Database Licence. Any derived works must carry the same licence."
+  "name": "ADEEP AG Map Licence",
+  "acknowledgementText": "This map was created by ADEEP AG and is free to use for educational and commercial purposes with the ADEEP AG watermark intact. Do not remove or alter the watermark. When posting the map on social media, credit ADEEP AG. By downloading, you agree to these licence terms."
 }
 ```
 

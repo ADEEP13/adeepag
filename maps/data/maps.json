@@ -22,14 +22,11 @@
       "region": "South Asia",
       "tags": ["India", "administrative", "boundaries", "states"],
       "source": {
-        "name": "Survey of India / Natural Earth",
-        "url": "https://www.naturalearthdata.com/"
+        "name": "ADEEP AG"
       },
       "license": {
-        "name": "Public Domain (Natural Earth)",
-        "spdx": "CC0-1.0",
-        "url": "https://www.naturalearthdata.com/about/terms-of-use/",
-        "acknowledgementText": "This map is derived from Natural Earth public domain data. Natural Earth is a public domain map dataset available at naturalearthdata.com. No attribution is legally required, but crediting Natural Earth is appreciated."
+        "name": "ADEEP AG Map Licence",
+        "acknowledgementText": "This map was created by ADEEP AG and is free to use for educational and commercial purposes with the ADEEP AG watermark intact. Do not remove or alter the watermark. When posting the map on social media, credit ADEEP AG. By downloading, you agree to these licence terms."
       },
       "formats": ["svg", "png", "geojson"],
       "addedDate": "2025-01-01"
@@ -42,14 +39,11 @@
       "region": "Global",
       "tags": ["world", "countries", "global", "polygons"],
       "source": {
-        "name": "Natural Earth",
-        "url": "https://www.naturalearthdata.com/"
+        "name": "ADEEP AG"
       },
       "license": {
-        "name": "Public Domain (Natural Earth)",
-        "spdx": "CC0-1.0",
-        "url": "https://www.naturalearthdata.com/about/terms-of-use/",
-        "acknowledgementText": "This map is derived from Natural Earth public domain data. Natural Earth is a public domain map dataset available at naturalearthdata.com. No attribution is legally required, but crediting Natural Earth is appreciated."
+        "name": "ADEEP AG Map Licence",
+        "acknowledgementText": "This map was created by ADEEP AG and is free to use for educational and commercial purposes with the ADEEP AG watermark intact. Do not remove or alter the watermark. When posting the map on social media, credit ADEEP AG. By downloading, you agree to these licence terms."
       },
       "formats": ["svg", "png", "geojson"],
       "addedDate": "2025-01-01"
@@ -60,21 +54,8 @@
   "regions": ["South Asia", "Southeast Asia", "East Asia", "Middle East", "Africa", "Europe", "Americas", "Global"],
 
   "licenses": {
-    "CC0-1.0": {
-      "name": "Public Domain (CC0 1.0)",
-      "url": "https://creativecommons.org/publicdomain/zero/1.0/"
-    },
-    "CC-BY-4.0": {
-      "name": "Creative Commons Attribution 4.0",
-      "url": "https://creativecommons.org/licenses/by/4.0/"
-    },
-    "CC-BY-SA-4.0": {
-      "name": "Creative Commons Attribution-ShareAlike 4.0",
-      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
-    },
-    "ODbL-1.0": {
-      "name": "Open Database License 1.0",
-      "url": "https://opendatacommons.org/licenses/odbl/1-0/"
+    "ADEEP-AG": {
+      "name": "ADEEP AG Map Licence"
     }
   }
 }

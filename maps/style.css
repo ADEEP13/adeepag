@@ -781,16 +781,6 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   color: var(--c-amber);
 }
 
-.modal-note {
-  font-size: var(--fs-xs);
-  color: var(--c-text-3);
-  line-height: 1.6;
-  padding: var(--sp-3);
-  border: 1px solid var(--c-border);
-  border-radius: var(--r-md);
-  background: rgba(200, 169, 110, 0.03);
-}
-
 /* Custom checkbox */
 .modal-checkbox-label {
   display: flex;
@@ -950,7 +940,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Arvo', 'Comic Ne
 .map-card { background: var(--card-bg); border: 2px solid var(--border); border-radius: 0; box-shadow: 6px 6px 0 var(--border); }
 .map-card:hover { border-color: var(--accent); transform: translate(-2px,-2px); }
 .card-title, .detail-title, .modal-title { color: var(--text); font-family: 'Poppins',sans-serif; font-weight: 800; }
-.card-desc, .detail-desc, .detail-source-name, .modal-license-text, .modal-note { color: var(--text-body); font-family: 'Comic Neue',sans-serif; }
+.card-desc, .detail-desc, .detail-source-name, .modal-license-text { color: var(--text-body); font-family: 'Comic Neue',sans-serif; }
 .tag, .format-badge { color: var(--accent); background: transparent; border-color: var(--accent); border-radius: 0; font-family: 'Hey Gotcha','Poppins',sans-serif; }
 .tag-region { color: var(--text-body); border-color: var(--border); }
 .card-footer { border-color: var(--border); }

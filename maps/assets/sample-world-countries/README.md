@@ -1,13 +1,12 @@
 # World Countries — 1:110m
 
-World country polygons at 1:110 million scale from Natural Earth.
+World country polygons at 1:110 million scale created by ADEEP AG.
 
-## Source
-Natural Earth — https://www.naturalearthdata.com/
+## Creator
+ADEEP AG
 
 ## License
-Public Domain (CC0 1.0)
-No attribution required, but crediting Natural Earth is appreciated.
+ADEEP AG Map Licence. Free for educational and commercial use with the ADEEP AG watermark intact. Do not remove or alter the watermark. Credit ADEEP AG when posting the map on social media.
 
 ## Files
 - `preview.png`  — Thumbnail shown in the map library

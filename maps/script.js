@@ -255,28 +255,16 @@ function openDetail(map) {
       <h2 class="detail-title" id="detail-title">${esc(map.title)}</h2>
       <p class="detail-desc">${esc(map.description)}</p>
 
-      <!-- Source -->
+      <!-- Creator -->
       <div class="detail-section">
-        <p class="detail-section-label">Source</p>
-        <p class="detail-source-name">${esc(map.source?.name || 'Unknown')}</p>
-        ${map.source?.url
-          ? `<a href="${esc(map.source.url)}" target="_blank" rel="noopener" class="modal-license-link">
-               ${esc(map.source.url)}
-             </a>`
-          : ''}
+        <p class="detail-section-label">Created by</p>
+        <p class="detail-source-name">${esc(map.source?.name || 'ADEEP AG')}</p>
       </div>
 
       <!-- Licence -->
       <div class="detail-section">
         <p class="detail-section-label">Licence</p>
         <span class="detail-license-name">${esc(map.license?.name || 'See source')}</span>
-        ${map.license?.url
-          ? `<p style="margin-top:var(--sp-2)">
-               <a href="${esc(map.license.url)}" target="_blank" rel="noopener" class="modal-license-link">
-                 Full licence text →
-               </a>
-             </p>`
-          : ''}
       </div>
 
       <!-- Downloads -->
@@ -285,9 +273,6 @@ function openDetail(map) {
         <div class="detail-formats">
           ${(map.formats || []).map(f => buildFormatBtn(map, f)).join('')}
         </div>
-        <p style="margin-top:var(--sp-3);font-size:var(--fs-xs);color:var(--c-text-3);">
-          A licence acknowledgement is shown before each download.
-        </p>
       </div>
 
       ${map.addedDate
@@ -338,11 +323,7 @@ function openModal(map, url, filename) {
   $modalLicense.innerHTML = `
     <p class="modal-license-name">${esc(lic.name || 'See source for licence')}</p>
     <p class="modal-license-text">${esc(lic.acknowledgementText || 'Please review the source licence before using this file.')}</p>
-    ${lic.url
-      ? `<a href="${esc(lic.url)}" target="_blank" rel="noopener" class="modal-license-link">
-           Full licence text →
-         </a>`
-      : ''}`;
+  `;
 
   // Reset checkbox and button state
   $modalCheckbox.checked = false;
