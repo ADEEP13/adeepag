@@ -16,7 +16,7 @@ Adeep AG is an 19-year-old engineering student and independent developer based i
 
 - **ALogin** — an authentication system built from scratch
 - **Novichok** — a cybersecurity-related tool
-- **Navis** — an Arduino-based robot car
+- **Navis** — an Raspi4b-based robot car
 - Various tools built for organisations
 
 ## Achievements
@@ -54,6 +54,7 @@ Adeep AG is an 19-year-old engineering student and independent developer based i
 - /more.html — Patents etc 
 - /contact.html — Contact information
 - /assets/resume.pdf — resume/CV 
+- /maps - for maps made by ADEEP AG 
 - https://blog.adeepag.com — Blog (long-form writing)
 
 
