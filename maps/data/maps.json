@@ -1,0 +1,80 @@
+{
+  "_comment": "============================================================",
+  "_comment2": "  HOW TO ADD A NEW MAP",
+  "_comment3": "  ─────────────────────────────────────────────────────────",
+  "_comment4": "  1. Create a folder:  maps/assets/<your-slug>/",
+  "_comment5": "  2. Add files:        preview.png  (required, ~600×400px)",
+  "_comment6": "                       map.svg      (optional)",
+  "_comment7": "                       map.png      (optional)",
+  "_comment8": "                       map.geojson  (optional)",
+  "_comment9": "                       map.gpkg     (optional)",
+  "_comment10": "                       README.md    (optional)",
+  "_comment11": "  3. Add one object to the 'maps' array below.",
+  "_comment12": "  4. That's it — no HTML/JS changes needed.",
+  "_comment13": "============================================================",
+
+  "maps": [
+    {
+      "slug": "sample-india-outline",
+      "title": "India — Administrative Outline",
+      "description": "Simplified outline of India showing state boundaries. Suitable for thematic mapping, infographics, and educational use.",
+      "category": "Country",
+      "region": "South Asia",
+      "tags": ["India", "administrative", "boundaries", "states"],
+      "source": {
+        "name": "Survey of India / Natural Earth",
+        "url": "https://www.naturalearthdata.com/"
+      },
+      "license": {
+        "name": "Public Domain (Natural Earth)",
+        "spdx": "CC0-1.0",
+        "url": "https://www.naturalearthdata.com/about/terms-of-use/",
+        "acknowledgementText": "This map is derived from Natural Earth public domain data. Natural Earth is a public domain map dataset available at naturalearthdata.com. No attribution is legally required, but crediting Natural Earth is appreciated."
+      },
+      "formats": ["svg", "png", "geojson"],
+      "addedDate": "2025-01-01"
+    },
+    {
+      "slug": "sample-world-countries",
+      "title": "World Countries — 1:110m",
+      "description": "World country polygons at 1:110 million scale. Ideal for global overview maps, data visualisations, and choropleth backgrounds.",
+      "category": "World",
+      "region": "Global",
+      "tags": ["world", "countries", "global", "polygons"],
+      "source": {
+        "name": "Natural Earth",
+        "url": "https://www.naturalearthdata.com/"
+      },
+      "license": {
+        "name": "Public Domain (Natural Earth)",
+        "spdx": "CC0-1.0",
+        "url": "https://www.naturalearthdata.com/about/terms-of-use/",
+        "acknowledgementText": "This map is derived from Natural Earth public domain data. Natural Earth is a public domain map dataset available at naturalearthdata.com. No attribution is legally required, but crediting Natural Earth is appreciated."
+      },
+      "formats": ["svg", "png", "geojson", "gpkg"],
+      "addedDate": "2025-01-01"
+    }
+  ],
+
+  "categories": ["Country", "Region", "City", "World", "Thematic", "Historical"],
+  "regions": ["South Asia", "Southeast Asia", "East Asia", "Middle East", "Africa", "Europe", "Americas", "Global"],
+
+  "licenses": {
+    "CC0-1.0": {
+      "name": "Public Domain (CC0 1.0)",
+      "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    "CC-BY-4.0": {
+      "name": "Creative Commons Attribution 4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    "CC-BY-SA-4.0": {
+      "name": "Creative Commons Attribution-ShareAlike 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "ODbL-1.0": {
+      "name": "Open Database License 1.0",
+      "url": "https://opendatacommons.org/licenses/odbl/1-0/"
+    }
+  }
+}
