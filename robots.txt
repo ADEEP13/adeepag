@@ -64,4 +64,3 @@ Allow: /
 
 # ── Sitemaps ──
 Sitemap: https://adeepag.com/sitemap.xml
-Sitemap: https://blog.adeepag.com/sitemap.xml
