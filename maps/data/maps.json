@@ -12,7 +12,37 @@
   "_comment11": "  3. Add one object to the 'maps' array below.",
   "_comment12": "  4. That's it — no HTML/JS changes needed.",
   "_comment13": "============================================================",
-  "maps": [],
+  "maps": [
+    {
+      "slug": "northeast-india-bangladesh-bhutan",
+      "title": "Northeast India, Bangladesh & Bhutan",
+      "description": "Outline map covering West Bengal, the Northeastern states of India, Bangladesh, and Bhutan, with country-level boundaries and no internal state boundaries.",
+      "category": "Region",
+      "region": "South Asia",
+      "tags": [
+        "India",
+        "West Bengal",
+        "Northeast India",
+        "Bangladesh",
+        "Bhutan",
+        "South Asia",
+        "outline map"
+      ],
+      "source": {
+        "name": "Natural Earth"
+      },
+      "license": {
+        "name": "ADEEP AG Map Licence",
+        "acknowledgementText": "This map was created and processed by ADEEP AG. It is free to use for educational, research, personal, and commercial purposes with the ADEEP AG watermark intact. Do not remove, crop, obscure, or alter the ADEEP AG watermark. When publishing or redistributing this map, credit ADEEP AG and retain the watermark. By downloading this map, you acknowledge and agree to these licence terms."
+      },
+      "formats": [
+        "svg",
+        "png",
+        "geojson"
+      ],
+      "addedDate": "2026-09-22"
+    }
+  ],
   "categories": [
     "Country",
     "Region",
