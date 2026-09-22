@@ -32,7 +32,6 @@ maps/
         ├── map.svg
         ├── map.png
         ├── map.geojson
-        ├── map.gpkg
         └── README.md
 ```
 
@@ -165,7 +164,8 @@ Edit the `"categories"` and `"regions"` arrays at the bottom of `data/maps.json`
 This site works as a static site on any host. For GitHub Pages:
 
 1. In your repo settings → Pages → Source: Deploy from branch → `main` → `/` (root) or `/docs`
-2. If you use a sub-path like `adeepag.com/maps/`, set the `BASE` constant in `script.js` to `'.'` (already the default — relative paths work correctly).
+2. The page is deployed at `adeepag.com/maps`. The HTML and JavaScript use `/maps/...`
+root-relative paths so both `/maps` and `/maps/` resolve the same assets.
 
 For Cloudflare Pages, just connect the repo; no build step needed.
 

@@ -1,0 +1,17 @@
+{
+  "type": "FeatureCollection",
+  "name": "sample-india-outline",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "India",
+        "description": "Simplified illustrative outline"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[68.2, 23.8], [72.5, 35.5], [79.0, 34.5], [88.0, 28.5], [97.0, 28.0], [93.5, 20.5], [88.5, 15.0], [82.0, 8.0], [77.0, 12.0], [72.0, 20.0], [68.2, 23.8]]]
+      }
+    }
+  ]
+}

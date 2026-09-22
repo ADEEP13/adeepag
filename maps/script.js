@@ -24,10 +24,10 @@
 
 /**
  * Base path for all assets and data.
- * If you host this at adeepag.com/maps/ you can leave this as '.'.
- * If you host from a different sub-path, change accordingly.
+ * The site is deployed at /maps, so root-relative paths also work when
+ * the browser lands on /maps without a trailing slash.
  */
-const BASE = '.';
+const BASE = '/maps';
 
 /** File extensions that each format key maps to. */
 const FORMAT_EXT = {

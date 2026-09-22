@@ -51,7 +51,7 @@
         "url": "https://www.naturalearthdata.com/about/terms-of-use/",
         "acknowledgementText": "This map is derived from Natural Earth public domain data. Natural Earth is a public domain map dataset available at naturalearthdata.com. No attribution is legally required, but crediting Natural Earth is appreciated."
       },
-      "formats": ["svg", "png", "geojson", "gpkg"],
+      "formats": ["svg", "png", "geojson"],
       "addedDate": "2025-01-01"
     }
   ],

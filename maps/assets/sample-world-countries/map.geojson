@@ -1,0 +1,16 @@
+{
+  "type": "FeatureCollection",
+  "name": "sample-world-countries",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {"name": "Illustrative western region"},
+      "geometry": {"type": "Polygon", "coordinates": [[[-125, 50], [-90, 55], [-70, 35], [-105, 15], [-125, 50]]]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"name": "Illustrative eastern region"},
+      "geometry": {"type": "Polygon", "coordinates": [[[20, 55], [145, 55], [155, 10], [80, -35], [20, 5], [20, 55]]]}
+    }
+  ]
+}
