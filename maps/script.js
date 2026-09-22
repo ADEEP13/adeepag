@@ -82,7 +82,7 @@ const $modalDownload  = document.getElementById('modal-download-btn');
 /* ── INIT ──────────────────────────────────────────────────────── */
 async function init() {
   try {
-    const res  = await fetch(`${BASE}/maps/data/maps.json`);
+    const res  = await fetch(`${BASE}/data/maps.json`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
 
@@ -163,7 +163,7 @@ function renderGrid() {
 
 /* ── BUILD A CARD ELEMENT ──────────────────────────────────────── */
 function buildCard(map) {
-  const previewSrc = `${BASE}/maps/assets/${map.slug}/preview.png`;
+  const previewSrc = `${BASE}/assets/${map.slug}/preview.png`;
 
   const article = document.createElement('article');
   article.className = 'map-card';
@@ -218,7 +218,7 @@ function buildCard(map) {
 /* ── DETAIL PANEL ──────────────────────────────────────────────── */
 function openDetail(map) {
   activeMap = map;
-  const previewSrc = `${BASE}/maps/assets/${map.slug}/preview.png`;
+  const previewSrc = `${BASE}/assets/${map.slug}/preview.png`;
 
   $detailContent.innerHTML = `
     <img
