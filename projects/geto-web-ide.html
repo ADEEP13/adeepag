@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geto Web IDE — Adeep AG</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Poppins:wght@600;700;800&family=Archivo+Black&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  @font-face {
+    font-family: 'Hey Gotcha';
+    src: url('/fonts/HeyGotcha-Regular.ttf') format('truetype');
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Horiza';
+    src: url('/fonts/Horizon.woff2') format('woff2'),
+         url('/fonts/Horizon.otf') format('opentype');
+    font-display: swap;
+  }
+
+  :root{
+    --bg: #ffffff;
+    --text: #000000;
+    --text-body: #333333;
+    --text-muted: #666666;
+    --tagline: #444444;
+    --border: #000000;
+    --accent: #2788c7;
+    --card-bg: #ffffff;
+    --thumb-bg: #f2f2f2;
+    --pill-bg: #fff8e6;
+    --code-bg: #1e1e1e;
+    --code-text: #eaeaea;
+  }
+  html.dark{
+    --bg: #14171a;
+    --text: #f2f2f2;
+    --text-body: #cfcfcf;
+    --text-muted: #9aa0a6;
+    --tagline: #aaaaaa;
+    --border: #f2f2f2;
+    --accent: #5fb3ec;
+    --card-bg: #1b1f23;
+    --thumb-bg: #23272b;
+    --pill-bg: #2a2415;
+    --code-bg: #0d0f11;
+    --code-text: #eaeaea;
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Comic Sans MS', 'Comic Sans', 'Comic Neue', sans-serif;
+    padding: 0 0 80px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  a{ color: var(--accent); }
+
+  .theme-toggle{
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 30;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .theme-toggle:hover{ opacity: 0.8; }
+  .theme-toggle svg{ width: 19px; height: 19px; fill: currentColor; }
+
+  /* ---------- Top bar / back link ---------- */
+  .top-bar{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 24px 0;
+  }
+  .back-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .back-link:hover{ opacity: 0.75; }
+  .back-link:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; }
+  .back-link svg{ width: 18px; height: 18px; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 24px 0;
+    text-align: center;
+  }
+  .hero-title{
+    font-family: 'Horiza', 'Archivo Black', sans-serif;
+    font-weight: 700;
+    font-size: clamp(32px, 6vw, 56px);
+    margin: 0 0 8px;
+  }
+  .hero-tagline{
+    font-size: 19px;
+    color: var(--tagline);
+    margin: 0 0 20px;
+  }
+  .hero-badges{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .badge{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 2px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--text);
+    background: var(--card-bg);
+    box-shadow: 3px 3px 0 var(--border);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .badge:hover{
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--border);
+  }
+  .badge.primary{ background: var(--accent); color: #fff; }
+  .badge svg{ width: 16px; height: 16px; flex-shrink: 0; }
+  .badge.primary svg{ fill: #fff; }
+  .badge:not(.primary) svg{ fill: var(--text); }
+
+  /* ---------- Section shell ---------- */
+  .section{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .section + .section{
+    margin-top: 48px;
+  }
+  .section-heading{
+    font-family: 'Horiza', 'Archivo Black', sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 3.5vw, 30px);
+    margin: 0 0 16px;
+    border-bottom: 3px solid var(--border);
+    padding-bottom: 8px;
+  }
+  .section-body{
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--text-body);
+    text-align: justify;
+  }
+  .section-body p{ margin: 0 0 14px; }
+  .section-body p:last-child{ margin-bottom: 0; }
+
+  /* ---------- Key features ---------- */
+  .feature-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .feature-list li{
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 15.5px;
+    line-height: 1.5;
+    box-shadow: 4px 4px 0 var(--border);
+  }
+  .feature-list li::before{
+    content: "\2713  ";
+    font-weight: 700;
+    color: var(--accent);
+  }
+  /* variant for "not supported yet" items */
+  .feature-list.limits li::before{
+    content: "\2715  ";
+  }
+
+  /* ---------- Media gallery ---------- */
+  .media-gallery{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .media-item{
+    border: 3px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--thumb-bg);
+    aspect-ratio: 16 / 10;
+  }
+  .media-item img,
+  .media-item video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .media-caption{
+    font-size: 13.5px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 6px;
+  }
+
+  /* ---------- Tech stack ---------- */
+  .tech-stack{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tech-pill{
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 700;
+    background: var(--pill-bg);
+  }
+
+  /* ---------- Code / install block ---------- */
+  .code-block{
+    background: var(--code-bg);
+    color: var(--code-text);
+    border: 3px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-family: 'Courier New', monospace;
+    font-size: 14.5px;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .code-block + .code-block{ margin-top: 12px; }
+
+  /* ---------- Timeline ---------- */
+  .timeline{
+    position: relative;
+    padding-left: 26px;
+  }
+  .timeline::before{
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 4px;
+    bottom: 4px;
+    width: 3px;
+    background: var(--border);
+  }
+  .timeline-item{
+    position: relative;
+    margin-bottom: 22px;
+  }
+  .timeline-item:last-child{ margin-bottom: 0; }
+  .timeline-item::before{
+    content: "";
+    position: absolute;
+    left: -26px;
+    top: 4px;
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+  }
+  .timeline-date{
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--accent);
+    margin-bottom: 2px;
+  }
+  .timeline-text{
+    font-size: 15.5px;
+    color: var(--text-body);
+    line-height: 1.5;
+  }
+
+  /* ---------- Links grid (demo/repo/docs/downloads) ---------- */
+  .links-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .link-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 10px;
+    font-weight: 700;
+    font-size: 14.5px;
+    box-shadow: 4px 4px 0 var(--border);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .link-card:hover{
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--border);
+  }
+  .link-card svg{ width: 26px; height: 26px; fill: var(--text); }
+
+  /* ---------- Footer / contact ---------- */
+  .footer-note{
+    font-size: 14px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 700px){
+    .feature-list{ grid-template-columns: 1fr; }
+    .media-gallery{ grid-template-columns: 1fr; }
+    .links-grid{ grid-template-columns: repeat(2, 1fr); }
+    .hero-title{ font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <svg id="themeIcon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+  </button>
+
+  <div class="top-bar">
+    <a href="/projects.html" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"></path>
+        <path d="M12 19l-7-7 7-7"></path>
+      </svg>
+      Back to Projects
+    </a>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <h1 class="hero-title">Geto Web IDE</h1>
+    <p class="hero-tagline">A browser-based MicroPython + FPGA IDE for the Vicharak Shrike-Lite — v0.1.0</p>
+    <div class="hero-badges">
+      <a href="https://ide.adeepag.com" class="badge primary">
+        <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+        Launch IDE
+      </a>
+      <a href="https://github.com/ADEEP13/IDE" class="badge">
+        <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.545-1.385-1.33-1.754-1.33-1.754-1.087-.744.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="https://github.com/ADEEP13/IDE#readme" class="badge">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2.5L18.5 9H14V4.5zM8 12h8v1.5H8V12zm0 3h8v1.5H8V15zm0 3h5v1.5H8V18z"/></svg>
+        Docs
+      </a>
+      <a href="https://github.com/ADEEP13/IDE/blob/main/CHANGELOG.md" class="badge">
+        <svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6a7 7 0 1 1 2.05 4.95l-1.42 1.42A9 9 0 1 0 13 3zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+        Changelog
+      </a>
+    </div>
+  </header>
+
+  <!-- ============ OVERVIEW ============ -->
+  <section class="section">
+    <h2 class="section-heading">Overview</h2>
+    <div class="section-body">
+      <p>
+        Geto Web IDE (repository name: Shrike Web IDE) is a browser-based development environment for the Vicharak Shrike-Lite, a board that pairs an RP2040 microcontroller with a small FPGA. You plug the board in over USB, press Connect, and can write MicroPython, run it on the board, watch live output, manage the board's files, and load FPGA designs, all inside one browser tab.
+      </p>
+      <p>
+        The project was created because getting started with a microcontroller + FPGA board normally means installing several tools, picking the right board packages, and learning how each part talks to the others. Geto removes that setup entirely: there is no account, no installer, and no server, and projects stay in your browser. It talks to the hardware directly through the Web Serial API.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ KEY FEATURES ============ -->
+  <section class="section">
+    <h2 class="section-heading">Key Features</h2>
+    <ul class="feature-list">
+      <li>Zero-install — just open and Connect</li>
+      <li>Python editor with tabs and autosave</li>
+      <li>Run, Stop and live REPL terminal</li>
+      <li>Run timeout and optional reset before runs</li>
+      <li>On-board file manager with upload and download</li>
+      <li>FPGA bitstream upload and flashing</li>
+      <li>Firmware detection and updater</li>
+      <li>Multiple projects, ZIP export, multi-board</li>
+      <li>Dark-first UI with a light theme</li>
+      <li>Private — projects stay in your browser</li>
+    </ul>
+  </section>
+
+  <!-- ============ SCREENSHOTS / DEMO MEDIA ============ -->
+  <section class="section">
+    <h2 class="section-heading">Screenshots & Demo</h2>
+    <div class="media-gallery">
+      <div>
+        <div class="media-item">
+          <img src="/images/shrike-ide-editor.png" alt="Geto Web IDE editor with the live terminal">
+        </div>
+        <p class="media-caption">Editor, Run/Stop controls and live MicroPython terminal</p>
+      </div>
+      <div>
+        <div class="media-item">
+          <img src="/images/shrike-ide-fpga.png" alt="Geto Web IDE FPGA panel and device file manager">
+        </div>
+        <p class="media-caption">FPGA panel and on-board file manager</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TECH STACK ============ -->
+  <section class="section">
+    <h2 class="section-heading">Technologies & Tools</h2>
+    <div class="tech-stack">
+      <span class="tech-pill">TypeScript</span>
+      <span class="tech-pill">Vite</span>
+      <span class="tech-pill">Web Serial API</span>
+      <span class="tech-pill">MicroPython raw REPL</span>
+      <span class="tech-pill">CodeMirror 6</span>
+      <span class="tech-pill">xterm.js</span>
+      <span class="tech-pill">Vitest</span>
+      <span class="tech-pill">GitHub Actions CI</span>
+      <span class="tech-pill">Cloudflare Pages</span>
+      <span class="tech-pill">Git / GitHub</span>
+    </div>
+  </section>
+
+  <!-- ============ ARCHITECTURE / WORKFLOW ============ -->
+  <section class="section">
+    <h2 class="section-heading">Architecture & Workflow</h2>
+    <div class="section-body">
+      <p>
+        Geto is a fully client-side single-page app. A serial transport layer opens the board through Web Serial, and a raw-REPL layer on top of it runs Python on the device, the same mechanism tools like Thonny and mpremote use. There is no host-side filesystem API: the device file manager lists, reads and writes files by executing plain Python (<code>os</code>, <code>open</code>, <code>binascii</code>) on the board and moving data in hex-encoded chunks, with checks so a saved file matches what was sent.
+      </p>
+      <p>
+        On top of that sit the editor, terminal, file explorer, FPGA tools and firmware updater, all talking to a single device session. Projects live in browser storage, and the finished build is a static site hosted on Cloudflare Pages.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ INSTALLATION & USAGE ============ -->
+  <section class="section">
+    <h2 class="section-heading">Getting Started</h2>
+    <div class="section-body">
+      <p>
+        You'll need a Shrike-Lite (or compatible Shrike board) running Vicharak's MicroPython firmware, a USB-C <strong>data</strong> cable, and Chrome or Edge on a desktop. Then open <a href="https://ide.adeepag.com">ide.adeepag.com</a>, press Connect, and try this in the terminal:
+      </p>
+    </div>
+    <div class="code-block">import machine
+print(machine.freq())</div>
+    <div class="section-body" style="margin-top: 14px;">
+      <p>To run the IDE locally (Node 18+):</p>
+    </div>
+    <div class="code-block">git clone https://github.com/ADEEP13/IDE.git
+cd IDE
+npm install
+npm run dev</div>
+  </section>
+
+  <!-- ============ CHALLENGES & SOLUTIONS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Challenges Faced</h2>
+    <div class="section-body">
+      <p>
+        <strong>Challenge:</strong> Managing files on a board from a browser, where there is no filesystem access to the device.<br>
+        <strong>Solution:</strong> Implemented all file operations as plain Python executed over the raw REPL, transferring data hex-encoded in chunks and verifying saves so the file on the board matches the file sent.
+      </p>
+      <p>
+        <strong>Challenge:</strong> Runaway programs and leftover state making experiments unreliable.<br>
+        <strong>Solution:</strong> Added a configurable run timeout, an instant Stop that interrupts the running program, and an optional soft reset before every run.
+      </p>
+      <p>
+        <strong>Challenge:</strong> Browsers cannot write into the board's bootloader drive, so firmware updates can't be fully automatic.<br>
+        <strong>Solution:</strong> Built a firmware updater that detects the chip, downloads the right build, and says clearly when a manual BOOTSEL step is still needed instead of claiming something was flashed when it wasn't.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS / IMPACT ============ -->
+  <section class="section">
+    <h2 class="section-heading">Results & Impact</h2>
+    <div class="section-body">
+      <p>
+        Geto Web IDE is live at ide.adeepag.com and works on any desktop with Chrome or Edge, with nothing to install. It covers the full beginner workflow on the Shrike-Lite (write, run, stop, manage files, flash the FPGA) in one window, which makes it suited to learning, classrooms and workshops where installing tools on every machine isn't practical. Beyond its practical use, it has been a hands-on project in Web Serial, device protocols, a typed multi-module TypeScript codebase, automated testing and CI, and static deployment.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ LIMITATIONS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Current Limitations</h2>
+    <ul class="feature-list limits">
+      <li>MicroPython only — no C/C++ compilation</li>
+      <li>No Verilog synthesis — build bitstreams with Renesas Go Configure, then load them here</li>
+      <li>Chrome and Edge on desktop only (Web Serial support)</li>
+      <li>Firmware installation still needs BOOTSEL mode</li>
+      <li>Early release — tested on limited hardware</li>
+    </ul>
+  </section>
+
+  <!-- ============ DEVELOPMENT TIMELINE ============ -->
+  <section class="section">
+    <h2 class="section-heading">Development Timeline</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">v0.1.0 — Initial Release</div>
+        <div class="timeline-text">Editor with project files, tabs, autosave and ZIP download; device file manager; run/stop/soft reset with streamed terminal; multi-device selection; FPGA checks, bitstream upload and flashing; firmware detection and download.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">In Progress</div>
+        <div class="timeline-text">Testing and hardening on real Shrike-Lite hardware, and fixing rough edges reported from early use.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LINKS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Links</h2>
+    <div class="links-grid">
+      <a href="https://ide.adeepag.com" class="link-card">
+        <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+        Live IDE
+      </a>
+      <a href="https://github.com/ADEEP13/IDE" class="link-card">
+        <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.545-1.385-1.33-1.754-1.33-1.754-1.087-.744.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        GitHub Repo
+      </a>
+      <a href="https://github.com/ADEEP13/IDE#readme" class="link-card">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2.5L18.5 9H14V4.5zM8 12h8v1.5H8V12zm0 3h8v1.5H8V15zm0 3h5v1.5H8V18z"/></svg>
+        Documentation
+      </a>
+      <a href="https://github.com/ADEEP13/IDE/blob/main/CHANGELOG.md" class="link-card">
+        <svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6a7 7 0 1 1 2.05 4.95l-1.42 1.42A9 9 0 1 0 13 3zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+        Changelog
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ LICENSE ============ -->
+  <section class="section">
+    <h2 class="section-heading">License</h2>
+    <div class="section-body">
+      <p>Geto Web IDE is released as an open-source project under the MIT License. See the LICENSE file in the GitHub repository for details.</p>
+    </div>
+  </section>
+
+  <!-- ============ CONTRIBUTORS / ACKNOWLEDGEMENTS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Contributors & Acknowledgements</h2>
+    <div class="section-body">
+      <p>Built and maintained by Adeep AG for the <a href="https://github.com/vicharak-in/shrike">Vicharak Shrike</a> boards, using <a href="https://codemirror.net/">CodeMirror</a> and <a href="https://xtermjs.org/">xterm.js</a>. Shrike and Shrike-Lite are products of Vicharak. Bug reports, feature requests and focused contributions are welcome through the GitHub repository.</p>
+    </div>
+  </section>
+
+
+  <!-- ============ CONTACT / SUPPORT ============ -->
+  <section class="section">
+    <h2 class="section-heading">Contact & Support</h2>
+    <div class="section-body">
+      <p>
+        Found a bug or have a question? Open an
+        <a href="https://github.com/ADEEP13/IDE/issues">issue on GitHub</a>,
+        or reach out through the <a href="/contact.html">contact page</a>.
+      </p>
+    </div>
+  </section>
+
+  <footer class="section" style="margin-top: 60px;">
+    <p class="footer-note">© <span id="year"></span> Adeep AG — Built with care.</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const root = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function setTheme(mode){
+      if(mode === 'dark'){
+        root.classList.add('dark');
+        themeIcon.innerHTML = '<path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5a5 5 0 100 10 5 5 0 000-10zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>';
+      } else {
+        root.classList.remove('dark');
+        themeIcon.innerHTML = '<path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>';
+      }
+      localStorage.setItem('site-theme', mode);
+    }
+
+    const savedTheme = localStorage.getItem('site-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setTheme(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      setTheme(root.classList.contains('dark') ? 'light' : 'dark');
+    });
+  </script>
+
+</body>
+</html>
