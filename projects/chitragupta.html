@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chitragupta — Adeep AG</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Poppins:wght@600;700;800&family=Archivo+Black&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  @font-face {
+    font-family: 'Hey Gotcha';
+    src: url('/fonts/HeyGotcha-Regular.ttf') format('truetype');
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Horiza';
+    src: url('/fonts/Horizon.woff2') format('woff2'),
+         url('/fonts/Horizon.otf') format('opentype');
+    font-display: swap;
+  }
+
+  :root{
+    --bg: #ffffff;
+    --text: #000000;
+    --text-body: #333333;
+    --text-muted: #666666;
+    --tagline: #444444;
+    --border: #000000;
+    --accent: #2788c7;
+    --card-bg: #ffffff;
+    --thumb-bg: #f2f2f2;
+    --pill-bg: #fff8e6;
+    --code-bg: #1e1e1e;
+    --code-text: #eaeaea;
+  }
+  html.dark{
+    --bg: #14171a;
+    --text: #f2f2f2;
+    --text-body: #cfcfcf;
+    --text-muted: #9aa0a6;
+    --tagline: #aaaaaa;
+    --border: #f2f2f2;
+    --accent: #5fb3ec;
+    --card-bg: #1b1f23;
+    --thumb-bg: #23272b;
+    --pill-bg: #2a2415;
+    --code-bg: #0d0f11;
+    --code-text: #eaeaea;
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Comic Sans MS', 'Comic Sans', 'Comic Neue', sans-serif;
+    padding: 0 0 80px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  a{ color: var(--accent); }
+
+  .theme-toggle{
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 30;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .theme-toggle:hover{ opacity: 0.8; }
+  .theme-toggle svg{ width: 19px; height: 19px; fill: currentColor; }
+
+  /* ---------- Top bar / back link ---------- */
+  .top-bar{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 24px 0;
+  }
+  .back-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .back-link:hover{ opacity: 0.75; }
+  .back-link:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; }
+  .back-link svg{ width: 18px; height: 18px; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 24px 0;
+    text-align: center;
+  }
+  .hero-title{
+    font-family: 'Horiza', 'Archivo Black', sans-serif;
+    font-weight: 700;
+    font-size: clamp(32px, 6vw, 56px);
+    margin: 0 0 8px;
+  }
+  .hero-tagline{
+    font-size: 19px;
+    color: var(--tagline);
+    margin: 0 0 20px;
+  }
+  .hero-badges{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .badge{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 2px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--text);
+    background: var(--card-bg);
+    box-shadow: 3px 3px 0 var(--border);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .badge:hover{
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--border);
+  }
+  .badge.primary{ background: var(--accent); color: #fff; }
+  .badge svg{ width: 16px; height: 16px; flex-shrink: 0; }
+  .badge.primary svg{ fill: #fff; }
+  .badge:not(.primary) svg{ fill: var(--text); }
+
+  .team{ margin-top: -8px; }
+  .team-label{
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .badge.static{ box-shadow: 3px 3px 0 var(--border); }
+  .badge.static:hover{ transform: none; box-shadow: 3px 3px 0 var(--border); }
+
+  /* ---------- Section shell ---------- */
+  .section{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .section + .section{
+    margin-top: 48px;
+  }
+  .section-heading{
+    font-family: 'Horiza', 'Archivo Black', sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 3.5vw, 30px);
+    margin: 0 0 16px;
+    border-bottom: 3px solid var(--border);
+    padding-bottom: 8px;
+  }
+  .section-body{
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--text-body);
+    text-align: justify;
+  }
+  .section-body p{ margin: 0 0 14px; }
+  .section-body p:last-child{ margin-bottom: 0; }
+
+  /* ---------- Key features ---------- */
+  .feature-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .feature-list li{
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 15.5px;
+    line-height: 1.5;
+    box-shadow: 4px 4px 0 var(--border);
+  }
+  .feature-list li::before{
+    content: "\2713  ";
+    font-weight: 700;
+    color: var(--accent);
+  }
+  /* variant for "not supported yet" items */
+  .feature-list.limits li::before{
+    content: "\2715  ";
+  }
+
+  /* ---------- Media gallery ---------- */
+  .media-gallery{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .media-item{
+    border: 3px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--thumb-bg);
+    aspect-ratio: 16 / 10;
+  }
+  .media-item img,
+  .media-item video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .media-caption{
+    font-size: 13.5px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 6px;
+  }
+
+  /* ---------- Architecture figure (full width, uncropped) ---------- */
+  .arch-figure{
+    margin: 0 0 20px;
+  }
+  .arch-frame{
+    border: 3px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffffff; /* diagram is drawn on white; keep it readable in dark mode */
+  }
+  .arch-frame img{
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ---------- Tech stack ---------- */
+  .tech-stack{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tech-pill{
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 700;
+    background: var(--pill-bg);
+  }
+
+  /* ---------- Code / install block ---------- */
+  .code-block{
+    background: var(--code-bg);
+    color: var(--code-text);
+    border: 3px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-family: 'Courier New', monospace;
+    font-size: 14.5px;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .code-block + .code-block{ margin-top: 12px; }
+
+  /* ---------- Timeline ---------- */
+  .timeline{
+    position: relative;
+    padding-left: 26px;
+  }
+  .timeline::before{
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 4px;
+    bottom: 4px;
+    width: 3px;
+    background: var(--border);
+  }
+  .timeline-item{
+    position: relative;
+    margin-bottom: 22px;
+  }
+  .timeline-item:last-child{ margin-bottom: 0; }
+  .timeline-item::before{
+    content: "";
+    position: absolute;
+    left: -26px;
+    top: 4px;
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+  }
+  .timeline-date{
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--accent);
+    margin-bottom: 2px;
+  }
+  .timeline-text{
+    font-size: 15.5px;
+    color: var(--text-body);
+    line-height: 1.5;
+  }
+
+  /* ---------- Links grid (demo/repo/docs/downloads) ---------- */
+  .links-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .link-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 10px;
+    font-weight: 700;
+    font-size: 14.5px;
+    box-shadow: 4px 4px 0 var(--border);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .link-card:hover{
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--border);
+  }
+  .link-card svg{ width: 26px; height: 26px; fill: var(--text); }
+
+  /* ---------- Footer / contact ---------- */
+  .footer-note{
+    font-size: 14px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 700px){
+    .feature-list{ grid-template-columns: 1fr; }
+    .media-gallery{ grid-template-columns: 1fr; }
+    .links-grid{ grid-template-columns: repeat(2, 1fr); }
+    .hero-title{ font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <svg id="themeIcon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+  </button>
+
+  <div class="top-bar">
+    <a href="/projects.html" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"></path>
+        <path d="M12 19l-7-7 7-7"></path>
+      </svg>
+      Back to Projects
+    </a>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <h1 class="hero-title">Chitragupta</h1>
+    <p class="hero-tagline">An AI forensic composite &amp; biometric intelligence suite — built for HackFest 2026</p>
+    <div class="hero-badges">
+      <a href="https://github.com/Hackfest-X-Saividya/thehourned-ones-t1-32" class="badge primary">
+        <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.545-1.385-1.33-1.754-1.33-1.754-1.087-.744.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="https://github.com/Hackfest-X-Saividya/thehourned-ones-t1-32#readme" class="badge">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2.5L18.5 9H14V4.5zM8 12h8v1.5H8V12zm0 3h8v1.5H8V15zm0 3h5v1.5H8V18z"/></svg>
+        Docs
+      </a>
+      <a href="https://github.com/Hackfest-X-Saividya/thehourned-ones-t1-32/blob/main/docs/api-documentation.md" class="badge">
+        <svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+        API Reference
+      </a>
+    </div>
+    <div class="team">
+      <span class="team-label">Team TheHourned Ones</span>
+      <div class="hero-badges">
+        <a href="https://www.linkedin.com/in/ankush-kumar-3932aa396/" class="badge" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Ankush Kumar</a>
+        <a href="https://www.linkedin.com/in/s-vaishnavi-8baa5a36b/" class="badge" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>S Vaishnavi</a>
+        <span class="badge static">Adeep AG</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ OVERVIEW ============ -->
+  <section class="section">
+    <h2 class="section-heading">Overview</h2>
+    <div class="section-body">
+      <p>
+        Chitragupta is an AI-assisted forensic facial composite suite designed for investigators. It turns a witness's description, typed or spoken in Hindi, Kannada, Tamil, Telugu or Hinglish, into candidate facial sketches, lets the investigator refine them region by region, compares them against a suspect registry, and records every step in a tamper-evident audit trail.
+      </p>
+      <p>
+        The project was built by Team TheHourned Ones (T1-32) for HackFest 2026. Traditional composite work depends on a trained sketch artist and on witnesses who can describe a face in a common language. Chitragupta lowers both barriers: witnesses can speak in their own language or point at reference images, and every edit is non-destructive, so earlier versions can always be compared or restored.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ KEY FEATURES ============ -->
+  <section class="section">
+    <h2 class="section-heading">Key Features</h2>
+    <ul class="feature-list">
+      <li>Multilingual witness input — text or regional-language speech</li>
+      <li>Four AI candidate sketches per round</li>
+      <li>Region-mask inpainting that keeps other pixels intact</li>
+      <li>Non-destructive version history: compare and restore</li>
+      <li>Suspect biometric comparison</li>
+      <li>SHA-256 append-only audit ledger</li>
+    </ul>
+  </section>
+
+  <!-- ============ ARCHITECTURE / WORKFLOW ============ -->
+  <section class="section">
+    <h2 class="section-heading">Architecture &amp; Workflow</h2>
+    <figure class="arch-figure">
+      <div class="arch-frame">
+        <img src="/images/chitragupta-architecture.png" alt="Chitragupta system architecture: investigator workstation, Cloudflare Workers backend, Cloudflare D1 and R2, and external AI providers" loading="lazy">
+      </div>
+      <figcaption class="media-caption">System architecture — investigator workstation, Cloudflare Workers backend, D1 database, R2 storage and AI providers</figcaption>
+    </figure>
+    <div class="section-body">
+      <p>
+        The investigator workstation is a React 18 + Vite single-page app. It talks over HTTPS and REST to a serverless backend written in TypeScript with Hono and running on Cloudflare Workers. A middleware layer handles authentication, JWT and role checks, and rate limiting before a request reaches the case, AI, image and audit services.
+      </p>
+      <p>
+        Structured data such as cases, access grants, the suspect registry, image lineage and audit metadata lives in Cloudflare D1 through a binding. Sketches, inpainting masks and revision assets live in a private Cloudflare R2 bucket and are only ever served through authenticated endpoints. Image generation goes to Cloudflare Workers AI (Flux.1 / SDXL), and speech-to-text and translation go through a server-side Gemini proxy, so API keys never reach the browser.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ TECH STACK ============ -->
+  <section class="section">
+    <h2 class="section-heading">Technologies &amp; Tools</h2>
+    <div class="tech-stack">
+      <span class="tech-pill">React 18</span>
+      <span class="tech-pill">Vite</span>
+      <span class="tech-pill">Tailwind CSS</span>
+      <span class="tech-pill">React Flow (@xyflow/react)</span>
+      <span class="tech-pill">TypeScript</span>
+      <span class="tech-pill">Hono</span>
+      <span class="tech-pill">Cloudflare Workers</span>
+      <span class="tech-pill">Cloudflare D1</span>
+      <span class="tech-pill">Cloudflare R2</span>
+      <span class="tech-pill">Workers AI (Flux.1 / SDXL)</span>
+      <span class="tech-pill">Google Gemini</span>
+      <span class="tech-pill">Zod</span>
+      <span class="tech-pill">Vitest</span>
+      <span class="tech-pill">OpenAPI 3.1</span>
+      <span class="tech-pill">Git / GitHub</span>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="section">
+    <h2 class="section-heading">How It Works</h2>
+    <div class="section-body">
+      <p>
+        <strong>1. Witness input.</strong> The witness describes the face in text or speech, or picks traits from the visual feature catalogue. Gemini translates regional-language and Hinglish input into a structured English forensic description.
+      </p>
+      <p>
+        <strong>2. Feature extraction.</strong> The studio pulls out face shape, jawline, eyes, nose, facial hair and distinguishing marks from the description.
+      </p>
+      <p>
+        <strong>3. Candidate generation.</strong> Four candidate sketches are generated per round. The investigator selects one as the active composite.
+      </p>
+      <p>
+        <strong>4. Refinement.</strong> The investigator masks a region such as the eyes, nose or jawline and inpaints only that area, while the rest of the image is preserved pixel for pixel. Each edit creates a new revision in the version tree.
+      </p>
+      <p>
+        <strong>5. Verification and audit.</strong> The composite is compared against the suspect registry, and every action (case created, generation requested, image selected, revision created, export generated) is sealed in the audit ledger.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ INSTALLATION & USAGE ============ -->
+  <section class="section">
+    <h2 class="section-heading">Getting Started</h2>
+    <div class="section-body">
+      <p>
+        You'll need Node.js 20+ and the Cloudflare Wrangler CLI. Clone the repository and install both the backend and frontend dependencies:
+      </p>
+    </div>
+    <div class="code-block">git clone https://github.com/Hackfest-X-Saividya/thehourned-ones-t1-32.git
+cd thehourned-ones-t1-32
+npm install
+npm --prefix frontend install</div>
+    <div class="section-body" style="margin-top: 14px;">
+      <p>Add your own keys in <code>.dev.vars</code> (see <code>.dev.vars.example</code>), then run the tests and start both servers in separate terminals:</p>
+    </div>
+    <div class="code-block">npm test
+npx wrangler dev --port 8787 --ip 127.0.0.1
+npm --prefix frontend run dev</div>
+  </section>
+
+  <!-- ============ CHALLENGES & SOLUTIONS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Challenges Faced</h2>
+    <div class="section-body">
+      <p>
+        <strong>Challenge:</strong> Editing one part of a generated face without disturbing the rest, since AI inpainting tends to alter the whole image.<br>
+        <strong>Solution:</strong> Built a pure TypeScript region-mask compositor that blends the edited region back onto the original, so every unselected pixel stays identical.
+      </p>
+      <p>
+        <strong>Challenge:</strong> Witnesses describe faces in many languages, including romanized Hinglish, and speech models are not equally reliable.<br>
+        <strong>Solution:</strong> Added a server-side Gemini translation proxy with a cascading model fallback, ending in a client-side forensic dictionary, so translation keeps working even when a model is unavailable and keys stay off the browser.
+      </p>
+      <p>
+        <strong>Challenge:</strong> Forensic work needs a history that can't be quietly rewritten.<br>
+        <strong>Solution:</strong> Made the audit trail append-only with SHA-256 digests, rejected update and delete operations with <code>405 Method Not Allowed</code>, and kept image revisions as a non-destructive tree.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS / IMPACT ============ -->
+  <section class="section">
+    <h2 class="section-heading">Results &amp; Impact</h2>
+    <div class="section-body">
+      <p>
+        Chitragupta delivers an end-to-end composite workflow in one application: multilingual witness input, candidate generation, surgical refinement, registry comparison and a tamper-evident audit log. The backend is covered by 19 automated tests across 6 suites, spanning case management, candidate limits, mask editing, version restore, rate limiting and audit immutability, and the API is documented in an OpenAPI 3.1 specification. As a hackathon project it was a hands-on exercise in serverless architecture, AI integration, access control and forensic-grade record keeping.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ LIMITATIONS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Current Limitations</h2>
+    <ul class="feature-list limits">
+      <li>Prototype built for a hackathon — not validated for real casework</li>
+      <li>Suspect matching runs against a synthetic demo registry, not a real criminal database</li>
+      <li>AI-generated composites are investigative aids, not evidence of identity</li>
+      <li>Feature catalogue currently holds about 85 reference images</li>
+      <li>Sketch quality depends on the external image-generation models</li>
+    </ul>
+  </section>
+
+  <!-- ============ DEVELOPMENT TIMELINE ============ -->
+  <section class="section">
+    <h2 class="section-heading">Development Timeline</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">HackFest 2026 — Team T1-32</div>
+        <div class="timeline-text">Built the Cloudflare Workers backend, React forensic studio, multilingual Gemini translation, feature catalogue, region-mask inpainting, version lineage, suspect comparison and the SHA-256 audit ledger.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LINKS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Links</h2>
+    <div class="links-grid">
+      <a href="https://github.com/Hackfest-X-Saividya/thehourned-ones-t1-32" class="link-card">
+        <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.545-1.385-1.33-1.754-1.33-1.754-1.087-.744.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        GitHub Repo
+      </a>
+      <a href="https://github.com/Hackfest-X-Saividya/thehourned-ones-t1-32#readme" class="link-card">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2.5L18.5 9H14V4.5zM8 12h8v1.5H8V12zm0 3h8v1.5H8V15zm0 3h5v1.5H8V18z"/></svg>
+        Documentation
+      </a>
+      <a href="https://github.com/Hackfest-X-Saividya/thehourned-ones-t1-32/blob/main/docs/api-documentation.md" class="link-card">
+        <svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+        API Reference
+      </a>
+      <a href="https://github.com/Hackfest-X-Saividya/thehourned-ones-t1-32/blob/main/docs/openapi.yaml" class="link-card">
+        <svg viewBox="0 0 24 24"><path d="M3 3h18v4H3V3zm0 6h18v4H3V9zm0 6h18v4H3v-4z"/></svg>
+        OpenAPI Spec
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ LICENSE ============ -->
+  <section class="section">
+    <h2 class="section-heading">License</h2>
+    <div class="section-body">
+      <p>The project's <code>package.json</code> declares the ISC license. See the GitHub repository for details.</p>
+    </div>
+  </section>
+
+  <!-- ============ CONTRIBUTORS / ACKNOWLEDGEMENTS ============ -->
+  <section class="section">
+    <h2 class="section-heading">Contributors &amp; Acknowledgements</h2>
+    <div class="section-body">
+      <p>Built by Team TheHourned Ones (T1-32) for HackFest 2026: <a href="https://www.linkedin.com/in/ankush-kumar-3932aa396/">Ankush Kumar</a>, <a href="https://www.linkedin.com/in/s-vaishnavi-8baa5a36b/">S Vaishnavi</a> and Adeep AG. Powered by <a href="https://developers.cloudflare.com/workers/">Cloudflare Workers</a>, <a href="https://hono.dev/">Hono</a>, <a href="https://reactflow.dev/">React Flow</a> and <a href="https://ai.google.dev/">Google Gemini</a>. Suspect records in the demo are synthetic.</p>
+    </div>
+  </section>
+
+
+  <!-- ============ CONTACT / SUPPORT ============ -->
+  <section class="section">
+    <h2 class="section-heading">Contact &amp; Support</h2>
+    <div class="section-body">
+      <p>
+        Found a bug or have a question? Open an
+        <a href="https://github.com/Hackfest-X-Saividya/thehourned-ones-t1-32/issues">issue on GitHub</a>,
+        or reach out through the <a href="/contact.html">contact page</a>.
+      </p>
+    </div>
+  </section>
+
+  <footer class="section" style="margin-top: 60px;">
+    <p class="footer-note">© <span id="year"></span> Adeep AG — Built with care.</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const root = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function setTheme(mode){
+      if(mode === 'dark'){
+        root.classList.add('dark');
+        themeIcon.innerHTML = '<path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5a5 5 0 100 10 5 5 0 000-10zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>';
+      } else {
+        root.classList.remove('dark');
+        themeIcon.innerHTML = '<path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>';
+      }
+      localStorage.setItem('site-theme', mode);
+    }
+
+    const savedTheme = localStorage.getItem('site-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setTheme(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      setTheme(root.classList.contains('dark') ? 'light' : 'dark');
+    });
+  </script>
+
+</body>
+</html>
